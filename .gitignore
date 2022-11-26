@@ -12,3 +12,6 @@ dist/
 /dist/
 */dist
 .idea/
+/logs/
+/build/
+/.gradle/
