@@ -1,0 +1,14 @@
+# Project exclude paths
+*/build
+*/out
+*/.gradle
+*/logs
+**/node_modules/
+*/.idea
+*.iml
+*dist/
+dist/
+*/dist/
+/dist/
+*/dist
+.idea/
