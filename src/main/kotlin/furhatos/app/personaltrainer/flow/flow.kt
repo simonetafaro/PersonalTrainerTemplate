@@ -15,7 +15,7 @@ import furhatos.flow.kotlin.*
 //val CLICK_BUTTON = "ClickButton"
 
 // Starting state, before our GUI has connected.
-val NoGUI: State = state(null) {
+/*val NoGUI: State = state(null) {
     onEvent<SenseSkillGUIConnected> {
         //goto(GUIConnected)
         //print("hgfdsa")
