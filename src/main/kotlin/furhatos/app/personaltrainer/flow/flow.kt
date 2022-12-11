@@ -1,18 +1,18 @@
 package furhatos.app.personaltrainer.flow
 
-//import furhatos.app.personaltrainer.*
+import furhatos.app.personaltrainer.*
 import furhatos.app.personaltrainer.nlu.Customized
 import furhatos.app.personaltrainer.nlu.CustomizedTraining
 //import furhatos.app.personaltrainer.nlu.Predefined
-//import furhatos.event.senses.SenseSkillGUIConnected
+import furhatos.event.senses.SenseSkillGUIConnected
 import furhatos.flow.kotlin.*
-//import furhatos.records.Record
-//import furhatos.skills.HostedGUI
+import furhatos.records.Record
+import furhatos.skills.HostedGUI
 
 // Our GUI declaration
-//val GUI = HostedGUI("ExampleGUI", "assets/exampleGui", PORT)
-//val VARIABLE_SET = "VariableSet"
-//val CLICK_BUTTON = "ClickButton"
+val GUI = HostedGUI("ExampleGUI", "assets/exampleGui", PORT)
+val VARIABLE_SET = "VariableSet"
+val CLICK_BUTTON = "ClickButton"
 
 // Starting state, before our GUI has connected.
 /*val NoGUI: State = state(null) {
@@ -77,8 +77,8 @@ fun customizedBranch(customized: CustomizedTraining) : State = state (null){
     }
 }
 
-//val GUIConnected = state(NoGUI) {
-/*val GUIConnected : State = state {
+
+val GUIConnected : State = state {
         onEntry {
             // Pass data to GUI
             send(DataDelivery(buttons = buttons, inputFields = inputFieldData.keys.toList()))
@@ -107,4 +107,4 @@ fun customizedBranch(customized: CustomizedTraining) : State = state (null){
             // Let the GUI know we're done speaking, to unlock buttons
             send(SPEECH_DONE)
         }
-    }*/
+    }
