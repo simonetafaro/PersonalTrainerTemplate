@@ -7,7 +7,9 @@ import furhatos.app.personaltrainer.nlu.CustomizedTraining
 import furhatos.event.senses.SenseSkillGUIConnected
 import furhatos.flow.kotlin.*
 import furhatos.records.Record
+import furhatos.records.User
 import furhatos.skills.HostedGUI
+import furhatos.records.Location
 
 // Our GUI declaration
 val GUI = HostedGUI("ExampleGUI", "assets/exampleGui", PORT)
@@ -15,13 +17,13 @@ val VARIABLE_SET = "VariableSet"
 val CLICK_BUTTON = "ClickButton"
 
 // Starting state, before our GUI has connected.
-/*val NoGUI: State = state(null) {
+val NoGUI: State = state(null) {
     onEvent<SenseSkillGUIConnected> {
-        //goto(GUIConnected)
+        goto(GUIConnected)
         //print("hgfdsa")
-        goto(Greeting)
+        //goto(Greeting)
     }
-    }*/
+    }
 
 /*
     Here we know our GUI has connected. Since the user might close down the GUI and then reopen
@@ -42,6 +44,7 @@ val Greeting : State = state(null){
 
 val ExerciseVSWorkout: State = state(null){
     onEntry {
+        send(DataDelivery(buttons = options, inputFields = listOf()));
         random(
                 {   furhat.ask("Do you want a predefined workout or select the single exercises?") },
                 {   furhat.ask("Do you want to choose individual exercises or a pre-planned workout?") }
@@ -52,9 +55,26 @@ val ExerciseVSWorkout: State = state(null){
 
     }*/
 
+    onEvent(CLICK_BUTTON) {
+        // Directly respond with the value we get from the event, with a fallback
+        //furhat.say("You want to do a ${it.get("data") ?: "something I'm not aware of" }")
+        send(DataDelivery(buttons = listOf(), inputFields = listOf()))
+        if(it.get("data") == "Exercise"){
+            furhat.say("${it.get("data")}, what a lovely choice!")
+
+        } else {
+
+        }
+        // Let the GUI know we're done speaking, to unlock buttons
+        send(SPEECH_DONE)
+
+
+    }
+
     onResponse<Customized>{
         val selectedType = it.intent.customized
         if (selectedType != null) {
+            send(DataDelivery(buttons = listOf(), inputFields = listOf()))
             goto(customizedBranch(selectedType))
         }
         else {
@@ -81,16 +101,17 @@ fun customizedBranch(customized: CustomizedTraining) : State = state (null){
 val GUIConnected : State = state {
         onEntry {
             // Pass data to GUI
-            send(DataDelivery(buttons = buttons, inputFields = inputFieldData.keys.toList()))
+            send(DataDelivery(buttons = listOf(), inputFields = inputFieldData.keys.toList()))
         }
 
         // Users clicked any of our buttons
         onEvent(CLICK_BUTTON) {
             // Directly respond with the value we get from the event, with a fallback
-            furhat.say("You want to train your ${it.get("data") ?: "something I'm not aware of" }")
+            furhat.say("You want to do a ${it.get("data") ?: "something I'm not aware of" }")
 
             // Let the GUI know we're done speaking, to unlock buttons
             send(SPEECH_DONE)
+
         }
 
         // Users saved some input
@@ -106,5 +127,9 @@ val GUIConnected : State = state {
 
             // Let the GUI know we're done speaking, to unlock buttons
             send(SPEECH_DONE)
+            furhat.attend(Location.STRAIGHT_AHEAD);
+
+
+            goto(ExerciseVSWorkout)
         }
     }
