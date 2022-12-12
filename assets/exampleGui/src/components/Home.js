@@ -7,12 +7,14 @@ class Home extends Component {
 
     constructor({ props, furhat }) {
         super(props)
-        console.log("props", props)
-        console.log("furhat", furhat)
         this.state = {
             "speaking": false,
             "buttons": [],
-            "inputFields": []
+            "inputFields": [],
+            "title": "",
+            "exerciseName": "",
+            "gifName": "",
+            "reps": ""
         }
         this.furhat = furhat
     }
@@ -23,10 +25,20 @@ class Home extends Component {
             this.setState({
                 ...this.state,
                 buttons: data.buttons,
-                inputFields: data.inputFields
+                inputFields: data.inputFields,
+                title: data.title
             })
         })
-
+        this.furhat.subscribe('furhatos.app.personaltrainer.ExerciseDelivery', (data) => {
+            this.setState({
+                ...this.state,
+                buttons: [],
+                inputFields: [],
+                exerciseName: data.exerciseName,
+                gifName: data.gifName,
+                reps: data.reps
+            })
+        })
         // This event contains to data so we defined it inline in the flow
         this.furhat.subscribe('SpeechDone', () => {
             this.setState({
@@ -38,10 +50,8 @@ class Home extends Component {
 
     componentDidMount() {
         if (this.furhat != null) {
-            console.log("furhat ricevuto")
             this.setupSubscriptions()
         }
-        console.log("furhat non ricevuto")
     }
 
     clickButton = (button) => {
@@ -78,7 +88,7 @@ class Home extends Component {
 
                 <Row>
                     <Col sm={12}>
-                        <h2>Choose</h2>
+                        <h2>{this.state.title}</h2>
                         {this.state.buttons.map((label) =>
                             <Button key={label} label={label} onClick={this.clickButton} speaking={this.state.speaking} />
                         )}
@@ -93,7 +103,7 @@ class Home extends Component {
                     <Row>
 
                         <Col sm={12}>
-                            <h2>Insert your name to start</h2>
+                            <h2>{this.state.title}</h2>
                             {this.state.inputFields.map((label) =>
                                 <Input key={label} label={label} onSave={this.variableSet} speaking={this.state.speaking} />
                             )}
@@ -101,16 +111,32 @@ class Home extends Component {
                     </Row>
                 </Grid>;
             } else {
-                return <Grid>
+                if (this.state.exerciseName != "") {
+                    return <Grid>
 
-                    <Row>
+                        <Row>
 
-                        <Col sm={12}>
-                            <h2>Waiting for Furhat Personal Trainer ...</h2>
+                            <Col sm={12}>
+                                <h2>{this.state.exerciseName}</h2>
+                                <img
+                                    style={{ width: "100%", height: "80%" }}
+                                    src="./assets/gifs/gif.gif"
+                                />
+                            </Col>
+                        </Row>
+                    </Grid>;
+                } else {
+                    return <Grid>
 
-                        </Col>
-                    </Row>
-                </Grid>;
+                        <Row>
+
+                            <Col sm={12}>
+                                <h2>Waiting for Furhat</h2>
+                            </Col>
+                        </Row>
+                    </Grid>;
+                }
+
             }
         }
     }

@@ -6,6 +6,8 @@ val buttons = listOf("Arms", "Legs", "Abs", "Back")
 // Options
 val options = listOf("Exercise", "Workout")
 
+// Exercise
+val exercises = listOf("Push-up", "Sit-up", "Jumping jack")
 
 /*
  Input fields, each with a answer to be spoken. The answer is defined as a lambda

@@ -44,7 +44,7 @@ val Greeting : State = state(null){
 
 val ExerciseVSWorkout: State = state(null){
     onEntry {
-        send(DataDelivery(buttons = options, inputFields = listOf()));
+        send(DataDelivery(title ="Select one:", buttons = options, inputFields = listOf()));
         random(
                 {   furhat.ask("Do you want a predefined workout or select the single exercises?") },
                 {   furhat.ask("Do you want to choose individual exercises or a pre-planned workout?") }
@@ -58,15 +58,15 @@ val ExerciseVSWorkout: State = state(null){
     onEvent(CLICK_BUTTON) {
         // Directly respond with the value we get from the event, with a fallback
         //furhat.say("You want to do a ${it.get("data") ?: "something I'm not aware of" }")
-        send(DataDelivery(buttons = listOf(), inputFields = listOf()))
         if(it.get("data") == "Exercise"){
-            furhat.say("${it.get("data")}, what a lovely choice!")
-
+            var customized =  CustomizedTraining();
+            customized.text = "Single exercise"
+            goto(customizedBranch(customized))
         } else {
 
         }
         // Let the GUI know we're done speaking, to unlock buttons
-        send(SPEECH_DONE)
+
 
 
     }
@@ -74,7 +74,7 @@ val ExerciseVSWorkout: State = state(null){
     onResponse<Customized>{
         val selectedType = it.intent.customized
         if (selectedType != null) {
-            send(DataDelivery(buttons = listOf(), inputFields = listOf()))
+
             goto(customizedBranch(selectedType))
         }
         else {
@@ -94,6 +94,20 @@ val ExerciseVSWorkout: State = state(null){
 fun customizedBranch(customized: CustomizedTraining) : State = state (null){
     onEntry {
         furhat.say("${customized.text}, what a lovely choice!")
+        send(DataDelivery(title = "Pick one exercise:", buttons = exercises, inputFields = listOf()))
+        send(SPEECH_DONE)
+    }
+
+    onEvent(CLICK_BUTTON) {
+        var exerciseName = it.get("data") as String;
+        // Directly respond with the value we get from the event, with a fallback
+        furhat.say("You want to do a ${exerciseName ?: "something I'm not aware of" }")
+
+        // Let the GUI know we're done speaking, to unlock buttons
+        send(SPEECH_DONE)
+
+        send(ExerciseDelivery(exerciseName = exerciseName, gifName = "", reps = ""  ))
+
     }
 }
 
@@ -101,7 +115,7 @@ fun customizedBranch(customized: CustomizedTraining) : State = state (null){
 val GUIConnected : State = state {
         onEntry {
             // Pass data to GUI
-            send(DataDelivery(buttons = listOf(), inputFields = inputFieldData.keys.toList()))
+            send(DataDelivery(buttons = listOf(), inputFields = inputFieldData.keys.toList(), title =  "Insert your name to start"))
         }
 
         // Users clicked any of our buttons
