@@ -1,20 +1,20 @@
 import React, { Component } from 'react'
-import FurhatGUI from 'furhat-gui'
 import { Grid, Row, Col } from 'react-bootstrap'
 import Button from './Button'
 import Input from './Input'
-import Loader from './Loader'
 
-class App extends Component {
+class Home extends Component {
 
-    constructor(props) {
+    constructor({ props, furhat }) {
         super(props)
+        console.log("props", props)
+        console.log("furhat", furhat)
         this.state = {
             "speaking": false,
             "buttons": [],
             "inputFields": []
         }
-        this.furhat = null
+        this.furhat = furhat
     }
 
     setupSubscriptions() {
@@ -37,13 +37,11 @@ class App extends Component {
     }
 
     componentDidMount() {
-        FurhatGUI()
-            .then(connection => {
-                this.furhat = connection
-                this.setupSubscriptions()
-            })
-            .catch(console.error)
-
+        if (this.furhat != null) {
+            console.log("furhat ricevuto")
+            this.setupSubscriptions()
+        }
+        console.log("furhat non ricevuto")
     }
 
     clickButton = (button) => {
@@ -74,66 +72,48 @@ class App extends Component {
 
 
     render() {
-        if (this.furhat == null) {
 
-            return <NoSkillConnection />;
+        if (this.state.buttons.length > 0) {
+            return <Grid>
+
+                <Row>
+                    <Col sm={12}>
+                        <h2>Choose</h2>
+                        {this.state.buttons.map((label) =>
+                            <Button key={label} label={label} onClick={this.clickButton} speaking={this.state.speaking} />
+                        )}
+                    </Col>
+
+                </Row>
+            </Grid>;
         } else {
-            if (this.state.buttons.length > 0) {
+            if (this.state.inputFields.length > 0) {
                 return <Grid>
 
                     <Row>
+
                         <Col sm={12}>
-                            <h2>Choose</h2>
-                            {this.state.buttons.map((label) =>
-                                <Button key={label} label={label} onClick={this.clickButton} speaking={this.state.speaking} />
+                            <h2>Insert your name to start</h2>
+                            {this.state.inputFields.map((label) =>
+                                <Input key={label} label={label} onSave={this.variableSet} speaking={this.state.speaking} />
                             )}
                         </Col>
-
                     </Row>
                 </Grid>;
             } else {
-                if (this.state.inputFields.length > 0) {
-                    return <Grid>
+                return <Grid>
 
-                        <Row>
+                    <Row>
 
-                            <Col sm={12}>
-                                <h2>Insert your name to start</h2>
-                                {this.state.inputFields.map((label) =>
-                                    <Input key={label} label={label} onSave={this.variableSet} speaking={this.state.speaking} />
-                                )}
-                            </Col>
-                        </Row>
-                    </Grid>;
-                } else {
-                    return <Grid>
+                        <Col sm={12}>
+                            <h2>Waiting for Furhat Personal Trainer ...</h2>
 
-                        <Row>
-
-                            <Col sm={12}>
-                                <h2>Waiting for Furhat Personal Trainer ...</h2>
-
-                            </Col>
-                        </Row>
-                    </Grid>;
-                }
+                        </Col>
+                    </Row>
+                </Grid>;
             }
         }
     }
-
 }
 
-function NoSkillConnection() {
-    return <Grid>
-
-        <Row>
-            <Loader />
-        </Row>  <Row>
-            <h2>Waiting for Skill ...</h2>
-        </Row>
-    </Grid>;
-}
-
-
-
-export default App;
+export default Home;

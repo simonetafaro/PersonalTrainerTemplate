@@ -1,13 +1,7 @@
-export default function About() {
+import React, { Component } from 'react'
 
-
-    return (
-        <div >
-            <div>
-                Hi
-            </div>
-
-
-        </div>
-    );
+function About() {
+    return <h1>About Page</h1>
 }
+
+export default About;
