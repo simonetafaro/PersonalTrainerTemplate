@@ -21,5 +21,10 @@ class ExerciseDelivery(
         val reps: String
 ) : Event()
 
+class WorkoutDelivery(
+        val workoutName : String
+
+) : Event()
+
 
 

@@ -1,9 +1,7 @@
 package furhatos.app.personaltrainer.flow
 
 import furhatos.app.personaltrainer.*
-import furhatos.app.personaltrainer.nlu.Customized
-import furhatos.app.personaltrainer.nlu.CustomizedTraining
-//import furhatos.app.personaltrainer.nlu.Predefined
+import furhatos.app.personaltrainer.nlu.*
 import furhatos.event.senses.SenseSkillGUIConnected
 import furhatos.flow.kotlin.*
 import furhatos.records.Record
@@ -20,7 +18,6 @@ val CLICK_BUTTON = "ClickButton"
 val NoGUI: State = state(null) {
     onEvent<SenseSkillGUIConnected> {
         goto(GUIConnected)
-        //print("hgfdsa")
         //goto(Greeting)
     }
     }
@@ -63,7 +60,9 @@ val ExerciseVSWorkout: State = state(null){
             customized.text = "Single exercise"
             goto(customizedBranch(customized))
         } else {
-
+            var predefined = PredefinedTraining();
+            predefined.text = "Predifined workout"
+            goto(predefinedBranch(predefined))
         }
         // Let the GUI know we're done speaking, to unlock buttons
 
@@ -98,6 +97,19 @@ fun customizedBranch(customized: CustomizedTraining) : State = state (null){
         send(SPEECH_DONE)
     }
 
+    onResponse<Exercise> {
+
+        var exerciseName = it.intent.exerciseType
+        furhat.say("${exerciseName}? Right?")
+        send(ExerciseDelivery(exerciseName = exerciseName.toString(), gifName = "", reps = ""  ))
+
+        var firstEx = SingleExercise(exerciseName.toString(), null, null, null)
+        arrayOfExercises.add(firstEx)
+
+        goto(repsSelectionState(arrayOfExercises))
+    }
+
+
     onEvent(CLICK_BUTTON) {
         var exerciseName = it.get("data") as String;
         // Directly respond with the value we get from the event, with a fallback
@@ -108,6 +120,7 @@ fun customizedBranch(customized: CustomizedTraining) : State = state (null){
 
         send(ExerciseDelivery(exerciseName = exerciseName, gifName = "", reps = ""  ))
 
+        goto(repsSelectionState(arrayOfExercises))
     }
 }
 

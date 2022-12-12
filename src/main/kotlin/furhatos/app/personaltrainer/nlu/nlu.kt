@@ -7,7 +7,7 @@ import furhatos.util.Language
 // Predefined Training entity.
 /*class PredefinedTraining : EnumEntity(stemming = true, speechRecPhrases = true) {
     override fun getEnum(lang: Language): List<String> {
-        return listOf("predefined training", "predefined workout", "planned workout")
+        return listOf("predefined training", "predefined workout", "planned workout", "pre planned workout")
     }
 }*/
 
@@ -17,6 +17,20 @@ class CustomizedTraining(val name: String? = null) : EnumEntity(stemming = true,
         return listOf("single exercise", "customized training", "customized workout", "personalized workout")
     }
 }
+
+class ExerciseType : EnumEntity(stemming = true, speechRecPhrases = true) {
+    override fun getEnum(lang: Language): List<String> {
+        return listOf("push-up", "sit-up", "jumping jack")
+    }
+}
+
+class Exercise(var exerciseType: ExerciseType? = null) : Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("I would like to do a @exerciseType", "I want to do @exerciseType")
+    }
+}
+
+
 
 
 /*class Predefined(var predefined : PredefinedTraining? = null) : Intent() {
@@ -29,6 +43,8 @@ class Customized(var customized : CustomizedTraining? = null) : Intent() {
     override fun getExamples(lang: Language): List<String> {
         return listOf("I would like to do a @customized", "I want a @customized", "I would like a @customized")
     }
+
+
 
 
 }
