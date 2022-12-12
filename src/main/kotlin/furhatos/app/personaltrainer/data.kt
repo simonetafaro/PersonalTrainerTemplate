@@ -18,3 +18,19 @@ val inputFieldData = mutableMapOf<String, (String) -> String>(
     "Name" to { name -> "Nice to meet you $name, let's start!   " }
 )
 
+class SingleExercise(val name: String, var reps: Int?, var sets: Int?, var restTime: Int?) {
+
+}
+
+
+/*fun test (exercise: SingleExercise){
+    print(exercise.name)
+    print(exercise.reps)
+}
+
+fun main(){
+    val exercise = SingleExercise("Gino", null, null,null)
+    exercise.reps = 5
+    test (exercise)
+}
+*/

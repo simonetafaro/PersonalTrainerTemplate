@@ -13,6 +13,7 @@ import furhatos.records.Location
 val GUI = HostedGUI("ExampleGUI", "assets/exampleGui", PORT)
 val VARIABLE_SET = "VariableSet"
 val CLICK_BUTTON = "ClickButton"
+var arrayOfExercises = ArrayList<SingleExercise>()
 
 // Starting state, before our GUI has connected.
 val NoGUI: State = state(null) {
@@ -42,15 +43,14 @@ val Greeting : State = state(null){
 val ExerciseVSWorkout: State = state(null){
     onEntry {
         send(DataDelivery(title ="Select one:", buttons = options, inputFields = listOf()));
+
+
         random(
-                {   furhat.ask("Do you want a predefined workout or select the single exercises?") },
-                {   furhat.ask("Do you want to choose individual exercises or a pre-planned workout?") }
+                {   furhat.ask("Do you want a predefined workout or select the single exercises?. You can either tell me or selecting it by clicking on the corresponding button.") },
+                {   furhat.ask("Do you want to choose individual exercises or a pre-planned workout? You can either tell me or selecting it by clicking on the corresponding button.") }
         )
     }
 
-    /*onResponse<Predefined>{
-
-    }*/
 
     onEvent(CLICK_BUTTON) {
         // Directly respond with the value we get from the event, with a fallback
@@ -65,8 +65,6 @@ val ExerciseVSWorkout: State = state(null){
             goto(predefinedBranch(predefined))
         }
         // Let the GUI know we're done speaking, to unlock buttons
-
-
 
     }
 
@@ -83,6 +81,22 @@ val ExerciseVSWorkout: State = state(null){
         //furhat.say("${fruits.text}, what a lovely choice!")
     }
 
+   onResponse<Predefined>{
+        val selectedType = it.intent.predefined
+
+        if (selectedType != null) {
+
+            goto(predefinedBranch(selectedType))
+        }
+        else {
+            propagate()
+        }
+
+        //furhat.say("${fruits.text}, what a lovely choice!")
+    }
+
+
+
     onResponse { // Catches everything else
         furhat.say("I didn't understand that")
         reentry()
@@ -93,8 +107,15 @@ val ExerciseVSWorkout: State = state(null){
 fun customizedBranch(customized: CustomizedTraining) : State = state (null){
     onEntry {
         furhat.say("${customized.text}, what a lovely choice!")
+
         send(DataDelivery(title = "Pick one exercise:", buttons = exercises, inputFields = listOf()))
         send(SPEECH_DONE)
+
+
+        random(
+                { furhat.ask("Now, pick an exercise.") },
+                { furhat.ask("Please, elect the exercise you want to do") }
+        )
     }
 
     onResponse<Exercise> {
@@ -120,8 +141,43 @@ fun customizedBranch(customized: CustomizedTraining) : State = state (null){
 
         send(ExerciseDelivery(exerciseName = exerciseName, gifName = "", reps = ""  ))
 
+        //Here we add the next exercise to the ArrayList of exercises (only with the name)
+        //reps, sets and restTime will be set in the next states.
+        var firstEx = SingleExercise(exerciseName.toString(), null, null, null)
+        arrayOfExercises.add(firstEx)
+
         goto(repsSelectionState(arrayOfExercises))
     }
+}
+
+fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = state(null){
+    onEntry{
+        //test:
+        print(arrayOfExercises[0].name)
+    }
+
+}
+
+
+
+fun predefinedBranch(predefined: PredefinedTraining) : State = state (null){
+    onEntry{
+        furhat.say("You selected ${predefined.text}")
+    }
+
+
+    /*onEvent(CLICK_BUTTON) {
+        var workoutName = it.get("data") as String;
+        // Directly respond with the value we get from the event, with a fallback
+        furhat.say("You want to do a ${workoutName ?: "something I'm not aware of" }")
+
+        // Let the GUI know we're done speaking, to unlock buttons
+        send(SPEECH_DONE)
+
+        send(WorkoutDelivery(workoutName = workoutName))
+        //send(ExerciseDelivery(exerciseName = exerciseName, gifName = "", reps = ""  ))
+
+    }*/
 }
 
 
