@@ -4,25 +4,11 @@ import furhatos.event.senses.SenseSkillGUIConnected
 import furhatos.flow.kotlin.*
 import furhatos.util.*
 
-val Idle: State = state {
+val Idle: State = state(null) {
 
-    init {
-        furhat.setVoice(Language.ENGLISH_US, Gender.MALE)
-        onEvent<SenseSkillGUIConnected> {
-            if (users.count > 0) {
-                furhat.attend(users.random)
-                goto(Greeting)
-            }
-        }
-    }
+    onEvent<SenseSkillGUIConnected> {
+        goto(GUIConnected)
 
-    onEntry {
-        furhat.attendNobody()
-    }
-
-    onUserEnter {
-        furhat.attend(it)
-        goto(Greeting)
     }
 }
 

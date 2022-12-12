@@ -12,7 +12,7 @@ import furhatos.util.Language
 }*/
 
 // Customized Training entity
-class CustomizedTraining : EnumEntity(stemming = true, speechRecPhrases = true) {
+class CustomizedTraining(val name: String? = null) : EnumEntity(stemming = true, speechRecPhrases = true) {
     override fun getEnum(lang: Language): List<String> {
         return listOf("single exercise", "customized training", "customized workout", "personalized workout")
     }

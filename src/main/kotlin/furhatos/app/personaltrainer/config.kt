@@ -10,8 +10,15 @@ val SPEECH_DONE = "SpeechDone"
 
 // Event used to pass data to GUI
 class DataDelivery(
+        val title: String,
         val buttons : List<String>,
         val inputFields: List<String>
+) : Event()
+
+class ExerciseDelivery(
+        val exerciseName : String,
+        val gifName: String,
+        val reps: String
 ) : Event()
 
 
