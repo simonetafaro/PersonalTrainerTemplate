@@ -1,5 +1,8 @@
 package furhatos.app.personaltrainer
 
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+
 // Buttons
 val buttons = listOf("Arms", "Legs", "Abs", "Back")
 

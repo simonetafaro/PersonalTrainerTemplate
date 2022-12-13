@@ -2,6 +2,7 @@ package furhatos.app.personaltrainer.nlu
 
 import furhatos.nlu.EnumEntity
 import furhatos.nlu.Intent
+import furhatos.nlu.common.Number
 import furhatos.util.Language
 
 // Predefined Training entity.
@@ -26,7 +27,7 @@ class ExerciseType : EnumEntity(stemming = true, speechRecPhrases = true) {
 
 class Exercise(var exerciseType: ExerciseType? = null) : Intent() {
     override fun getExamples(lang: Language): List<String> {
-        return listOf("I would like to do a @exerciseType", "I want to do @exerciseType")
+        return listOf("I would like to do a @exerciseType", "I want to do @exerciseType", "@exerciseType")
     }
 }
 
@@ -47,6 +48,19 @@ class Customized(var customized : CustomizedTraining? = null) : Intent() {
 
 
 
+}
+
+class SetsNumberIntent(var number : Number ? = null ): Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("I want to do @number sets", "I want to do @number sets", "I would like to do @number sets", "I would like to do @number sets", "@number", "@number sets", "@number sets")
+    }
+}
+
+
+class RestIntent(var number : Number ? = null): Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("I want to do @number seconds rest", "I want to rest @number seconds", "I would like to do @number seconds rests", "I would like to do @number seconds rest", "@number", "@number seconds", "I would like to rest @number seconds")
+    }
 }
 
 

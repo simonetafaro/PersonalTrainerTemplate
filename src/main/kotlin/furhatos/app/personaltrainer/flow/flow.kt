@@ -4,10 +4,14 @@ import furhatos.app.personaltrainer.*
 import furhatos.app.personaltrainer.nlu.*
 import furhatos.event.senses.SenseSkillGUIConnected
 import furhatos.flow.kotlin.*
+import furhatos.nlu.common.No
+import furhatos.nlu.common.Yes
 import furhatos.records.Record
-import furhatos.records.User
 import furhatos.skills.HostedGUI
 import furhatos.records.Location
+
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 // Our GUI declaration
 val GUI = HostedGUI("ExampleGUI", "assets/exampleGui", PORT)
@@ -30,7 +34,7 @@ val NoGUI: State = state(null) {
 
  */
 
-val Greeting : State = state(null){
+val Greeting : State = state(Interaction){
     onEntry {
         random(
                 {   furhat.say("Hi there") },
@@ -40,7 +44,7 @@ val Greeting : State = state(null){
     }
 }
 
-val ExerciseVSWorkout: State = state(null){
+val ExerciseVSWorkout: State = state(Interaction){
     onEntry {
         send(DataDelivery(title ="Select one:", buttons = options, inputFields = listOf()));
 
@@ -104,7 +108,7 @@ val ExerciseVSWorkout: State = state(null){
 
 }
 
-fun customizedBranch(customized: CustomizedTraining) : State = state (null){
+fun customizedBranch(customized: CustomizedTraining?, arrayOfExercises: ArrayList<SingleExercise>) : State = state (Interaction){
     onEntry {
         furhat.say("${customized.text}, what a lovely choice!")
 
@@ -114,7 +118,7 @@ fun customizedBranch(customized: CustomizedTraining) : State = state (null){
 
         random(
                 { furhat.ask("Now, pick an exercise.") },
-                { furhat.ask("Please, elect the exercise you want to do") }
+                { furhat.ask("Please, select the exercise you want to do") }
         )
     }
 
@@ -150,17 +154,95 @@ fun customizedBranch(customized: CustomizedTraining) : State = state (null){
     }
 }
 
-fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = state(null){
+fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = state(Interaction){
     onEntry{
         //test:
-        print(arrayOfExercises[0].name)
+        //print(arrayOfExercises[0].name)
+        random(
+                { furhat.ask("How many repetitions do you want to perform during each set?") },
+                { furhat.ask("How many reps do you want to do for each set? ") }
+        )
+    }
+
+}
+
+fun setsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = state(Interaction){
+    onEntry{
+        random(
+                { furhat.ask("How many sets do you want to perform?") },
+                { furhat.ask("How many sets do you want to do?") }
+        )
+    }
+
+    onResponse <SetsNumberIntent> {
+        val sets = it.intent.number?.value
+        furhat.say("Ok then. Let's do $sets repetitions!")
+        arrayOfExercises[arrayOfExercises.size - 1].sets = sets
+
+        // call to the gui
+
+        goto(restSelectionState(arrayOfExercises))
+    }
+
+    //onEvent (gui)
+
+}
+
+fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = state(Interaction){
+    onEntry{
+        random(
+                { furhat.ask("How long do you want to rest between the sets?") }
+        //more choices...
+        )
+    }
+
+    onResponse <RestIntent> {
+        val rest = it.intent.number?.value
+        furhat.say("Ok then. Let's do $rest seconds of rest!")
+        arrayOfExercises[arrayOfExercises.size - 1].restTime = rest
+
+        // call to the gui
+
+        goto(somethingElseState(arrayOfExercises))
+
+    }
+
+    //onEvent (gui)
+
+}
+
+fun somethingElseState(arrayOfExercises: ArrayList<SingleExercise>): State = state(Interaction){
+    onEntry{
+        random(
+                { furhat.ask("Do you want another exercise to the workout?") },
+                { furhat.ask("Do you want to add another exercise to your training?") },
+                { furhat.ask("Do you want me to add another exercise to your workout before starting?") }
+        )
+    }
+
+    onResponse<Yes> {
+        furhat.say("Feel energetic, uh?")
+        goto(customizedBranch(null, arrayOfExercises))
+    }
+
+    onResponse<No> {
+
+        //creation of the final array:
+        for (ex in arrayOfExercises){
+            var tempArray: Array<String>
+
+        }
+
+
+        //-----
+        // let's start the training
     }
 
 }
 
 
 
-fun predefinedBranch(predefined: PredefinedTraining) : State = state (null){
+fun predefinedBranch(predefined: PredefinedTraining) : State = state (Interaction){
     onEntry{
         furhat.say("You selected ${predefined.text}")
     }
