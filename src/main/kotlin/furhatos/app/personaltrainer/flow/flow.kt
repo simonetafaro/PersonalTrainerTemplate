@@ -34,6 +34,7 @@ val NoGUI: State = state(null) {
 
  */
 
+
 val Greeting : State = state(Interaction){
     onEntry {
         random(
@@ -47,11 +48,11 @@ val Greeting : State = state(Interaction){
 val ExerciseVSWorkout: State = state(Interaction){
     onEntry {
         send(DataDelivery(title ="Select one:", buttons = options, inputFields = listOf()));
-
+        val howto = "Say it to me or click the button."
 
         random(
-                {   furhat.ask("Do you want a predefined workout or select the single exercises?. You can either tell me or selecting it by clicking on the corresponding button.") },
-                {   furhat.ask("Do you want to choose individual exercises or a pre-planned workout? You can either tell me or selecting it by clicking on the corresponding button.") }
+                {   furhat.ask("Do you want a predefined workout or select the single exercises?. $howto") },
+                {   furhat.ask("Do you want to choose individual exercises or a pre-planned workout? $howto") }
         )
     }
 
@@ -62,7 +63,7 @@ val ExerciseVSWorkout: State = state(Interaction){
         if(it.get("data") == "Exercise"){
             var customized =  CustomizedTraining();
             customized.text = "Single exercise"
-            goto(customizedBranch(customized))
+            goto(customizedBranch(customized, arrayOfExercises))
         } else {
             var predefined = PredefinedTraining();
             predefined.text = "Predifined workout"
@@ -76,7 +77,7 @@ val ExerciseVSWorkout: State = state(Interaction){
         val selectedType = it.intent.customized
         if (selectedType != null) {
 
-            goto(customizedBranch(selectedType))
+            goto(customizedBranch(selectedType, arrayOfExercises))
         }
         else {
             propagate()
@@ -101,16 +102,23 @@ val ExerciseVSWorkout: State = state(Interaction){
 
 
 
-    onResponse { // Catches everything else
+    /*onResponse { // Catches everything else
         furhat.say("I didn't understand that")
         reentry()
-    }
+    }*/
 
 }
 
 fun customizedBranch(customized: CustomizedTraining?, arrayOfExercises: ArrayList<SingleExercise>) : State = state (Interaction){
     onEntry {
-        furhat.say("${customized.text}, what a lovely choice!")
+        if ( arrayOfExercises.size == 0 ) {
+            if (customized != null) {
+                furhat.say("${customized.text}, what a lovely choice!")
+            }
+        } else {
+            furhat.say( "You have ${arrayOfExercises.size} exercises in your training. Let's add one more!")
+            for (el in arrayOfExercises) println(el.toString())
+        }
 
         send(DataDelivery(title = "Pick one exercise:", buttons = exercises, inputFields = listOf()))
         send(SPEECH_DONE)
@@ -124,11 +132,11 @@ fun customizedBranch(customized: CustomizedTraining?, arrayOfExercises: ArrayLis
 
     onResponse<Exercise> {
 
-        var exerciseName = it.intent.exerciseType
+        val exerciseName = it.intent.exerciseType
         furhat.say("${exerciseName}? Right?")
         send(ExerciseDelivery(exerciseName = exerciseName.toString(), gifName = "", reps = ""  ))
 
-        var firstEx = SingleExercise(exerciseName.toString(), null, null, null)
+        val firstEx = SingleExercise(exerciseName.toString(), null, null, null)
         arrayOfExercises.add(firstEx)
 
         goto(repsSelectionState(arrayOfExercises))
@@ -136,7 +144,7 @@ fun customizedBranch(customized: CustomizedTraining?, arrayOfExercises: ArrayLis
 
 
     onEvent(CLICK_BUTTON) {
-        var exerciseName = it.get("data") as String;
+        val exerciseName = it.get("data") as String;
         // Directly respond with the value we get from the event, with a fallback
         furhat.say("You want to do a ${exerciseName ?: "something I'm not aware of" }")
 
@@ -163,6 +171,18 @@ fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
                 { furhat.ask("How many reps do you want to do for each set? ") }
         )
     }
+
+    onResponse <RepsNumberIntent> {
+        val reps = it.intent.number?.value
+        furhat.say("Ok then. Let's do $reps repetitions!")
+        arrayOfExercises[arrayOfExercises.size - 1].reps = reps
+
+        //call to the gui
+
+        goto(setsSelectionState(arrayOfExercises))
+    }
+
+    //onEvent (gui)
 
 }
 

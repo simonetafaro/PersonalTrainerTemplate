@@ -44,10 +44,12 @@ class Customized(var customized : CustomizedTraining? = null) : Intent() {
     override fun getExamples(lang: Language): List<String> {
         return listOf("I would like to do a @customized", "I want a @customized", "I would like a @customized")
     }
+}
 
-
-
-
+class RepsNumberIntent(var number : Number? = null ): Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("I want to do @number repetitions", "I want to do @number reps", "I would like to do @number reps", "I would like to do @number repetitions", "@number", "@number reps", "@number repetitions")
+    }
 }
 
 class SetsNumberIntent(var number : Number ? = null ): Intent() {
