@@ -1,0 +1,134 @@
+{
+    "exercise": [
+        {
+            "name": "regular push ups",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 10, "beginner": 5, "advanced": 15 },
+            "rest-time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "arms, chest",
+            "equipment": "none",
+            "tips": [
+                "Keep in mind to go all the way down and all the way up when performing the push-ups, if a regular push up is too hard, you can make it easier by having your knees touch the floor instead of your feet when performing the pushups",
+                "If a standard push-up is too difficult, you may make it easier by touching the floor with your knees rather than your feet when executing the push-ups. Just remember to go all the way down and all the way up.",
+                "When completing push-ups, remember to go all the way down and all the way up. If a standard push-up is too difficult for you, try executing them with your knees instead of your feet touching the ground."
+            ]
+        },
+        {
+            "name": "tricep push ups",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 10, "beginner": 5, "advanced": 15 },
+            "rest-time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "arms, chest",
+            "equipment": "none",
+            "tips": [
+                "With a tricep focused push up, keep your elbows close to your body. The distance between your elbows and torso should be minimal, this targets more of the triceps. When in correct position, slowly lower your body to the floor and slightly touch the floor with your chest. Then push up from the floor and return to the starting position.",
+                "Keep your elbows close to your torso when doing a push-up that targets your triceps. The triceps are more effectively targeted when your elbows are close to your torso. When you are in the right position, carefully lower your body to the ground until your chest is just touching it. Once you've pushed yourself off the ground, resume your original position.",
+                "Keep your elbows close to your body when performing triceps-focused pushups. Your elbows and torso should be as close together as possible to target more of the triceps. When you are in the proper position, carefully lower your body to the ground so that your chest is just barely touching the surface. Return to your starting posture by pushing yourself up off the ground."
+            ]
+        },
+        {
+            "name": "squats",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 20, "beginner": 10, "advanced": 30 },
+            "rest-time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "legs",
+            "equipment": "none",
+            "tips": [
+                "Remember to keep your back up straight throughout the exercise, on the way down and up. On the way down also remember to go down to a 90 degree angle, if you lack mobility stop and don't go all the way down to 90 degree angle. If you have a hard time remaining balance extending your arms in front of you could help with balance.",
+                "On the way down and up, keep your back straight during the entire workout. Remember to descend down to a 90 degree angle on the way down; if you have limited mobility, halt and do not go all the way down to the 90 degree angle. Extending your arms in front of you can aid in balance if you struggle to stay upright.",
+                "On the way up and down from the activity, maintain your back up straight at all times. On the way down, keep in mind to descend to a 90 degree angle; if you have limited mobility, halt and do not descend all the way to the 90 degree angle. Extending your arms in front of you can help you maintain balance if you struggle with it."
+            ]
+        },
+        {
+            "name": "sit-ups",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 10, "beginner": 5, "advanced": 15 },
+            "rest-time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "core",
+            "equipment": "none",
+            "tips": [
+                "Lie down with your knees bent, then place your hands behind your head or across each other on your chest and begin to lift your upper body to your knees. Remember to keep your knees in place and lift your torso to your knees. Then descend slowly to the starting position and perform the next repetion in the same way.",
+                "Knees bent, start by raising your upper body to your knees while holding your hands behind your head or crossed over your chest. Lifting your torso to your knees while keeping your knees stationary is advised. After that, slowly return to your starting position and proceed with the following repetition in the same manner.",
+                "Knees bent, start by lifting your upper body to your knees with your upper body raised off the ground. Next, position your hands behind your head or across your chest. Lifting your torso to your knees while maintaining the position of your knees. Next, slowly return to the starting position and carry out the subsequent repetition in the same manner."
+            ]
+        },
+        {
+            "name": "superman",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 10, "beginner": 5, "advanced": 15 },
+            "rest-time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "back",
+            "equipment": "none",
+            "tips": [
+                "Lie face down with your arms extended out in front of you. Then raise your arms, legs and chest a few inches of the floor and pause at the top of the repetition for a second, remember to squeeze your lower back at the top of the repetion. Then begin to slowly descend back to the starting position.",
+                "With your arms out in front of you, lie face down. After that, lift your arms, legs, and chest a few inches off the ground, pause briefly at the peak of each repeat, and compress your lower back. Then, start descending gradually to the beginning point.",
+                "Your arms should be out in front of you while you lay face down. Then, elevate your arms, legs, and chest a few inches off the floor. Pause briefly at the top of each repeat, and don't forget to contract your lower back. After that, steadily decline to your starting position."
+            ]
+        },
+        {
+            "name": "lungee",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 15, "beginner": 10, "advanced": 20 },
+            "rest-time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "legs",
+            "equipment": "none",
+            "tips": [
+                "Place one foot about 50 cm in front of you and descend your body so the front knee and foot form a 90 degree angle. Then push up from that 90 degree angle with the same front foot, returning to the original position. Now repeat the same steps with your other foot. Alternate the feet between each repetition, and remember to descend slowly, in a controlled manner.",
+                "The front knee and foot should form a 90-degree angle when you place one foot around 50 cm in front of you and lower your torso. Return to your starting posture by pushing up with the same front foot from that 90-degree angle. Now use your other foot to retrace your steps. Between each repeat, switch which foot is being used. Also, always fall steadily and slowly.",
+                "Put one foot 50 cm in front of you, then lower your body until your front knee and foot are at a 90-degree angle. With the same front foot, push up from that 90-degree angle to resume your original position. Put your second foot down and go through the same motions. Remember to fall slowly and deliberately between each repeat by switching the foot."
+            ]
+        },
+        {
+            "name": "burpee",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 15, "beginner": 10, "advanced": 20 },
+            "rest-time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "core, legs",
+            "equipment": "none",
+            "tips": [
+                "Start at the bottom end of a push up position, then jump your legs up whilst also simultaneously pushing away with your upper body to come up to a upright, standing position. Now straight after standing, jump up in the same position, and raise your arms straight above your head. Then quickly return to the starting position, to be ready for the next repetition.",
+                "Begin in a push-up position at the bottom, then bounce your legs up while simultaneously pushing with your upper body to reach a standing position. After standing still, immediately spring up and extend your arms directly above your head. In order to be prepared for the following repeat, immediately return to the beginning position.",
+                "Starting in the bottom position of a push-up, jump your legs up while simultaneously pushing away with your upper body to reach a standing position. Straight away after standing, jump up into the same stance and extend your arms overhead. Once back in place, swiftly go on to the following repetition."
+            ]
+        },
+        {
+            "name": "plank",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 60, "beginner": 30, "advanced": 90 },
+            "rest-time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "core",
+            "equipment": "none",
+            "tips": [
+                "Lay on the floor with your elbows under your shoulders, hands flat on the floor and core engaged. Keeping your forearms and knees on the floor slowly raise yourself upwards until your body is in a straight line from your knees to your head. Set a timer and hold the position for the level you selected. Beginner: 30 seconds, Intermediate: 60 seconds and Advanced: hold for 90 seconds before resting.",
+                "Your hands should be level on the floor, your elbows should be tucked under your shoulders, and your core should be tight. Raising yourself slowly until your body is in a straight line from your knees to your head while maintaining your forearms and knees on the ground. Hold the position for the chosen level for the specified amount of time. Beginners hold for thirty seconds, Intermediates for sixty, and Advanceds hold for ninety before taking a break.",
+                "With your hands flat on the ground and your core engaged, lie on the floor with your elbows tucked under your shoulders. Slowly pull yourself up while maintaining a straight line from your knees to your head while keeping your forearms and knees on the ground. Hold the position for the level you chose while timing yourself. Beginner: 30 seconds, Intermediate: 60 seconds, and Advanced: 90 seconds, followed by a short break."
+            ]
+        },
+        {
+            "name": "mountain climbers",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 20, "beginner": 10, "advanced": 30 },
+            "rest-time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "core",
+            "equipment": "none",
+            "tips": [
+                "Get into a plank position, making sure to distribute your weight evenly between your hands and your toes. Check your form, your hands should be about shoulder-width apart, back flat, abs engaged, and head in alignment. Pull your right knee into your chest as far as you can. Switch legs, pulling one knee out and bringing the other knee in. Keep your hips down and run your knees in and out as far and as fast as you can. Alternate inhaling and exhaling with each leg change.",
+                "Put yourself in a plank position, evenly distributing your weight between your hands and toes. Check your form; your hands should be around shoulder-width apart, your back should be flat, your abs should be engaged, and your head should be straight. As far as you can, pull your right knee into your chest. Change legs, bringing one knee in and pulling the other out. Maintain a low hip position while running as quickly and far as you can with your knees. With each leg movement, alternate taking breaths and exhaling.",
+                "As you assume the plank position, make careful to equally distribute your weight between your hands and toes. Verify your form; your hands should be around shoulder width apart, your back should be flat, your abs should be engaged, and your head should be straight. Put as much of your right knee as you can on your chest. Alternate pulling one knee out and bringing the other knee in, switching legs. Keep your hips low and extend your knees as far and quickly as you can. With each leg change, alternate taking in and taking out breaths."
+            ]
+        },
+        {
+            "name": "tricep dips",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 20, "beginner": 10, "advanced": 30 },
+            "rest-time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "arms",
+            "equipment": "bench, chair",
+            "tips": [
+                "Use a bench or chair, face away from the bench or chair and put your hands on the edge of the bench or chair with your fingers facing forward, starting with straight arms. Put your legs straight out in front of you, keeping them straight in that position. Now slowly lower your upper body, once your arms reaches 90 degrees, slowly come back up again to the starting position, completing one repetition.",
+                "Use a bench or chair, turn away from it, place your hands on the edge with your fingers facing forward, and start with your arms straight. Maintaining that stance, extend your legs straight in front of yourself and lower your torso. Once your arms are at 90 degrees, steadily raise your upper body back up to the beginning position, completing one repetition.",
+                "Use a bench or chair, turn away from it, and start with your arms straight. Then, place your hands on the edge of the bench or chair with your fingers facing front. Stretch your legs straight out in front of you, keeping them that way. Next, slowly lower your upper body until your arms are at a 90-degree angle. Slowly return to the starting position to complete one repetition."
+            ]
+        }
+    ]
+}
