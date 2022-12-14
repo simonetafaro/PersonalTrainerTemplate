@@ -19,7 +19,7 @@
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 10, "beginner": 5, "advanced": 20 },
             "rest-time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
-            "muscle group": "core, shoulders",
+            "muscle group": "core, shoulders, legs",
             "equipment": "none",
             "gif": "https://media3.giphy.com/media/4Hx33hvGMdeyK016mT/giphy.gif?cid=ecf05e47d02fd41dbdcac036454091ef659e5ad42fd205eb&rid=giphy.gif",
             "tips": [
