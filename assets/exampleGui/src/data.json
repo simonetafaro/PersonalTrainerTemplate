@@ -96,7 +96,7 @@
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 15, "beginner": 10, "advanced": 20 },
             "rest-time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
-            "muscle group": "core, legs",
+            "muscle group": "core, legs, arms, chest",
             "equipment": "none",
             "tips": [
                 "Start at the bottom end of a push up position, then jump your legs up whilst also simultaneously pushing away with your upper body to come up to a upright, standing position. Now straight after standing, jump up in the same position, and raise your arms straight above your head. Then quickly return to the starting position, to be ready for the next repetition.",
@@ -193,6 +193,19 @@
                 "Stand up straight, keep your elbows to the side of your torso. Take the weight, preferably a dumbbell and place it in your hand. If you don't have access to a dumbbell or resistance bands, a backpack or any other object that can provide resistant might suffice. Then lift the weight up with your arm, flexing your bicep and keeping your elbows still inline with your body. Remember to go all the way up, and then all the way down with the weight on this movement. Then switch arm and repeat the movement after you completed all the repetitions for the first arm, the repetitions are per arm, once repetitions are completed for both arms, the first set is completed.",
                 "Keep your elbows by your sides as you stand up straight. Place the weight in your hand, preferably a dumbbell. A rucksack or any other item that can create resistance may be sufficient if you don't have access to a dumbbell or resistance bands. Then, raise the weight with your arm while flexing your biceps and maintaining a parallel position for your elbows with your body. Keep in mind to use the weight on this action to go all the way up and then all the way down. After doing all the repetitions for the first arm—repetitions are done per arm—switch arms and continue the exercise. When both arms have had their fair share of repetitions, the first set is over.",
                 "Elbows should be kept to the sides of the torso as you stand up straight. In your hand, hold the weight—ideally a dumbbell. Any object that may produce resistance, such as a rucksack, may work in their place if you don't have access to a dumbbell or resistance bands. Once you've flexed your bicep, raise the weight with your arm while maintaining a parallel angle between your elbows and body. Just keep in mind to use your weight on this action and go all the way up and down. Once you have completed all of the repetitions for the first arm—repetitions are accomplished for each arm separately—switch arms and repeat the activity. The first set is finished once both arms have received their allotted number of repetitions."
+            ]
+        },
+        {
+            "name": "leg raises",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 10, "beginner": 5, "advanced": 15 },
+            "rest-time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "core",
+            "equipment": "dumbbell, resistant band, other weight object",
+            "tips": [
+                "Lie down straight with your back placed on the floor. Keep your legs straight and your upper body still touching the ground, lift your legs up, all the way to the top, having your feet now pointing to the ceiling at the top of the movement. Then slowly descend your legs to the starting position and repeat the movement again.",
+                "The floor should be under your back as you lie down straight. Lift your legs all the way up until your feet are now facing upward at the top of the movement. Keep your legs straight and your upper body stationary. Repeat the motion by carefully lowering your legs to the beginning position.",
+                "Your back should be on the ground when you lie down straight. Lift your legs up all the way to the top, with your feet now pointing to the ceiling at the top of the exercise. Keep your legs straight and your upper body remaining on the ground. Then slowly return your legs to the beginning position and perform the exercise once more."
             ]
         }
     ]
