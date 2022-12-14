@@ -337,6 +337,23 @@ fun somethingElseState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
 
 }
 
+fun main(){
+    val jsonString: String = File("./assets/exampleGui/src/data.json").readText(Charsets.UTF_8)
+
+    val exercisesJSONArray = JSONArray(JSONObject(jsonString)["exercise"].toString())
+    val availableExercise = arrayListOf<SingleExerciseParser>()
+    for (i in 0 until exercisesJSONArray.length()) {
+        val exercise = exercisesJSONArray.getJSONObject(i)
+        var currExercise = Gson().fromJson(exercise.toString(), SingleExerciseParser::class.java)
+        availableExercise.add(currExercise)
+        //println("${exercise.get("name")} by ${exercise.get("muscle group")}")
+    }
+    for (el in availableExercise) {
+        print(el)
+        print("\n")
+    }
+}
+
 
 
 fun predefinedBranch(predefined: PredefinedTraining) : State = state (Interaction){

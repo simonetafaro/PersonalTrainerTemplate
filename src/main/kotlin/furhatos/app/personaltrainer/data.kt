@@ -31,6 +31,20 @@ class SingleExercise(val name: String,
     }
 }
 
+class SingleExerciseParser(val name: String,
+                           val reps: Map<String, Int>,
+                           val sets: Map<String, Int>,
+                           val rest_time: Map<String, Int>,
+                           val musclegroup: String,
+                           val equipment: String,
+                           val tips: Array<String>){
+    override fun toString(): String {
+        var stringTips = ""
+        for(el in tips) stringTips += "$el "
+        return "Exercise: $name, Tips: $stringTips"
+    }
+}
+
 
 /*fun test (exercise: SingleExercise){
     print(exercise.name)
