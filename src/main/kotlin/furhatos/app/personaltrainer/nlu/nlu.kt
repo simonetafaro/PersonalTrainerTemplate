@@ -21,7 +21,7 @@ class CustomizedTraining(val name: String? = null) : EnumEntity(stemming = true,
 
 class ExerciseType : EnumEntity(stemming = true, speechRecPhrases = true) {
     override fun getEnum(lang: Language): List<String> {
-        return listOf("push-up", "sit-up", "jumping jack")
+        return listOf("regular push-ups", "sit-ups", "jumping jacks")
     }
 }
 
@@ -63,6 +63,19 @@ class RestIntent(var number : Number ? = null): Intent() {
     override fun getExamples(lang: Language): List<String> {
         return listOf("I want to do @number seconds rest", "I want to rest @number seconds", "I would like to do @number seconds rests", "I would like to do @number seconds rest", "@number", "@number seconds", "I would like to rest @number seconds")
     }
+}
+
+class StartIntent(): Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("start", "I would like to start", "I'm ready", "Let's go", "Let's begin")
+    }
+}
+
+class FinishIntent(): Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("done", "finish", "completed", "I'm done", "I've finished")
+    }
+
 }
 
 

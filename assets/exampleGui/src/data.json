@@ -29,7 +29,7 @@
             ]
         },
         {
-            "name": "tricep push ups",
+            "name": "tricep push-ups",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 10, "beginner": 5, "advanced": 20 },
             "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
@@ -57,7 +57,7 @@
             ]
         },
         {
-            "name": "bicycle sit ups",
+            "name": "bicycle sit-ups",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 10, "beginner": 5, "advanced": 15 },
             "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },

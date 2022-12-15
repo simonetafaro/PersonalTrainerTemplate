@@ -10,7 +10,7 @@ val buttons = listOf("Arms", "Legs", "Abs", "Back")
 val options = listOf("Exercise", "Workout")
 
 // Exercise
-val exercises = listOf("Push-up", "Sit-up", "Jumping jack")
+val exercises = listOf("regular push-ups", "jumping jacks", "tricep push-ups", "bicep curls", "lower back raises", "leg raises", "squats","bicycle sit-ups","superman", "mountain climbers", "lungee", "burpee", "knee to elbow plank", "tricep dips", "high knees")
 
 /*
  Input fields, each with a answer to be spoken. The answer is defined as a lambda
