@@ -24,10 +24,15 @@ val inputFieldData = mutableMapOf<String, (String) -> String>(
 class SingleExercise(val name: String,
                      var reps: Int?,
                      var sets: Int?,
-                     var restTime: Int?
-                     /*@SerializedName("tips") @Expose var tips: Array<String>? = null*/) {
+                     var restTime: Int?,
+                     var tips: Array<String>? = null) {
     override fun toString(): String {
-        return "Exercise: $name \n Reps: $reps \n Sets: $sets \n Rest time (in seconds): $restTime"
+        var temp = "No tips"
+        if( tips != null ) {
+            temp = ""
+            for (tip in tips!!) temp += "Tip: $tip \n"
+        }
+        return "Exercise: $name \n Reps: $reps \n Sets: $sets \n Rest time (in seconds): $restTime \n $temp"
     }
 }
 

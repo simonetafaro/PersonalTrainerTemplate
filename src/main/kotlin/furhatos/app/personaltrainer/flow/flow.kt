@@ -39,6 +39,42 @@ val NoGUI: State = state(null) {
 
  */
 
+val GUIConnected : State = state {
+    onEntry {
+        // Pass data to GUI
+        send(DataDelivery(buttons = listOf(), inputFields = inputFieldData.keys.toList(), title =  "Insert your name to start"))
+    }
+
+    // Users clicked any of our buttons
+    onEvent(CLICK_BUTTON) {
+        // Directly respond with the value we get from the event, with a fallback
+        furhat.say("You want to do a ${it.get("data") ?: "something I'm not aware of" }")
+
+        // Let the GUI know we're done speaking, to unlock buttons
+        send(SPEECH_DONE)
+
+    }
+
+    // Users saved some input
+    onEvent(VARIABLE_SET) {
+        // Get data from event
+        val data = it.get("data") as Record
+        val variable = data.getString("variable")
+        val value = data.getString("value")
+
+        // Get answer depending on what variable we changed and what the new value is, and speak it out
+        val answer = inputFieldData[variable]?.invoke(value)
+        furhat.say(answer ?: "Something went wrong")
+
+        // Let the GUI know we're done speaking, to unlock buttons
+        send(SPEECH_DONE)
+        furhat.attend(Location.STRAIGHT_AHEAD);
+
+
+        goto(ExerciseVSWorkout)
+    }
+}
+
 
 val Greeting : State = state(Interaction){
     onEntry {
@@ -170,8 +206,6 @@ fun customizedBranch(customized: CustomizedTraining?, arrayOfExercises: ArrayLis
 
 fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = state(Interaction){
     onEntry{
-        //test:
-        //print(arrayOfExercises[0].name)
 
         send(DataDelivery(buttons = listOf(), inputFields = inputFieldData.keys.toList(), title =  "Select the number of repetitions you want to perform during each set"))
 
@@ -240,18 +274,12 @@ fun setsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
         furhat.stopSpeaking()
         // Get data from event
         val data = it.get("data") as Record
-        val variable = data.getString("variable")
-        //val value = data.getString("value")
+
         val value = data.getInteger("value")
-
-
-        // Get answer depending on what variable we changed and what the new value is, and speak it out
-        //val answer = inputFieldData[variable]?.invoke(value)
 
         // Let the GUI know we're done speaking, to unlock buttons
         //send(SPEECH_DONE)
 
-        //if (answer != null) {
         arrayOfExercises[arrayOfExercises.size - 1].sets = value
 
         goto(restSelectionState(arrayOfExercises))
@@ -261,6 +289,7 @@ fun setsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
 fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = state(Interaction){
     onEntry{
         send(DataDelivery(buttons = listOf(), inputFields = inputFieldData.keys.toList(), title =  "Select the rest time between two sets"))
+
         send(SPEECH_DONE)
         //furhat.stopListening()
 
@@ -319,15 +348,22 @@ fun somethingElseState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
 
         //get the tips for the chosen exercises
 
-        //creation of the final array:
-        for (ex in arrayOfExercises){
-            var tempArray: Array<String>
+        val listFromJson = returnListFromJson()
 
+        for (ex in arrayOfExercises){
+
+            if( listFromJson != null)
+            for (el in listFromJson){
+                if(ex.name == el.name)
+                    ex.tips = el.tips
+            }
         }
 
+        //for (ex in arrayOfExercises) print(ex)
 
-        //-----
-        // let's start the training
+        furhat.say("Let's start with the workout then!")
+
+        goto(exerciseState(arrayOfExercises, 0))
     }
 
 }
@@ -413,32 +449,25 @@ fun endState(arrayOfExercises: ArrayList<SingleExercise>) : State = state(Intera
     //end
 }
 
-        // Users clicked any of our buttons
-        onEvent(CLICK_BUTTON) {
-            // Directly respond with the value we get from the event, with a fallback
-            furhat.say("You want to do a ${it.get("data") ?: "something I'm not aware of" }")
-
-            // Let the GUI know we're done speaking, to unlock buttons
-            send(SPEECH_DONE)
-
-        }
-
-        // Users saved some input
-        onEvent(VARIABLE_SET) {
-            // Get data from event
-            val data = it.get("data") as Record
-            val variable = data.getString("variable")
-            val value = data.getString("value")
-
-            // Get answer depending on what variable we changed and what the new value is, and speak it out
-            val answer = inputFieldData[variable]?.invoke(value)
-            furhat.say(answer ?: "Something went wrong")
-
-            // Let the GUI know we're done speaking, to unlock buttons
-            send(SPEECH_DONE)
-            furhat.attend(Location.STRAIGHT_AHEAD);
 
 
-            goto(ExerciseVSWorkout)
-        }
+
+fun returnListFromJson(): ArrayList<SingleExerciseParser>? {
+
+    val jsonString: String = File("./assets/exampleGui/src/data.json").readText(Charsets.UTF_8)
+
+    val exercisesJSONArray = JSONArray(JSONObject(jsonString)["exercise"].toString())
+    val availableExercise = arrayListOf<SingleExerciseParser>()
+    for (i in 0 until exercisesJSONArray.length()) {
+        val exercise = exercisesJSONArray.getJSONObject(i)
+        var currExercise = Gson().fromJson(exercise.toString(), SingleExerciseParser::class.java)
+        availableExercise.add(currExercise)
+        //println("${exercise.get("name")} by ${exercise.get("muscle group")}")
     }
+    /*for (el in availableExercise) {
+         print(el)
+         print("\n")
+     }*/
+
+    return availableExercise
+}

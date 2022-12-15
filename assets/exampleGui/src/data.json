@@ -1,7 +1,7 @@
 {
     "exercise": [
         {
-            "name": "regular push ups",
+            "name": "regular push-ups",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 10, "beginner": 5, "advanced": 20 },
             "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
