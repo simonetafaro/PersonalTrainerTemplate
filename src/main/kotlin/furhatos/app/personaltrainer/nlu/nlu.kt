@@ -67,7 +67,7 @@ class RestIntent(var number : Number ? = null): Intent() {
 
 class StartIntent(): Intent() {
     override fun getExamples(lang: Language): List<String> {
-        return listOf("start", "I would like to start", "I'm ready", "Let's go", "Let's begin")
+        return listOf("start", "I would like to start", "I'm ready", "Let's go", "Let's begin", "ready")
     }
 }
 

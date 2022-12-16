@@ -132,7 +132,6 @@ val ExerciseVSWorkout: State = state(Interaction){
             propagate()
         }
 
-        //furhat.say("${fruits.text}, what a lovely choice!")
     }
 
    onResponse<Predefined>{
@@ -146,7 +145,6 @@ val ExerciseVSWorkout: State = state(Interaction){
             propagate()
         }
 
-        //furhat.say("${fruits.text}, what a lovely choice!")
     }
 
 
@@ -160,6 +158,7 @@ val ExerciseVSWorkout: State = state(Interaction){
 
 fun customizedBranch(customized: CustomizedTraining?, arrayOfExercises: ArrayList<SingleExercise>) : State = state (Interaction){
     onEntry {
+        furhat.stopListening()
         if ( arrayOfExercises.size == 0 ) {
             if (customized != null) {
                 furhat.say("${customized.text}, what a lovely choice!")
@@ -172,7 +171,7 @@ fun customizedBranch(customized: CustomizedTraining?, arrayOfExercises: ArrayLis
         send(DataDelivery(title = "Pick one exercise:", buttons = exercises, inputFields = listOf()))
         send(SPEECH_DONE)
 
-        furhat.stopListening()
+
         random(
                 { furhat.ask("Now, pick an exercise.") },
                 { furhat.ask("Please, select the exercise you want to do") }
@@ -195,6 +194,7 @@ fun customizedBranch(customized: CustomizedTraining?, arrayOfExercises: ArrayLis
     onEvent(CLICK_BUTTON) {
         val exerciseName = it.get("data") as String;
         // Directly respond with the value we get from the event, with a fallback
+        furhat.stopListening()
         furhat.say("You want to do a ${exerciseName ?: "something I'm not aware of" }")
 
         // Let the GUI know we're done speaking, to unlock buttons
@@ -238,8 +238,6 @@ fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     //onEvent (gui)
     onEvent(VARIABLE_SET) {
         //tells furhat that it has to stop listening (it avoids that in the next state furhat listens to itself)
-        //furhat.stopListening()
-        //furhat.stopSpeaking()
         // Get data from event
         val data = it.get("data") as Record
         val value = data.getInteger("value")
@@ -260,9 +258,10 @@ fun setsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
         send(SPEECH_DONE)
         furhat.stopListening()
         random(
-                { furhat.ask("How many sets do you want to perform?") },
-                { furhat.ask("How many sets do you want to do?") }
+                { furhat.say("How many sets do you want to perform?") },
+                { furhat.say("How many sets do you want to do?") }
         )
+        furhat.listen()
 
     }
 
@@ -279,15 +278,12 @@ fun setsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     //onEvent (gui)
     onEvent(VARIABLE_SET) {
         //tells furhat that it has to stop listening (it avoids that in the next state furhat listens to itself)
-        //furhat.stopListening()
-        //furhat.stopSpeaking()
         // Get data from event
         val data = it.get("data") as Record
 
         val value = data.getInteger("value")
 
         // Let the GUI know we're done speaking, to unlock buttons
-        //send(SPEECH_DONE)
 
         arrayOfExercises[arrayOfExercises.size - 1].sets = value
 
@@ -303,10 +299,10 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
         furhat.stopListening()
 
         random(
-                { furhat.ask("How long do you want to rest between the sets?") }
+                { furhat.say("How long do you want to rest between the sets?") }
         //more choices...
         )
-
+        furhat.listen()
 
     }
 
@@ -328,7 +324,6 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
         val value = data.getInteger("value")
 
         // Let the GUI know we're done speaking, to unlock buttons
-        //send(SPEECH_DONE)
 
         arrayOfExercises[arrayOfExercises.size - 1].restTime = value
 
@@ -367,8 +362,6 @@ fun somethingElseState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
                     ex.tips = el.tips
             }
         }
-
-        //for (ex in arrayOfExercises) print(ex)
 
         furhat.say("Let's start with the workout then!")
 
@@ -411,10 +404,6 @@ fun exerciseState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int )
         furhat.say("You have to do ${arrayOfExercises[exerciseCounter - 1].sets} sets of ${arrayOfExercises[exerciseCounter - 1].reps} repetitions, with  ${arrayOfExercises[exerciseCounter - 1].restTime} seconds of rest in between.")
 
         furhat.ask("When you are ready, say start or click the button")
-
-
-
-        //furhat.say("stuff", async = true)
     }
 
     onResponse<StartIntent> {
@@ -431,15 +420,14 @@ fun exerciseState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int )
 fun setState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int, setCounter : Int): State = state(Interaction) {
 
     onEntry{
-            //furhat.stopListening()
+            furhat.stopListening()
             furhat.say("You can begin the ${ if(setCounter + 1 == 1 ) "first" else "next"} set, tell me when you did ${arrayOfExercises[exCounter - 1].reps} repetitions.")
             random(
-                    arrayOfExercises[exCounter - 1].tips?.get(0)?.let { furhat.ask(it /*, interruptable = true*/) },
-                    arrayOfExercises[exCounter - 1].tips?.get(1)?.let { furhat.ask(it/*, interruptable = true*/) },
-                    arrayOfExercises[exCounter - 1].tips?.get(2)?.let { furhat.ask(it/*, interruptable = true*/) }
-
+                    {arrayOfExercises[exCounter - 1].tips?.get(0)?.let { furhat.say(it /*, interruptable = true*/) }},
+                    {arrayOfExercises[exCounter - 1].tips?.get(1)?.let { furhat.say(it/*, interruptable = true*/) }},
+                    {arrayOfExercises[exCounter - 1].tips?.get(2)?.let { furhat.say(it/*, interruptable = true*/) }}
                     )
-            //furhat.listen()
+            furhat.listen()
        }
 
     onResponse<FinishIntent>{
@@ -470,7 +458,6 @@ fun endState(arrayOfExercises: ArrayList<SingleExercise>) : State = state(Intera
         print ("endState")
         furhat.say("We have reached the end of our training. Good job!")
     }
-    //end
 }
 
 
