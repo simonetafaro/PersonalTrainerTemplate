@@ -25,9 +25,15 @@ val VARIABLE_SET = "VariableSet"
 val CLICK_BUTTON = "ClickButton"
 var arrayOfExercises = ArrayList<SingleExercise>()
 
+
+
 // Starting state, before our GUI has connected.
 val NoGUI: State = state(null) {
     onEvent<SenseSkillGUIConnected> {
+
+        //change for a more pleasant voice
+        furhat.voice = PollyNeuralVoice.Matthew().also { it.style = PollyNeuralVoice.Style.News}
+
         goto(GUIConnected)
         //goto(Greeting)
     }
@@ -425,7 +431,15 @@ fun exerciseState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int )
 fun setState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int, setCounter : Int): State = state(Interaction) {
 
     onEntry{
-            furhat.ask("You can begin the ${ if(setCounter + 1 == 1 ) "first" else "next"} set, tell me when you did ${arrayOfExercises[exCounter].reps} repetitions.")
+            //furhat.stopListening()
+            furhat.say("You can begin the ${ if(setCounter + 1 == 1 ) "first" else "next"} set, tell me when you did ${arrayOfExercises[exCounter - 1].reps} repetitions.")
+            random(
+                    arrayOfExercises[exCounter - 1].tips?.get(0)?.let { furhat.ask(it /*, interruptable = true*/) },
+                    arrayOfExercises[exCounter - 1].tips?.get(1)?.let { furhat.ask(it/*, interruptable = true*/) },
+                    arrayOfExercises[exCounter - 1].tips?.get(2)?.let { furhat.ask(it/*, interruptable = true*/) }
+
+                    )
+            //furhat.listen()
        }
 
     onResponse<FinishIntent>{
@@ -440,7 +454,7 @@ fun setState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int, setCo
 
         if (setCounter + 1 < arrayOfExercises[exCounter -1 ].sets!!) {
             goto(setState(arrayOfExercises, exCounter, setCounter + 1))
-        } else if (setCounter + 1 == arrayOfExercises[exCounter].sets!!){
+        } else if (setCounter + 1 == arrayOfExercises[exCounter - 1 ].sets!!){
 
 
             goto(exerciseState(arrayOfExercises, exCounter))
@@ -452,7 +466,10 @@ fun setState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int, setCo
 
 fun endState(arrayOfExercises: ArrayList<SingleExercise>) : State = state(Interaction){
 
-    print ("endState")
+    onEntry{
+        print ("endState")
+        furhat.say("We have reached the end of our training. Good job!")
+    }
     //end
 }
 
