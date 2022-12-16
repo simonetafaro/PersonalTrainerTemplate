@@ -12,6 +12,7 @@ import furhatos.records.Location
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import furhatos.flow.kotlin.voice.PollyNeuralVoice
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
@@ -89,9 +90,9 @@ val Greeting : State = state(Interaction){
 val ExerciseVSWorkout: State = state(Interaction){
     onEntry {
         send(DataDelivery(title ="Select one:", buttons = options, inputFields = listOf()));
-        //send(SPEECH_DONE)
+        send(SPEECH_DONE)
         val howto = "Say it to me or click the button."
-
+        furhat.stopListening()
         random(
                 {   furhat.ask("Do you want a predefined workout or select the single exercises?. $howto") },
                 {   furhat.ask("Do you want to choose individual exercises or a pre-planned workout? $howto") }
@@ -165,7 +166,7 @@ fun customizedBranch(customized: CustomizedTraining?, arrayOfExercises: ArrayLis
         send(DataDelivery(title = "Pick one exercise:", buttons = exercises, inputFields = listOf()))
         send(SPEECH_DONE)
 
-
+        furhat.stopListening()
         random(
                 { furhat.ask("Now, pick an exercise.") },
                 { furhat.ask("Please, select the exercise you want to do") }
@@ -210,6 +211,7 @@ fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
         send(DataDelivery(buttons = listOf(), inputFields = inputFieldData.keys.toList(), title =  "Select the number of repetitions you want to perform during each set"))
 
         send(SPEECH_DONE)
+        furhat.stopListening()
         random(
                 { furhat.ask("How many repetitions do you want to perform during each set?") },
                 { furhat.ask("How many reps do you want to do for each set? ") }
@@ -230,8 +232,8 @@ fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     //onEvent (gui)
     onEvent(VARIABLE_SET) {
         //tells furhat that it has to stop listening (it avoids that in the next state furhat listens to itself)
-        furhat.stopListening()
-        furhat.stopSpeaking()
+        //furhat.stopListening()
+        //furhat.stopSpeaking()
         // Get data from event
         val data = it.get("data") as Record
         val value = data.getInteger("value")
@@ -250,6 +252,7 @@ fun setsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
         send(DataDelivery(buttons = listOf(), inputFields = inputFieldData.keys.toList(), title =  "Select the number of sets you want to perform"))
 
         send(SPEECH_DONE)
+        furhat.stopListening()
         random(
                 { furhat.ask("How many sets do you want to perform?") },
                 { furhat.ask("How many sets do you want to do?") }
@@ -270,8 +273,8 @@ fun setsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     //onEvent (gui)
     onEvent(VARIABLE_SET) {
         //tells furhat that it has to stop listening (it avoids that in the next state furhat listens to itself)
-        furhat.stopListening()
-        furhat.stopSpeaking()
+        //furhat.stopListening()
+        //furhat.stopSpeaking()
         // Get data from event
         val data = it.get("data") as Record
 
@@ -291,7 +294,7 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
         send(DataDelivery(buttons = listOf(), inputFields = inputFieldData.keys.toList(), title =  "Select the rest time between two sets"))
 
         send(SPEECH_DONE)
-        //furhat.stopListening()
+        furhat.stopListening()
 
         random(
                 { furhat.ask("How long do you want to rest between the sets?") }
@@ -313,8 +316,7 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
 
     onEvent(VARIABLE_SET) {
         //tells furhat that it has to stop listening (it avoids that in the next state furhat listens to itself)
-        furhat.stopListening()
-        furhat.stopSpeaking()
+
         // Get data from event
         val data = it.get("data") as Record
         val value = data.getInteger("value")
@@ -324,7 +326,7 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
 
         arrayOfExercises[arrayOfExercises.size - 1].restTime = value
 
-        goto(restSelectionState(arrayOfExercises))
+        goto(somethingElseState(arrayOfExercises))
     }
 
 
@@ -332,6 +334,7 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
 
 fun somethingElseState(arrayOfExercises: ArrayList<SingleExercise>): State = state(Interaction){
     onEntry{
+        furhat.stopListening()
         random(
                 { furhat.ask("Do you want another exercise to the workout?") },
                 { furhat.ask("Do you want to add another exercise to your training?") },
@@ -427,11 +430,15 @@ fun setState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int, setCo
 
     onResponse<FinishIntent>{
 
-        furhat.say {"Well done. The rest time of ${arrayOfExercises[exCounter].restTime} seconds starts from now." }
-        arrayOfExercises[exCounter].restTime?.times(1000)?.let { it1 -> Thread.sleep(it1.toLong()) }
-        //TO FIX
+        furhat.say("Well done. The rest time of ${arrayOfExercises[exCounter - 1].restTime} seconds starts from now.")
 
-        if (setCounter + 1 < arrayOfExercises[exCounter].sets!!) {
+        //With this solution furhat sleep, and it is not responsive. This is a temporary solution that might be improved in the future
+        arrayOfExercises[exCounter - 1].restTime?.times(1000)?.let { it1 -> Thread.sleep(it1.toLong()) }
+
+        //DEBUG:
+        //print("end of ${arrayOfExercises[exCounter - 1].restTime} seconds of rest for the ${arrayOfExercises[exCounter - 1].name} exercise")
+
+        if (setCounter + 1 < arrayOfExercises[exCounter -1 ].sets!!) {
             goto(setState(arrayOfExercises, exCounter, setCounter + 1))
         } else if (setCounter + 1 == arrayOfExercises[exCounter].sets!!){
 
