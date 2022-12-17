@@ -3,24 +3,26 @@ package furhatos.app.personaltrainer
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-// Buttons
-val buttons = listOf("Arms", "Legs", "Abs", "Back")
-
-// Options
-val options = listOf("Exercise", "Workout")
-
-// Exercise
-val exercises = listOf("regular push-ups", "jumping jacks", "tricep push-ups", "bicep curls", "lower back raises", "leg raises", "squats","bicycle sit-ups","superman", "mountain climbers", "lungee", "burpee", "knee to elbow plank", "tricep dips", "high knees")
-
+val options = listOf("Yes", "No")
 /*
  Input fields, each with a answer to be spoken. The answer is defined as a lambda
- function since we want to have different answers depending on what favorite robot the
- user inputs
+ function
   */
-val inputFieldData = mutableMapOf<String, (String) -> String>(
-    "Name" to { name -> "Nice to meet you $name, let's start!   " }
+val nameFieldData = mutableMapOf<String, (String) -> String>(
+    "Name" to { name -> "Nice to meet you $name, let's start!" }
 )
 
+val repFieldData = mutableMapOf<String, (String) -> String>(
+        "Reps" to { reps -> "Ok then. Let's do $reps repetitions!" }
+)
+
+val setFieldData = mutableMapOf<String, (String) -> String>(
+        "Sets" to { sets -> "Ok then. Let's do $sets sets!" }
+)
+
+val restFieldData = mutableMapOf<String, (String) -> String>(
+        "Rest" to { rest -> "Ok then. Let's do $rest seconds of rest!" }
+)
 class SingleExercise(val name: String,
                      var reps: Int?,
                      var sets: Int?,

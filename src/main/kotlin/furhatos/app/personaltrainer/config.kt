@@ -15,6 +15,11 @@ class DataDelivery(
         val inputFields: List<String>
 ) : Event()
 
+class PickOne(
+        val title: String,
+        val type : String
+) : Event()
+
 class ExerciseDelivery(
         val exerciseName : String,
         val gifName: String,
