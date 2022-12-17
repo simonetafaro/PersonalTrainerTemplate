@@ -10,7 +10,7 @@ val buttons = listOf("Arms", "Legs", "Abs", "Back")
 val options = listOf("Exercise", "Workout")
 
 // Exercise
-val exercises = listOf("Push-up", "Sit-up", "Jumping jack")
+val exercises = listOf("regular push-ups", "jumping jacks", "tricep push-ups", "bicep curls", "lower back raises", "leg raises", "squats","bicycle sit-ups","superman", "mountain climbers", "lungee", "burpee", "knee to elbow plank", "tricep dips", "high knees")
 
 /*
  Input fields, each with a answer to be spoken. The answer is defined as a lambda
@@ -24,10 +24,29 @@ val inputFieldData = mutableMapOf<String, (String) -> String>(
 class SingleExercise(val name: String,
                      var reps: Int?,
                      var sets: Int?,
-                     var restTime: Int?
-                     /*@SerializedName("tips") @Expose var tips: Array<String>? = null*/) {
+                     var restTime: Int?,
+                     var tips: Array<String>? = null) {
     override fun toString(): String {
-        return "Exercise: $name \n Reps: $reps \n Sets: $sets \n Rest time (in seconds): $restTime"
+        var temp = "No tips"
+        if( tips != null ) {
+            temp = ""
+            for (tip in tips!!) temp += "Tip: $tip \n"
+        }
+        return "Exercise: $name \n Reps: $reps \n Sets: $sets \n Rest time (in seconds): $restTime \n $temp"
+    }
+}
+
+class SingleExerciseParser(val name: String,
+                           val reps: Map<String, Int>,
+                           val sets: Map<String, Int>,
+                           val rest_time: Map<String, Int>,
+                           val musclegroup: String,
+                           val equipment: String,
+                           val tips: Array<String>){
+    override fun toString(): String {
+        var stringTips = ""
+        for(el in tips) stringTips += "$el "
+        return "Exercise: $name, Tips: $stringTips"
     }
 }
 
