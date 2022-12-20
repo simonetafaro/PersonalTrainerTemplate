@@ -100,8 +100,8 @@ val ExerciseVSWorkout: State = state(Interaction){
         val howto = "Say it to me or click the button."
         furhat.stopListening()
         random(
-                {   furhat.ask("Do you want a predefined workout or select the single exercises?. $howto") },
-                {   furhat.ask("Do you want to choose individual exercises or a pre-planned workout? $howto") }
+                {   furhat.ask("Do you want a predefined workout or select the single exercises?. $howto", 60000) },
+                {   furhat.ask("Do you want to choose individual exercises or a pre-planned workout? $howto",  60000) }
         )
         send(SPEECH_DONE)
     }
@@ -110,13 +110,14 @@ val ExerciseVSWorkout: State = state(Interaction){
     onEvent(CLICK_BUTTON) {
         // Directly respond with the value we get from the event, with a fallback
         //furhat.say("You want to do a ${it.get("data") ?: "something I'm not aware of" }")
+        furhat.stopSpeaking()
         if(it.get("data") == "Exercise"){
             var customized =  CustomizedTraining();
             customized.text = "Single exercise"
             goto(customizedBranch(customized, arrayOfExercises))
         } else {
             var predefined = PredefinedTraining();
-            predefined.text = "Predifined workout"
+            predefined.text = "Predefined workout"
             goto(predefinedBranch(predefined))
         }
         // Let the GUI know we're done speaking, to unlock buttons
@@ -162,7 +163,8 @@ fun customizedBranch(customized: CustomizedTraining?, arrayOfExercises: ArrayLis
         furhat.stopListening()
         if ( arrayOfExercises.size == 0 ) {
             if (customized != null) {
-                furhat.say("${customized.text}, what a lovely choice!")
+                //furhat.say("${customized.text}, what a lovely choice!")
+                furhat.say("${customized.text}, great!")
             }
         } else {
             furhat.say( "You have ${arrayOfExercises.size} exercises in your training. Let's add one more!")
@@ -173,8 +175,8 @@ fun customizedBranch(customized: CustomizedTraining?, arrayOfExercises: ArrayLis
         send(PickOne(title = "Select one exercise:", type= "Exercises"));
 
         random(
-                { furhat.ask("Now, pick an exercise.") },
-                { furhat.ask("Please, select the exercise you want to do") }
+                { furhat.ask("Now, pick an exercise.",  60000) },
+                { furhat.ask("Please, select the exercise you want to do",  60000) }
         )
         send(SPEECH_DONE)
     }
@@ -196,7 +198,7 @@ fun customizedBranch(customized: CustomizedTraining?, arrayOfExercises: ArrayLis
         val exerciseName = it.get("data") as String;
         // Directly respond with the value we get from the event, with a fallback
         furhat.stopListening()
-        furhat.say("You want to do a ${exerciseName ?: "something I'm not aware of" }")
+        furhat.say("You want to do ${exerciseName ?: "something I'm not aware of" }")
 
         // Let the GUI know we're done speaking, to unlock buttons
         send(SPEECH_DONE)
@@ -220,8 +222,8 @@ fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
 
         furhat.stopListening()
         random(
-                { furhat.ask("How many repetitions do you want to perform during each set?") },
-                { furhat.ask("How many reps do you want to do for each set? ") }
+                { furhat.ask("How many repetitions do you want to perform during each set?",  60000) },
+                { furhat.ask("How many reps do you want to do for each set? ",  60000) }
         )
 
         send(SPEECH_DONE)
@@ -230,7 +232,12 @@ fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
 
     onResponse <RepsNumberIntent> {
         val reps = it.intent.number?.value
-        furhat.say("Ok then. Let's do $reps repetitions!")
+        if (reps != null) {
+            if(reps > 1)
+                furhat.say("Ok. Then let's do $reps repetitions!")
+            else
+                furhat.say("Ok. Then let's do $reps repetition!")
+        }
         arrayOfExercises[arrayOfExercises.size - 1].reps = reps
 
         goto(setsSelectionState(arrayOfExercises))
@@ -244,7 +251,11 @@ fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
 
         // Get answer depending on what variable we changed and what the new value is, and speak it out
         val answer = repFieldData[variable]?.invoke(value)
-        furhat.say(answer ?: "Something went wrong")
+
+        if (value.toInt() > 1)
+            furhat.say((answer + "repetitions!") ?: "Something went wrong")
+        else
+            furhat.say((answer + "repetition!") ?: "Something went wrong")
 
         // Let the GUI know we're done speaking, to unlock buttons
         send(SPEECH_DONE)
@@ -265,14 +276,20 @@ fun setsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
                 { furhat.say("How many sets do you want to do?") }
         )
         send(SPEECH_DONE)
-        furhat.listen()
+        furhat.listen( 60000)
 
 
     }
 
     onResponse <SetsNumberIntent> {
         val sets = it.intent.number?.value
-        furhat.say("Ok then. Let's do $sets sets!")
+        if (sets != null) {
+            if (sets > 1)
+                furhat.say("Ok. Then let's do $sets sets!")
+            else
+                furhat.say("Ok. Then let's do $sets set!")
+        }
+
         arrayOfExercises[arrayOfExercises.size - 1].sets = sets
 
         // call to the gui
@@ -288,7 +305,10 @@ fun setsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
 
         // Get answer depending on what variable we changed and what the new value is, and speak it out
         val answer = setFieldData[variable]?.invoke(value)
-        furhat.say(answer ?: "Something went wrong")
+        if (value.toInt() > 1)
+            furhat.say((answer + "sets!") ?: "Something went wrong")
+        else
+            furhat.say((answer + "set!") ?: "Something went wrong")
 
         // Let the GUI know we're done speaking, to unlock buttons
         send(SPEECH_DONE)
@@ -298,7 +318,7 @@ fun setsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     }
 }
 
-fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = state(Interaction){
+fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = state(Interaction){// da cambiare succede casino
     onEntry{
         send(DataDelivery(buttons = listOf(), inputFields = restFieldData.keys.toList(), title =  "Select the rest time between two sets"))
         random(
@@ -307,28 +327,52 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
         )
 
         send(SPEECH_DONE)
-        furhat.listen()
+        furhat.listen( 60000)
 
     }
 
-    onResponse <RestIntent> {
+    onResponse <RestIntentSeconds> {
         val rest = it.intent.number?.value
-        furhat.say("Ok then. Let's do $rest seconds of rest!")
-        arrayOfExercises[arrayOfExercises.size - 1].restTime = rest
+        if (rest != null) {
+            if (rest > 1)
+                furhat.say("Ok. Then let's do $rest seconds of rest!")
+            else
+                furhat.say("Ok. Then let's do $rest second of rest!")
 
-        // call to the gui
+        }
+        arrayOfExercises[arrayOfExercises.size - 1].restTime = rest
 
         goto(somethingElseState(arrayOfExercises))
     }
 
-    onEvent(VARIABLE_SET) {
+    onResponse <RestIntentMinutes> {
+        val rest = it.intent.number?.value
+        if (rest != null) {
+            if (rest > 1)
+                furhat.say("Ok. Then let's do $rest minutes of rest!")
+            else
+                furhat.say("Ok. Then let's do $rest minute of rest!")
+
+        }
+        if (rest != null) {
+            arrayOfExercises[arrayOfExercises.size - 1].restTime = rest * 60
+        }
+
+        goto(somethingElseState(arrayOfExercises))
+    }
+
+    onEvent(VARIABLE_SET) { // da cambiare succede casino
         val data = it.get("data") as Record
         val variable = data.getString("variable")
         val value = data.getString("value")
 
         // Get answer depending on what variable we changed and what the new value is, and speak it out
         val answer = restFieldData[variable]?.invoke(value)
-        furhat.say(answer ?: "Something went wrong")
+        if (value.toInt() > 1)
+            furhat.say((answer + "seconds of rest!") ?: "Something went wrong")
+        else
+            furhat.say((answer + "second of rest!") ?: "Something went wrong")
+
 
         // Let the GUI know we're done speaking, to unlock buttons
         send(SPEECH_DONE)
@@ -460,7 +504,7 @@ fun setState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int, setCo
                     {arrayOfExercises[exCounter - 1].tips?.get(1)?.let { furhat.say(it/*, interruptable = true*/) }},
                     {arrayOfExercises[exCounter - 1].tips?.get(2)?.let { furhat.say(it/*, interruptable = true*/) }}
                     )
-            furhat.listen()
+            furhat.listen(1000000)
        }
 
     onResponse<FinishIntent>{

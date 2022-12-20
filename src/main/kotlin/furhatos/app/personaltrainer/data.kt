@@ -13,15 +13,15 @@ val nameFieldData = mutableMapOf<String, (String) -> String>(
 )
 
 val repFieldData = mutableMapOf<String, (String) -> String>(
-        "Reps" to { reps -> "Ok then. Let's do $reps repetitions!" }
+        "Reps" to { reps -> "Ok then. Let's do $reps" }
 )
 
 val setFieldData = mutableMapOf<String, (String) -> String>(
-        "Sets" to { sets -> "Ok then. Let's do $sets sets!" }
+        "Sets" to { sets -> "Ok then. Let's do $sets" }
 )
 
 val restFieldData = mutableMapOf<String, (String) -> String>(
-        "Rest" to { rest -> "Ok then. Let's do $rest seconds of rest!" }
+        "Rest" to { rest -> "Ok then. Let's do $rest" }
 )
 class SingleExercise(val name: String,
                      var reps: Int?,

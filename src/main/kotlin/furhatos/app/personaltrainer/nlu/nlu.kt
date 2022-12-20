@@ -59,9 +59,15 @@ class SetsNumberIntent(var number : Number ? = null ): Intent() {
 }
 
 
-class RestIntent(var number : Number ? = null): Intent() {
+class RestIntentSeconds(var number : Number ? = null): Intent() {
     override fun getExamples(lang: Language): List<String> {
-        return listOf("I want to do @number seconds rest", "I want to rest @number seconds", "I would like to do @number seconds rests", "I would like to do @number seconds rest", "@number", "@number seconds", "I would like to rest @number seconds")
+        return listOf("I want to do @number seconds rest", "I want to rest @number seconds", "I would like to do @number seconds rest", "@number", "@number seconds", "I would like to rest @number seconds")
+    }
+}
+
+class RestIntentMinutes(var number : Number ? = null): Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("I want to do @number minutes rest", "I want to rest @number minutes", "I would like to do @number minutes rest", "@number minutes", "I would like to rest @number minutes")
     }
 }
 
