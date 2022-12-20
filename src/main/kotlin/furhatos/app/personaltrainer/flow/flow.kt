@@ -233,10 +233,11 @@ fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     onResponse <RepsNumberIntent> {
         val reps = it.intent.number?.value
         if (reps != null) {
+            val answer = repFieldData["Reps"]?.invoke(reps.toString())
             if(reps > 1)
-                furhat.say("Ok. Then let's do $reps repetitions!")
+                furhat.say((answer + "repetitions!") ?: "Something went wrong")
             else
-                furhat.say("Ok. Then let's do $reps repetition!")
+                furhat.say((answer + "repetition!") ?: "Something went wrong")
         }
         arrayOfExercises[arrayOfExercises.size - 1].reps = reps
 
@@ -284,10 +285,11 @@ fun setsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     onResponse <SetsNumberIntent> {
         val sets = it.intent.number?.value
         if (sets != null) {
+            val answer = setFieldData["Sets"]?.invoke(sets.toString())
             if (sets > 1)
-                furhat.say("Ok. Then let's do $sets sets!")
+                furhat.say((answer + "sets!") ?: "Something went wrong")
             else
-                furhat.say("Ok. Then let's do $sets set!")
+                furhat.say((answer + "set!") ?: "Something went wrong")
         }
 
         arrayOfExercises[arrayOfExercises.size - 1].sets = sets
@@ -334,10 +336,11 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     onResponse <RestIntentSeconds> {
         val rest = it.intent.number?.value
         if (rest != null) {
+            val answer = restFieldData["Rest"]?.invoke(rest.toString())
             if (rest > 1)
-                furhat.say("Ok. Then let's do $rest seconds of rest!")
+                furhat.say((answer + "seconds of rest!") ?: "Something went wrong")
             else
-                furhat.say("Ok. Then let's do $rest second of rest!")
+                furhat.say((answer + "second of rest!") ?: "Something went wrong")
 
         }
         arrayOfExercises[arrayOfExercises.size - 1].restTime = rest
@@ -348,10 +351,11 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     onResponse <RestIntentMinutes> {
         val rest = it.intent.number?.value
         if (rest != null) {
+            val answer = restFieldData["Rest"]?.invoke(rest.toString())
             if (rest > 1)
-                furhat.say("Ok. Then let's do $rest minutes of rest!")
+                furhat.say((answer + "minutes of rest!") ?: "Something went wrong")
             else
-                furhat.say("Ok. Then let's do $rest minute of rest!")
+                furhat.say((answer + "minute of rest!") ?: "Something went wrong")
 
         }
         if (rest != null) {
