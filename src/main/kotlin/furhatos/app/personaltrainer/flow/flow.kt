@@ -584,16 +584,25 @@ fun exerciseState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int )
 
         furhat.say("You have to do ${arrayOfExercises[exerciseCounter - 1].sets} sets of ${arrayOfExercises[exerciseCounter - 1].reps} repetitions, with  ${arrayOfExercises[exerciseCounter - 1].restTime} seconds of rest in between.")
 
+        send(DataDelivery(buttons = listOf("Start"), inputFields = listOf(), title =  "When you are ready click 'START'"))
+
         furhat.ask("When you are ready, say start or click the button")
+        send(SPEECH_DONE)
     }
 
     onResponse<StartIntent> {
+        furhat.stopListening()
         goto (setState(arrayOfExercises, exCounter + 1, 0))
     }
 
 
     onEvent(CLICK_BUTTON){
-        //TODO
+        if(it.get("data") == "Start"){
+            furhat.stopListening()
+            goto (setState(arrayOfExercises, exCounter + 1, 0))
+        } else {
+            furhat.say("Wrong button, try again!")
+        }
     }
 }
 
@@ -601,9 +610,9 @@ fun exerciseState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int )
 fun setState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int, setCounter : Int): State = state(Interaction) {
 
     onEntry{
-            furhat.stopListening()
-            furhat.say("You can begin the ${ if(setCounter + 1 == 1 ) "first" else "next"} set, tell me when you did ${arrayOfExercises[exCounter - 1].reps} repetitions.")
-            random(
+        send(ExerciseDelivery(arrayOfExercises[exCounter - 1].name, arrayOfExercises[exCounter - 1].reps.toString(), arrayOfExercises[exCounter - 1].sets.toString(), arrayOfExercises[exCounter - 1].restTime.toString()))
+        furhat.say("You can begin the ${ if(setCounter + 1 == 1 ) "first" else "next"} set, tell me when you did ${arrayOfExercises[exCounter - 1].reps} repetitions.")
+        random(
                     {arrayOfExercises[exCounter - 1].tips?.get(0)?.let { furhat.say(it /*, interruptable = true*/) }},
                     {arrayOfExercises[exCounter - 1].tips?.get(1)?.let { furhat.say(it/*, interruptable = true*/) }},
                     {arrayOfExercises[exCounter - 1].tips?.get(2)?.let { furhat.say(it/*, interruptable = true*/) }}
@@ -627,6 +636,27 @@ fun setState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int, setCo
 
 
             goto(exerciseState(arrayOfExercises, exCounter))
+        }
+    }
+
+    onEvent(CLICK_BUTTON){
+        if(it.get("data") == "Done"){
+            send(RESTTIME_START)
+            furhat.say("Well done. The rest time of ${arrayOfExercises[exCounter - 1].restTime} seconds starts from now.")
+
+            //With this solution furhat sleep, and it is not responsive. This is a temporary solution that might be improved in the future
+            arrayOfExercises[exCounter - 1].restTime?.times(1000)?.let { it1 -> Thread.sleep(it1.toLong()) }
+            send(RESTTIME_STOP)
+            //DEBUG:
+            //print("end of ${arrayOfExercises[exCounter - 1].restTime} seconds of rest for the ${arrayOfExercises[exCounter - 1].name} exercise")
+
+            if (setCounter + 1 < arrayOfExercises[exCounter -1 ].sets!!) {
+                goto(setState(arrayOfExercises, exCounter, setCounter + 1))
+            } else if (setCounter + 1 == arrayOfExercises[exCounter - 1 ].sets!!){
+                goto(exerciseState(arrayOfExercises, exCounter))
+            }
+        } else {
+            furhat.say("Wrong button, try again!")
         }
     }
 

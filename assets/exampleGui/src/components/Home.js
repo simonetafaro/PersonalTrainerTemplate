@@ -5,6 +5,7 @@ import Input from './Input'
 import SpeakingLoader from './SpeakingLoader'
 import TrainingTypes from './TrainingTypes'
 import ExercisesList from './ExercisesList'
+import ShowExercise from './ShowExercise'
 
 let CompToRender;
 
@@ -18,10 +19,12 @@ class Home extends Component {
             "buttons": [],
             "inputFields": [],
             "title": "",
-            "exerciseName": "",
-            "gifName": "",
-            "reps": "",
-            "type": ""
+            "exercise": {
+                "name": "",
+                "reps": "",
+                "sets": "",
+                "rest": ""
+            }
         }
         this.furhat = furhat
     }
@@ -43,7 +46,6 @@ class Home extends Component {
                                 <Button className="button-17" key={label} label={label} onClick={this.clickButton} speaking={this.state.speaking} />
                             )}
                         </Col>
-
                     </Row>;
             } else {
                 CompToRender =
@@ -61,21 +63,56 @@ class Home extends Component {
                 buttons: data.buttons,
                 inputFields: data.inputFields,
                 title: data.title,
-                speaking: data.speaking
+                speaking: data.speaking,
+                exercise: {
+                    name: "",
+                    reps: "",
+                    sets: "",
+                    rest: ""
+                }
             });
 
         })
 
         this.furhat.subscribe('furhatos.app.personaltrainer.ExerciseDelivery', (data) => {
+
+            CompToRender = <ShowExercise exerciseName={
+                data.exerciseName}
+                reps={data.reps}
+                rest={data.rest}
+                sets={data.sets}
+                doing={true}
+                clickButton={this.sendInputButton} />
+
             this.setState({
                 ...this.state,
                 buttons: [],
                 inputFields: [],
-                exerciseName: data.exerciseName,
-                gifName: data.gifName,
-                reps: data.reps
+                speaking: true,
+                exercise: {
+                    name: data.exerciseName,
+                    reps: data.reps,
+                    rest: data.rest,
+                    sets: data.sets
+                }
             })
         })
+
+        this.furhat.subscribe('furhatos.app.personaltrainer.ExerciseRestTime', (data) => {
+
+            CompToRender = <ShowExercise exerciseName={
+                data.exerciseName}
+                reps={data.reps}
+                rest={data.rest}
+                sets={data.sets}
+                doing={true}
+                clickButton={this.sendInputButton} />
+            this.setState({
+                ...this.state
+            })
+        })
+
+
 
         this.furhat.subscribe('furhatos.app.personaltrainer.PickOne', (data) => {
 
@@ -99,6 +136,32 @@ class Home extends Component {
                 speaking: false
             })
         })
+
+        this.furhat.subscribe('TimeToRest', () => {
+            CompToRender = <ShowExercise exerciseName={
+                this.state.exercise.name}
+                reps={this.state.exercise.reps}
+                rest={this.state.exercise.rest}
+                sets={this.state.exercise.sets}
+                clickButton={this.sendInputButton}
+                doing={false} />
+            this.setState({
+                ...this.state
+            })
+        })
+
+        this.furhat.subscribe('TimeToRestart', () => {
+            CompToRender = <ShowExercise exerciseName={
+                this.state.exercise.name}
+                reps={this.state.exercise.reps}
+                rest={this.state.exercise.rest}
+                sets={this.state.exercise.sets}
+                clickButton={this.sendInputButton}
+                doing={true} />
+            this.setState({
+                ...this.state
+            })
+        })
     }
 
     componentDidMount() {
@@ -113,6 +176,14 @@ class Home extends Component {
             speaking: true
         })
         CompToRender = <SpeakingLoader />
+
+        this.furhat.send({
+            event_name: "ClickButton",
+            data: button
+        })
+    }
+
+    sendInputButton = (button) => {
 
         this.furhat.send({
             event_name: "ClickButton",

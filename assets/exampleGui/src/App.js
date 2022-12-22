@@ -7,6 +7,7 @@ import FurhatGUI from 'furhat-gui'
 import Loader from './components/Loader'
 import { Grid, Row, Col } from 'react-bootstrap'
 import ExercisesList from './components/ExercisesList'
+import ShowExercise from './components/ShowExercise'
 class App extends Component {
 
   constructor(props) {
@@ -81,6 +82,7 @@ function NoSkillConnection() {
     <Row>
       <Loader />
     </Row>
+
     <Row>
       <h2>Waiting for Skill ...</h2>
     </Row>

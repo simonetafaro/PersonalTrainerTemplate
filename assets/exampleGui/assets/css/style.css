@@ -49,6 +49,11 @@ h5 {
   font-weight: 300;
 }
 
+.buttonContainer {
+  justify-content: center;
+  display: flex;
+}
+
 .button {
   height: 50px;
   width: 200px;
