@@ -11,12 +11,10 @@ import furhatos.skills.HostedGUI
 import furhatos.records.Location
 
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import furhatos.flow.kotlin.voice.PollyNeuralVoice
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
-import java.util.*
 import kotlin.collections.ArrayList
 
 // Our GUI declaration
@@ -453,7 +451,48 @@ fun somethingElseState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
 
 fun predefinedBranch(predefined: PredefinedTraining) : State = state (Interaction){
     onEntry{
+        furhat.stopListening()
         furhat.say("You selected ${predefined.text}")
+        send(SPEECH_DONE)
+        send(DataDelivery(title = "Select the workout that you want to perform in this session", buttons = workouts, inputFields = listOf()));
+
+        //furhat.ask("Which difficulty level do you want to train at?",  60000) //check sentence
+        furhat.ask("Please select the workout that you want to perform in this session",  60000)
+
+    }
+
+
+    onResponse<UpperBodyIntent> {
+        val selectedWorkout = WorkoutsEnum.UPPERBODY
+        goto(difficultySelectionState(selectedWorkout))
+
+    }
+
+    onResponse<LowerBodyIntent> {
+        val selectedWorkout = WorkoutsEnum.LOWERBODY
+        goto(difficultySelectionState(selectedWorkout))
+    }
+
+    onEvent(CLICK_BUTTON) {
+        val workoutName = it.get("data") as String;
+        // Directly respond with the value we get from the event, with a fallback
+        furhat.say("Great, you want to do a ${workoutName ?: "something I'm not aware of" }")
+
+        // Let the GUI know we're done speaking, to unlock buttons
+        send(SPEECH_DONE)
+
+        when (workoutName) {
+            "Lower body" -> {
+                val selectedWorkout = WorkoutsEnum.LOWERBODY
+                goto(difficultySelectionState(selectedWorkout))
+            }
+            "Upper body" -> {
+                val selectedWorkout = WorkoutsEnum.UPPERBODY
+                goto(difficultySelectionState(selectedWorkout))
+            }
+            else -> furhat.say("Something happen in workout selection")
+        }
+
     }
 
 
@@ -470,6 +509,67 @@ fun predefinedBranch(predefined: PredefinedTraining) : State = state (Interactio
 
     }*/
 }
+
+fun difficultySelectionState(workout: WorkoutsEnum) : State = state (Interaction){
+
+    onEntry{
+        furhat.stopListening()
+        send(DataDelivery(title = "Select the difficulty that you want to train at", buttons = difficulties, inputFields = listOf()));
+
+        furhat.ask("Which difficulty level do you want to train at?",  60000) //check sentence
+
+        send(SPEECH_DONE)
+    }
+
+    onResponse<EasyIntent> {
+        val selectedDifficulty = DifficultiesEnum.EASY
+       //create arraylist of the workout
+        //goto workoutrecap state
+    }
+
+    onResponse<IntermediateIntent> {
+        val selectedDifficulty = DifficultiesEnum.INTERMEDIATE
+        //create arraylist of the workout
+        //goto workoutrecap state
+    }
+
+    onResponse<HardIntent> {
+        val selectedDifficulty = DifficultiesEnum.HARD
+        //create arraylist of the workout
+        //goto workoutrecap state
+    }
+
+    onEvent(CLICK_BUTTON) {
+        val diffculty = it.get("data") as String;
+        // Directly respond with the value we get from the event, with a fallback
+        //furhat.say("Great, you want to do a ${workoutName ?: "something I'm not aware of" }")
+
+        // Let the GUI know we're done speaking, to unlock buttons
+        send(SPEECH_DONE)
+
+        when (diffculty) {
+            "Easy" -> {
+                val selectedDifficulty = DifficultiesEnum.EASY
+            }
+            "Intermediate" -> {
+                val selectedDifficulty = DifficultiesEnum.INTERMEDIATE
+            }
+            "Hard" -> {
+                val selectedDifficulty = DifficultiesEnum.HARD
+            }
+            else -> furhat.say("Something happen in workout selection")
+        }
+
+        //create arraylist of the workout
+        //goto workoutRecap state
+    }
+
+
+}
+
+fun workoutRecapState(arrayOfExercises: ArrayList<SingleExercise>) : State = state (Interaction){}
+
+
 
 fun exerciseState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int ): State = state(Interaction){
     onEntry {

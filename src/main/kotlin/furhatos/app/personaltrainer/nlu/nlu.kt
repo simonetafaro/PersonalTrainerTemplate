@@ -81,7 +81,36 @@ class FinishIntent(): Intent() {
     override fun getExamples(lang: Language): List<String> {
         return listOf("done", "finish", "completed", "I'm done", "I've finished")
     }
-
 }
 
+class UpperBodyIntent(): Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("upper body", "I would like to train the upper body", "arms", "chest", "shoulder", "core", "back")
+    }
+}
+
+class LowerBodyIntent(): Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("lower body", "I would like to train the lower body", "legs")
+    }
+}
+
+class EasyIntent(): Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("easy", "I'm a beginner", "easy level", "easy difficulty")
+    }
+}
+
+class IntermediateIntent(): Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("intermediate", "I'm not a beginner nor an expert ", "medium", "medium level", "intermediate level", "medium difficulty", "intermediate difficulty")
+    }
+}
+
+
+class HardIntent(): Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("hard", "I'm an expert ", "hard level", "hard difficulty")
+    }
+}
 

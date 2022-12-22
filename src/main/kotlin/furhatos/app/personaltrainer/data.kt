@@ -4,6 +4,10 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 val options = listOf("Yes", "No")
+
+val workouts = listOf("Upper body", "Lower body")
+
+val difficulties = listOf("Easy", "Intermediate", "Hard")
 /*
  Input fields, each with a answer to be spoken. The answer is defined as a lambda
  function
@@ -23,6 +27,14 @@ val setFieldData = mutableMapOf<String, (String) -> String>(
 val restFieldData = mutableMapOf<String, (String) -> String>(
         "Rest" to { rest -> "Ok, then let's do $rest" }
 )
+
+enum class WorkoutsEnum{
+    UPPERBODY, LOWERBODY
+}
+
+enum class DifficultiesEnum{
+    EASY, INTERMEDIATE, HARD
+}
 class SingleExercise(val name: String,
                      var reps: Int?,
                      var sets: Int?,
