@@ -8,6 +8,10 @@ import furhatos.event.Event
 val PORT = 1234 // GUI Port
 val SPEECH_DONE = "SpeechDone"
 
+
+val RESTTIME_START = "TimeToRest"
+val RESTTIME_STOP = "TimeToRestart"
+
 // Event used to pass data to GUI
 class DataDelivery(
         val title: String,
@@ -15,10 +19,16 @@ class DataDelivery(
         val inputFields: List<String>
 ) : Event()
 
+class PickOne(
+        val title: String,
+        val type : String
+) : Event()
+
 class ExerciseDelivery(
         val exerciseName : String,
-        val gifName: String,
-        val reps: String
+        val reps: String,
+        val sets: String,
+        val rest: String
 ) : Event()
 
 class WorkoutDelivery(

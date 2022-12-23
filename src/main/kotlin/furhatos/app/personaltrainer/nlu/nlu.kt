@@ -59,9 +59,15 @@ class SetsNumberIntent(var number : Number ? = null ): Intent() {
 }
 
 
-class RestIntent(var number : Number ? = null): Intent() {
+class RestIntentSeconds(var number : Number ? = null): Intent() {
     override fun getExamples(lang: Language): List<String> {
-        return listOf("I want to do @number seconds rest", "I want to rest @number seconds", "I would like to do @number seconds rests", "I would like to do @number seconds rest", "@number", "@number seconds", "I would like to rest @number seconds")
+        return listOf("I want to do @number seconds rest", "I want to rest @number seconds", "I would like to do @number seconds rest", "@number", "@number seconds", "I would like to rest @number seconds")
+    }
+}
+
+class RestIntentMinutes(var number : Number ? = null): Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("I want to do @number minutes rest", "I want to rest @number minutes", "I would like to do @number minutes rest", "@number minutes", "I would like to rest @number minutes")
     }
 }
 
@@ -75,7 +81,36 @@ class FinishIntent(): Intent() {
     override fun getExamples(lang: Language): List<String> {
         return listOf("done", "finish", "completed", "I'm done", "I've finished")
     }
-
 }
 
+class UpperBodyIntent(): Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("upper body", "I would like to train the upper body", "arms", "chest", "shoulder", "core", "back")
+    }
+}
+
+class LowerBodyIntent(): Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("lower body", "I would like to train the lower body", "legs")
+    }
+}
+
+class EasyIntent(): Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("easy", "I'm a beginner", "easy level", "easy difficulty")
+    }
+}
+
+class IntermediateIntent(): Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("intermediate", "I'm not a beginner nor an expert ", "medium", "medium level", "intermediate level", "medium difficulty", "intermediate difficulty")
+    }
+}
+
+
+class HardIntent(): Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("hard", "I'm an expert ", "hard level", "hard difficulty")
+    }
+}
 

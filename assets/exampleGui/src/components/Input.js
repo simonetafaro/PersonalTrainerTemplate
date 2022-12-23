@@ -52,6 +52,7 @@ class Input extends Component {
             <ControlLabel>{label}</ControlLabel>
             <FormControl
               type="text"
+              className="input-box"
               value={this.state.value}
               placeholder="Enter text"
               onChange={this.handleChange}
@@ -59,13 +60,16 @@ class Input extends Component {
             />
           </FormGroup>
         </form>
-        <BootstrapButton
-          onClick={this.handleClick}
-          disabled={!this.isAllowedSubmit()}
-          block
-        >
-          Send
-        </BootstrapButton>
+        <div className="button-container">
+          <BootstrapButton
+            className={`input-button`}
+            onClick={this.handleClick}
+            disabled={!this.isAllowedSubmit()}
+            block
+          >
+            Send
+          </BootstrapButton>
+        </div>
       </div>
     )
   }

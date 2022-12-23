@@ -1,4 +1,3 @@
-
 import Navbar from 'react-bootstrap/lib/Navbar';
 import Nav from 'react-bootstrap/lib/Nav'
 import NavItem from 'react-bootstrap/lib/NavItem'
@@ -9,7 +8,11 @@ export default function Header() {
     return <Navbar>
         <Navbar.Header>
             <Navbar.Brand>
-                <a href="/">Furhat Personal Trainer Platform</a>
+                <img
+                    style={{ maxWidth: "170px", height: "80%" }}
+                    src="./assets/img/Furhat_logo_wide_black.png"
+                />
+
             </Navbar.Brand>
         </Navbar.Header>
         <Nav>
