@@ -1,13 +1,10 @@
 package furhatos.app.personaltrainer
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
-
 val options = listOf("Yes", "No")
 
-val workouts = listOf("Upper body", "Lower body")
+val workouts = listOf("Upper body", "Lower body", "Full body")
 
-val difficulties = listOf("Easy", "Intermediate", "Hard")
+val difficulties = listOf("Beginner", "Intermediate", "Advanced")
 /*
  Input fields, each with a answer to be spoken. The answer is defined as a lambda
  function
@@ -29,17 +26,17 @@ val restFieldData = mutableMapOf<String, (String) -> String>(
 )
 
 enum class WorkoutsEnum{
-    UPPERBODY, LOWERBODY
+    UPPERBODY, LOWERBODY, FULLBODY
 }
 
 enum class DifficultiesEnum{
-    EASY, INTERMEDIATE, HARD
+    BEGINNER, INTERMEDIATE, ADVANCED
 }
 class SingleExercise(val name: String,
                      var reps: Int?,
                      var sets: Int?,
                      var restTime: Int?,
-                     var tips: Array<String>? = null) {
+                     var tips: Array<String>?) {
     override fun toString(): String {
         var temp = "No tips"
         if( tips != null ) {
@@ -60,10 +57,12 @@ class SingleExerciseParser(val name: String,
     override fun toString(): String {
         var stringTips = ""
         for(el in tips) stringTips += "$el "
-        return "Exercise: $name, Tips: $stringTips"
+        return "Exercise: $name, Tips: $stringTips,  Reps: $reps, Sets: $sets, Rest: $rest_time, "
     }
 }
 
+class WorkoutParser(val name: Map<String, ArrayList<String>>)
+{}
 
 /*fun test (exercise: SingleExercise){
     print(exercise.name)

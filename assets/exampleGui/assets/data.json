@@ -18,7 +18,7 @@
             "name": "jumping jacks",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 10, "beginner": 5, "advanced": 20 },
-            "rest-time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
             "muscle group": "core, shoulders, legs",
             "equipment": "none",
             "gif": "https://media3.giphy.com/media/4Hx33hvGMdeyK016mT/giphy.gif?cid=ecf05e47d02fd41dbdcac036454091ef659e5ad42fd205eb&rid=giphy.gif",
@@ -144,7 +144,7 @@
             "name": "high knees",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 20, "beginner": 10, "advanced": 40 },
-            "rest-time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
             "muscle group": "core, legs",
             "equipment": "none",
             "gif": "https://media0.giphy.com/media/62aGqZoUJYtPsl0Hb0/giphy.gif?cid=ecf05e47lmijhi66jfkg893mj53eysza82559v4it7sqk2of&rid=giphy.gif",
@@ -158,7 +158,7 @@
             "name": "mountain climbers",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 10, "beginner": 5, "advanced": 15 },
-            "rest-time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
             "muscle group": "core",
             "equipment": "none",
             "gif": "https://media3.giphy.com/media/iD7UrloaBlLB3ygIha/giphy.gif?cid=ecf05e47z2qfe9q6ww9t73h87iz429a55fqj0n7y6tmqwtks&rid=giphy.gif",
@@ -172,7 +172,7 @@
             "name": "lower back raises",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 10, "beginner": 5, "advanced": 15 },
-            "rest-time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
             "muscle group": "shoulders, back",
             "equipment": "none",
             "gif": "https://media0.giphy.com/media/VPByqa8IPNAZm26neB/giphy.gif?cid=ecf05e470ipaa2t7g1ob7pgl408yibkwo50ftdxnkuivwyyj&rid=giphy.gif&ct=g",
@@ -200,7 +200,7 @@
             "name": "leg raises",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 10, "beginner": 5, "advanced": 15 },
-            "rest-time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
             "muscle group": "core",
             "equipment": "dumbbell, resistant band, other weight object",
             "gif": "https://media3.giphy.com/media/mVpOJcNBGPwzlfkTxJ/giphy.gif?cid=790b76119c91fdc40ac72982af1675d4fb996e0e7bb213e3&rid=giphy.gif&ct=g",
@@ -213,15 +213,18 @@
     ],
     "workouts": [
         {
-            "upper body": [
+           "name": {
+               "upper body": [
                 "regular push-ups",
                 "tricep push-ups",
                 "tricep dips",
                 "biceps curls",
                 "lower back raises"
-            ]
+                ]
+            }
         },
         {
+            "name": {
             "lower body": [
                 "squats",
                 "lungee",
@@ -229,15 +232,18 @@
                 "leg raises",
                 "superman"
             ]
-        },
+        }
+    },
         {
-            "full body": [
-                "squats",
-                "burpee",
-                "jumping jacks",
-                "mountain climbers",
-                "knee to elbow plank"
-            ]
+            "name": {
+                "full body": [
+                    "squats",
+                    "burpee",
+                    "jumping jacks",
+                    "mountain climbers",
+                    "knee to elbow plank"
+                ]
+            }
         }
     ]
 }

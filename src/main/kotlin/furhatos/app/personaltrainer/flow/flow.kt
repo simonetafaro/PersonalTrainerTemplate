@@ -147,13 +147,6 @@ val ExerciseVSWorkout: State = state(Interaction){
 
     }
 
-
-
-    /*onResponse { // Catches everything else
-        furhat.say("I didn't understand that")
-        reentry()
-    }*/
-
 }
 
 fun customizedBranch(customized: CustomizedTraining?, arrayOfExercises: ArrayList<SingleExercise>) : State = state (Interaction){
@@ -185,7 +178,7 @@ fun customizedBranch(customized: CustomizedTraining?, arrayOfExercises: ArrayLis
         furhat.say("${exerciseName}? Right?")
         //send(ExerciseDelivery(exerciseName = exerciseName.toString(), gifName = "", reps = ""  ))
 
-        val firstEx = SingleExercise(exerciseName.toString(), null, null, null)
+        val firstEx = SingleExercise(exerciseName.toString(), null, null, null, null)
         arrayOfExercises.add(firstEx)
 
         goto(repsSelectionState(arrayOfExercises))
@@ -205,7 +198,7 @@ fun customizedBranch(customized: CustomizedTraining?, arrayOfExercises: ArrayLis
 
         //Here we add the next exercise to the ArrayList of exercises (only with the name)
         //reps, sets and restTime will be set in the next states.
-        var firstEx = SingleExercise(exerciseName.toString(), null, null, null)
+        var firstEx = SingleExercise(exerciseName.toString(), null, null, null, null)
         arrayOfExercises.add(firstEx)
 
         goto(repsSelectionState(arrayOfExercises))
@@ -277,7 +270,6 @@ fun setsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
         send(SPEECH_DONE)
         furhat.listen( 60000)
 
-
     }
 
     onResponse <SetsNumberIntent> {
@@ -318,7 +310,7 @@ fun setsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     }
 }
 
-fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = state(Interaction){// da cambiare succede casino
+fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = state(Interaction){
     onEntry{
         send(DataDelivery(buttons = listOf(), inputFields = restFieldData.keys.toList(), title =  "Select the rest time between two sets"))
         random(
@@ -406,16 +398,7 @@ fun somethingElseState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
 
     onResponse<No> {
         //get the tips for the chosen exercises
-        val listFromJson = returnListFromJson()
-
-        for (ex in arrayOfExercises){
-
-            if( listFromJson != null)
-            for (el in listFromJson){
-                if(ex.name == el.name)
-                    ex.tips = el.tips
-            }
-        }
+        setTips(arrayOfExercises)
 
         furhat.say("Let's start with the workout then!")
 
@@ -429,16 +412,7 @@ fun somethingElseState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
             furhat.say("Feel energetic, uh?")
             goto(customizedBranch(null, arrayOfExercises))
         } else {
-            val listFromJson = returnListFromJson()
-
-            for (ex in arrayOfExercises){
-
-                if( listFromJson != null)
-                    for (el in listFromJson){
-                        if(ex.name == el.name)
-                            ex.tips = el.tips
-                    }
-            }
+            setTips(arrayOfExercises)
 
             furhat.say("Let's start with the workout then!")
 
@@ -461,7 +435,6 @@ fun predefinedBranch(predefined: PredefinedTraining) : State = state (Interactio
 
     }
 
-
     onResponse<UpperBodyIntent> {
         val selectedWorkout = WorkoutsEnum.UPPERBODY
         goto(difficultySelectionState(selectedWorkout))
@@ -470,6 +443,11 @@ fun predefinedBranch(predefined: PredefinedTraining) : State = state (Interactio
 
     onResponse<LowerBodyIntent> {
         val selectedWorkout = WorkoutsEnum.LOWERBODY
+        goto(difficultySelectionState(selectedWorkout))
+    }
+
+    onResponse<FullBodyIntent> {
+        val selectedWorkout = WorkoutsEnum.FULLBODY
         goto(difficultySelectionState(selectedWorkout))
     }
 
@@ -482,12 +460,16 @@ fun predefinedBranch(predefined: PredefinedTraining) : State = state (Interactio
         send(SPEECH_DONE)
 
         when (workoutName) {
-            "Lower body" -> {
+            workouts[0] -> {
                 val selectedWorkout = WorkoutsEnum.LOWERBODY
                 goto(difficultySelectionState(selectedWorkout))
             }
-            "Upper body" -> {
+            workouts[1] -> {
                 val selectedWorkout = WorkoutsEnum.UPPERBODY
+                goto(difficultySelectionState(selectedWorkout))
+            }
+            workouts[2] -> {
+                val selectedWorkout = WorkoutsEnum.FULLBODY
                 goto(difficultySelectionState(selectedWorkout))
             }
             else -> furhat.say("Something happen in workout selection")
@@ -510,7 +492,7 @@ fun predefinedBranch(predefined: PredefinedTraining) : State = state (Interactio
     }*/
 }
 
-fun difficultySelectionState(workout: WorkoutsEnum) : State = state (Interaction){
+fun difficultySelectionState(selectedWorkout: WorkoutsEnum) : State = state (Interaction){
 
     onEntry{
         furhat.stopListening()
@@ -521,46 +503,55 @@ fun difficultySelectionState(workout: WorkoutsEnum) : State = state (Interaction
         send(SPEECH_DONE)
     }
 
-    onResponse<EasyIntent> {
-        val selectedDifficulty = DifficultiesEnum.EASY
-       //create arraylist of the workout
+    onResponse<BeginnerIntent> {
+        val selectedDifficulty = DifficultiesEnum.BEGINNER
+        val exercises = createExercisesList(selectedWorkout, selectedDifficulty)
+
+
+       goto(exerciseState(exercises,0))
         //goto workoutrecap state
     }
 
     onResponse<IntermediateIntent> {
         val selectedDifficulty = DifficultiesEnum.INTERMEDIATE
-        //create arraylist of the workout
+        val exercises = createExercisesList(selectedWorkout, selectedDifficulty)
+
+        goto(exerciseState(exercises,0))
         //goto workoutrecap state
     }
 
-    onResponse<HardIntent> {
-        val selectedDifficulty = DifficultiesEnum.HARD
-        //create arraylist of the workout
+    onResponse<AdvancedIntent> {
+        val selectedDifficulty = DifficultiesEnum.ADVANCED
+        val exercises = createExercisesList(selectedWorkout, selectedDifficulty)
+
+        goto(exerciseState(exercises,0))
         //goto workoutrecap state
     }
 
     onEvent(CLICK_BUTTON) {
-        val diffculty = it.get("data") as String;
+        val difficulty = it.get("data") as String;
+        var selectedDifficulty : DifficultiesEnum? = null
         // Directly respond with the value we get from the event, with a fallback
         //furhat.say("Great, you want to do a ${workoutName ?: "something I'm not aware of" }")
 
         // Let the GUI know we're done speaking, to unlock buttons
         send(SPEECH_DONE)
 
-        when (diffculty) {
-            "Easy" -> {
-                val selectedDifficulty = DifficultiesEnum.EASY
+        when (difficulty) {
+            difficulties[0] -> {
+                selectedDifficulty = DifficultiesEnum.BEGINNER
             }
-            "Intermediate" -> {
-                val selectedDifficulty = DifficultiesEnum.INTERMEDIATE
+            difficulties[1] -> {
+                selectedDifficulty = DifficultiesEnum.INTERMEDIATE
             }
-            "Hard" -> {
-                val selectedDifficulty = DifficultiesEnum.HARD
+            difficulties[2] -> {
+                selectedDifficulty = DifficultiesEnum.ADVANCED
             }
             else -> furhat.say("Something happen in workout selection")
         }
 
-        //create arraylist of the workout
+        val exercises = selectedDifficulty?.let { it1 -> createExercisesList(selectedWorkout, it1) }
+        exercises?.let { it1 -> exerciseState(it1,0) }?.let { it2 -> goto(it2) }
         //goto workoutRecap state
     }
 
@@ -613,6 +604,7 @@ fun setState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int, setCo
         send(ExerciseDelivery(arrayOfExercises[exCounter - 1].name, arrayOfExercises[exCounter - 1].reps.toString(), arrayOfExercises[exCounter - 1].sets.toString(), arrayOfExercises[exCounter - 1].restTime.toString()))
         furhat.say("You can begin the ${ if(setCounter + 1 == 1 ) "first" else "next"} set, tell me when you did ${arrayOfExercises[exCounter - 1].reps} repetitions.")
         random(
+                //change tone of furhat
                     {arrayOfExercises[exCounter - 1].tips?.get(0)?.let { furhat.say(it /*, interruptable = true*/) }},
                     {arrayOfExercises[exCounter - 1].tips?.get(1)?.let { furhat.say(it/*, interruptable = true*/) }},
                     {arrayOfExercises[exCounter - 1].tips?.get(2)?.let { furhat.say(it/*, interruptable = true*/) }}
@@ -641,9 +633,10 @@ fun setState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int, setCo
 
     onEvent(CLICK_BUTTON){
         if(it.get("data") == "Done"){
-            send(RESTTIME_START)
-            furhat.say("Well done. The rest time of ${arrayOfExercises[exCounter - 1].restTime} seconds starts from now.")
+            furhat.stopSpeaking()
 
+            furhat.say("Well done. The rest time of ${arrayOfExercises[exCounter - 1].restTime} seconds starts from now.")
+            send(RESTTIME_START)
             //With this solution furhat sleep, and it is not responsive. This is a temporary solution that might be improved in the future
             arrayOfExercises[exCounter - 1].restTime?.times(1000)?.let { it1 -> Thread.sleep(it1.toLong()) }
             send(RESTTIME_STOP)
@@ -674,7 +667,7 @@ fun endState(arrayOfExercises: ArrayList<SingleExercise>) : State = state(Intera
 
 
 
-fun returnListFromJson(): ArrayList<SingleExerciseParser>? {
+fun returnExerciseListFromJson(): ArrayList<SingleExerciseParser>? {
 
     val jsonString: String = File("./assets/exampleGui/assets/data.json").readText(Charsets.UTF_8)
 
@@ -692,4 +685,50 @@ fun returnListFromJson(): ArrayList<SingleExerciseParser>? {
      }*/
 
     return availableExercise
+}
+
+fun workoutListFromJson(): ArrayList<WorkoutParser> {
+
+    val jsonString: String = File("./assets/exampleGui/assets/data.json").readText(Charsets.UTF_8)
+    val workoutsJSONArray = JSONArray(JSONObject(jsonString)["workouts"].toString())
+    val availableWorkouts = arrayListOf<WorkoutParser>()
+    for (i in 0 until workoutsJSONArray.length()) {
+        val workout = workoutsJSONArray.getJSONObject(i)
+        var currWorkout = Gson().fromJson(workout.toString(), WorkoutParser::class.java)
+        availableWorkouts.add(currWorkout)
+    }
+    return availableWorkouts
+}
+
+fun setTips(arrayOfExercises: ArrayList<SingleExercise>) {
+    val listFromJson = returnExerciseListFromJson()
+    for (ex in arrayOfExercises){
+
+        if( listFromJson != null)
+            for (el in listFromJson){
+                if(ex.name == el.name)
+                    ex.tips = el.tips
+            }
+    }
+}
+
+fun createExercisesList(selectedWorkout: WorkoutsEnum, selectedDifficulty: DifficultiesEnum): ArrayList<SingleExercise> {
+    val toReturn = ArrayList<SingleExercise>()
+    val workouts = workoutListFromJson()
+    for (workout in workouts) {
+        if (workout.name.keys.toList()[0].toUpperCase().replace(" ","") == selectedWorkout.toString()){
+            val exercises = returnExerciseListFromJson()
+            if (exercises != null) {
+                for (exercise in exercises){
+                    for (workoutExercise in workout.name.values.toList()[0])
+                        if (exercise.name == workoutExercise){
+                            val temp = SingleExercise(exercise.name, exercise.reps.getValue(selectedDifficulty.toString().toLowerCase()), exercise.sets.getValue(selectedDifficulty.toString().toLowerCase()), exercise.rest_time.getValue(selectedDifficulty.toString().toLowerCase()), exercise.tips)
+                            toReturn.add(temp)
+                        }
+                }
+            }
+            break
+        }
+    }
+    return toReturn
 }
