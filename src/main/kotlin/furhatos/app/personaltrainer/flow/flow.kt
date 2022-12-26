@@ -47,9 +47,12 @@ val NoGUI: State = state(null) {
 val GUIConnected : State = state {
     onEntry {
         // Pass data to GUI
-        send(DataDelivery(buttons = listOf(), inputFields = nameFieldData.keys.toList(), title =  "Insert your name to start"))
+        send(DataDelivery(buttons = listOf(), inputFields = nameFieldData.keys.toList(), title =  "Insert your name to start", inputType = "text", inputLabel = "Enter your name"))
     }
 
+    onUserEnter {
+        goto(Greeting)
+    }
     // Users clicked any of our buttons
     onEvent(CLICK_BUTTON) {
         // Directly respond with the value we get from the event, with a fallback
@@ -87,6 +90,7 @@ val Greeting : State = state(Interaction){
                 {   furhat.say("Hi there") },
                 {   furhat.say("Oh, hello there") }
         )
+        send(SPEECH_DONE)
         goto(ExerciseVSWorkout)
     }
 }
@@ -98,10 +102,11 @@ val ExerciseVSWorkout: State = state(Interaction){
         val howto = "Say it to me or click the button."
         furhat.stopListening()
         random(
-                {   furhat.ask("Do you want a predefined workout or select the single exercises?. $howto", 60000) },
-                {   furhat.ask("Do you want to choose individual exercises or a pre-planned workout? $howto",  60000) }
+                {   furhat.say("Do you want a predefined workout or select the single exercises?. $howto") },
+                {   furhat.say("Do you want to choose individual exercises or a pre-planned workout? $howto") }
         )
         send(SPEECH_DONE)
+        furhat.listen(60000)
     }
 
 
@@ -109,6 +114,7 @@ val ExerciseVSWorkout: State = state(Interaction){
         // Directly respond with the value we get from the event, with a fallback
         //furhat.say("You want to do a ${it.get("data") ?: "something I'm not aware of" }")
         furhat.stopSpeaking()
+        furhat.stopListening()
         if(it.get("data") == "Exercise"){
             var customized =  CustomizedTraining();
             customized.text = "Single exercise"
@@ -123,6 +129,8 @@ val ExerciseVSWorkout: State = state(Interaction){
     }
 
     onResponse<Customized>{
+
+        furhat.stopListening()
         val selectedType = it.intent.customized
         if (selectedType != null) {
 
@@ -135,6 +143,8 @@ val ExerciseVSWorkout: State = state(Interaction){
     }
 
    onResponse<Predefined>{
+
+        furhat.stopListening()
         val selectedType = it.intent.predefined
 
         if (selectedType != null) {
@@ -208,7 +218,7 @@ fun customizedBranch(customized: CustomizedTraining?, arrayOfExercises: ArrayLis
 fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = state(Interaction){
     onEntry{
 
-        send(DataDelivery(buttons = listOf(), inputFields = repFieldData.keys.toList(), title =  "Select the number of repetitions you want to perform during each set"))
+        send(DataDelivery(buttons = listOf(), inputFields = repFieldData.keys.toList(), title =  "Select the number of repetitions you want to perform during each set", inputType = "number", inputLabel = "Enter number of reps"))
 
 
         furhat.stopListening()
@@ -222,6 +232,7 @@ fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     }
 
     onResponse <RepsNumberIntent> {
+        send(SPEECH_INPROGRESS)
         val reps = it.intent.number?.value
         if (reps != null) {
             val answer = repFieldData["Reps"]?.invoke(reps.toString())
@@ -260,7 +271,7 @@ fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
 
 fun setsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = state(Interaction){
     onEntry{
-        send(DataDelivery(buttons = listOf(), inputFields = setFieldData.keys.toList(), title =  "Select the number of sets you want to perform"))
+        send(DataDelivery(buttons = listOf(), inputFields = setFieldData.keys.toList(), title =  "Select the number of sets you want to perform", inputType = "number", inputLabel = "Enter number of sets"))
 
         furhat.stopListening()
         random(
@@ -273,6 +284,7 @@ fun setsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     }
 
     onResponse <SetsNumberIntent> {
+        send(SPEECH_INPROGRESS)
         val sets = it.intent.number?.value
         if (sets != null) {
             val answer = setFieldData["Sets"]?.invoke(sets.toString())
@@ -312,7 +324,7 @@ fun setsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
 
 fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = state(Interaction){
     onEntry{
-        send(DataDelivery(buttons = listOf(), inputFields = restFieldData.keys.toList(), title =  "Select the rest time between two sets"))
+        send(DataDelivery(buttons = listOf(), inputFields = restFieldData.keys.toList(), title =  "Select the rest time between two sets (in seconds)", inputType = "number", inputLabel = "Enter rest time [seconds]"))
         random(
                 { furhat.say("How long do you want to rest between the sets?") }
         //more choices...
@@ -324,6 +336,7 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     }
 
     onResponse <RestIntentSeconds> {
+        send(SPEECH_INPROGRESS)
         val rest = it.intent.number?.value
         if (rest != null) {
             val answer = restFieldData["Rest"]?.invoke(rest.toString())
@@ -339,6 +352,7 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     }
 
     onResponse <RestIntentMinutes> {
+        send(SPEECH_INPROGRESS)
         val rest = it.intent.number?.value
         if (rest != null) {
             val answer = restFieldData["Rest"]?.invoke(rest.toString())
@@ -381,7 +395,7 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
 fun somethingElseState(arrayOfExercises: ArrayList<SingleExercise>): State = state(Interaction){
     onEntry{
         furhat.stopListening()
-        send(DataDelivery(title = "Do you want to add another exercise to the workout?", buttons = options, inputFields = listOf()));
+        send(DataDelivery(title = "Do you want to add another exercise to the workout?", buttons = options, inputFields = listOf(), inputType = "", inputLabel = ""));
 
         random(
                 { furhat.ask("Do you want another exercise to the workout?") },
@@ -392,14 +406,15 @@ fun somethingElseState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     }
 
     onResponse<Yes> {
+        send(SPEECH_INPROGRESS)
         furhat.say("Feel energetic, uh?")
         goto(customizedBranch(null, arrayOfExercises))
     }
 
     onResponse<No> {
         //get the tips for the chosen exercises
+        send(SPEECH_INPROGRESS)
         setTips(arrayOfExercises)
-
         furhat.say("Let's start with the workout then!")
 
         goto(exerciseState(arrayOfExercises, 0))
@@ -428,7 +443,7 @@ fun predefinedBranch(predefined: PredefinedTraining) : State = state (Interactio
         furhat.stopListening()
         furhat.say("You selected ${predefined.text}")
         send(SPEECH_DONE)
-        send(DataDelivery(title = "Select the workout that you want to perform in this session", buttons = workouts, inputFields = listOf()));
+        send(DataDelivery(title = "Select the workout that you want to perform in this session", buttons = workouts, inputFields = listOf(), inputType = "", inputLabel = ""));
 
         //furhat.ask("Which difficulty level do you want to train at?",  60000) //check sentence
         furhat.ask("Please select the workout that you want to perform in this session",  60000)
@@ -496,7 +511,7 @@ fun difficultySelectionState(selectedWorkout: WorkoutsEnum) : State = state (Int
 
     onEntry{
         furhat.stopListening()
-        send(DataDelivery(title = "Select the difficulty that you want to train at", buttons = difficulties, inputFields = listOf()));
+        send(DataDelivery(title = "Select the difficulty that you want to train at", buttons = difficulties, inputFields = listOf(), inputType = "", inputLabel = ""));
 
         furhat.ask("Which difficulty level do you want to train at?",  60000) //check sentence
 
@@ -551,14 +566,21 @@ fun difficultySelectionState(selectedWorkout: WorkoutsEnum) : State = state (Int
         }
 
         val exercises = selectedDifficulty?.let { it1 -> createExercisesList(selectedWorkout, it1) }
-        exercises?.let { it1 -> exerciseState(it1,0) }?.let { it2 -> goto(it2) }
+        goto(workoutRecapState(exercises!!, selectedWorkout))
         //goto workoutRecap state
     }
 
 
 }
 
-fun workoutRecapState(arrayOfExercises: ArrayList<SingleExercise>) : State = state (Interaction){}
+fun workoutRecapState(arrayOfExercises: ArrayList<SingleExercise>, selectedWorkout: WorkoutsEnum) : State = state (Interaction){
+    onEntry{
+        send(WorkoutDelivery(selectedWorkout.toString(), arrayOfExercises));
+        furhat.say("The $selectedWorkout is composed by ${arrayOfExercises.size} exercises") //check sentence
+        send(SPEECH_DONE)
+        arrayOfExercises?.let { it1 -> exerciseState(it1,0) }?.let { it2 -> goto(it2) }
+    }
+}
 
 
 
@@ -575,7 +597,7 @@ fun exerciseState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int )
 
         furhat.say("You have to do ${arrayOfExercises[exerciseCounter - 1].sets} sets of ${arrayOfExercises[exerciseCounter - 1].reps} repetitions, with  ${arrayOfExercises[exerciseCounter - 1].restTime} seconds of rest in between.")
 
-        send(DataDelivery(buttons = listOf("Start"), inputFields = listOf(), title =  "When you are ready click 'START'"))
+        send(DataDelivery(buttons = listOf("Start"), inputFields = listOf(), title =  "When you are ready click 'START'", inputType = "", inputLabel = ""))
 
         furhat.ask("When you are ready, say start or click the button")
         send(SPEECH_DONE)

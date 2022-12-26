@@ -46,7 +46,7 @@ function ShowExercise(props) {
         <Row>
             <Col sm={6}>
                 <h2 style={{ display: "flex" }}>{exerciseName}</h2>
-                <p style={{ fontSize: 18, color: "#000", fontWeight: "200" }}>{exerciseSets} Sets of {exerciseReps} repetitions each</p>
+                <p style={{ fontSize: 18, color: "#000", fontWeight: "200" }}>{exerciseSets} sets of {exerciseReps} repetitions each</p>
 
                 <Row style={{
                     marginTop: "35px", fontSize: "60px",

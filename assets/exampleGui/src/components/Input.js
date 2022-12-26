@@ -44,17 +44,17 @@ class Input extends Component {
   }
 
   render() {
-    let { label } = this.props
+    let { label, inputType, inputLabel } = this.props
     return (
       <div>
         <form>
           <FormGroup controlId={label}>
             <ControlLabel>{label}</ControlLabel>
             <FormControl
-              type="text"
+              type={inputType}
               className="input-box"
               value={this.state.value}
-              placeholder="Enter text"
+              placeholder={inputLabel}
               onChange={this.handleChange}
               onKeyPress={this.handleEnter}
             />

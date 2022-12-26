@@ -6,6 +6,7 @@ import SpeakingLoader from './SpeakingLoader'
 import TrainingTypes from './TrainingTypes'
 import ExercisesList from './ExercisesList'
 import ShowExercise from './ShowExercise'
+import ShowWorkout from './ShowWorkout'
 
 let CompToRender;
 
@@ -42,18 +43,25 @@ class Home extends Component {
                     <Row>
                         <Col sm={12}>
                             <h2>{data.title}</h2>
-                            {data.buttons.map((label) =>
-                                <Button className="button-17" key={label} label={label} onClick={this.clickButton} speaking={this.state.speaking} />
-                            )}
+                            <div style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                width: data.buttons.length > 1 ? "100%" : ""
+                            }}>
+                                {data.buttons.map((label) =>
+                                    <Button className="button-17" key={label} label={label} onClick={this.clickButton} speaking={false} />
+                                )}</div>
                         </Col>
-                    </Row>;
+                    </Row >;
             } else {
+                var type = data.inputType;
+                var suggestion = data.inputLabel;
                 CompToRender =
                     <Row>
                         <Col sm={12}>
                             <h2>{data.title}</h2>
                             {data.inputFields.map((label) =>
-                                <Input key={label} label={label} onSave={this.variableSet} speaking={this.state.speaking} />
+                                <Input key={label} label={label} onSave={this.variableSet} speaking={false} inputType={type} inputLabel={suggestion} />
                             )}
                         </Col>
                     </Row>;
@@ -98,6 +106,17 @@ class Home extends Component {
             })
         })
 
+        this.furhat.subscribe('furhatos.app.personaltrainer.WorkoutDelivery', (data) => {
+
+            CompToRender = <ShowWorkout workoutName={
+                data.workoutName}
+            />
+
+            this.setState({
+                ...this.state
+            })
+        })
+
         this.furhat.subscribe('furhatos.app.personaltrainer.ExerciseRestTime', (data) => {
 
             CompToRender = <ShowExercise exerciseName={
@@ -112,10 +131,7 @@ class Home extends Component {
             })
         })
 
-
-
         this.furhat.subscribe('furhatos.app.personaltrainer.PickOne', (data) => {
-
             CompToRender = data.type == "Training" ? <TrainingTypes handler={this.clickButton} /> : <ExercisesList handler={this.clickButton} />
 
             this.setState({
@@ -123,18 +139,25 @@ class Home extends Component {
                 buttons: [],
                 inputFields: [],
                 title: data.title,
-                type: data.type,
-                speaking: data.speaking
+                type: data.type
             })
 
         })
 
-        // This event contains to data so we defined it inline in the flow
         this.furhat.subscribe('SpeechDone', () => {
             this.setState({
                 ...this.state,
                 speaking: false
             })
+        })
+
+        this.furhat.subscribe('SpeechInProgress', () => {
+            CompToRender = <SpeakingLoader />
+            this.setState({
+                ...this.state,
+                speaking: true
+            })
+
         })
 
         this.furhat.subscribe('TimeToRest', () => {

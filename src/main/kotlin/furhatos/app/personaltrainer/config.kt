@@ -7,6 +7,7 @@ import furhatos.event.Event
  */
 val PORT = 1234 // GUI Port
 val SPEECH_DONE = "SpeechDone"
+val SPEECH_INPROGRESS = "SpeechInProgress"
 
 
 val RESTTIME_START = "TimeToRest"
@@ -16,7 +17,9 @@ val RESTTIME_STOP = "TimeToRestart"
 class DataDelivery(
         val title: String,
         val buttons : List<String>,
-        val inputFields: List<String>
+        val inputFields: List<String>,
+        val inputType: String,
+        val inputLabel: String
 ) : Event()
 
 class PickOne(
@@ -32,7 +35,8 @@ class ExerciseDelivery(
 ) : Event()
 
 class WorkoutDelivery(
-        val workoutName : String
+        val workoutName : String,
+        val exercises: ArrayList<SingleExercise>
 
 ) : Event()
 
