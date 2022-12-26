@@ -12,6 +12,7 @@ import furhatos.records.Location
 
 import com.google.gson.Gson
 import furhatos.flow.kotlin.voice.PollyNeuralVoice
+import furhatos.skills.Skill
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
@@ -450,7 +451,7 @@ fun predefinedBranch(predefined: PredefinedTraining) : State = state (Interactio
 
     }
 
-    onResponse<UpperBodyIntent> {
+    /*onResponse<UpperBodyIntent> {
         val selectedWorkout = WorkoutsEnum.UPPERBODY
         goto(difficultySelectionState(selectedWorkout))
 
@@ -464,31 +465,32 @@ fun predefinedBranch(predefined: PredefinedTraining) : State = state (Interactio
     onResponse<FullBodyIntent> {
         val selectedWorkout = WorkoutsEnum.FULLBODY
         goto(difficultySelectionState(selectedWorkout))
+    }*/
+
+    onResponse<WorkoutIntent> {
+        val selectedType = it.intent.workoutType
+
+        val workoutName = selectedType.toString().replace(" ","").toUpperCase()
+        val selectedWorkout = WorkoutsEnum.valueOf(workoutName)
+        goto(difficultySelectionState(selectedWorkout))
+
     }
 
+
     onEvent(CLICK_BUTTON) {
-        val workoutName = it.get("data") as String;
+        var workoutName = it.get("data") as String;
         // Directly respond with the value we get from the event, with a fallback
         furhat.say("Great, you want to do a ${workoutName ?: "something I'm not aware of" }")
 
         // Let the GUI know we're done speaking, to unlock buttons
         send(SPEECH_DONE)
 
-        when (workoutName) {
-            workouts[0] -> {
-                val selectedWorkout = WorkoutsEnum.LOWERBODY
-                goto(difficultySelectionState(selectedWorkout))
-            }
-            workouts[1] -> {
-                val selectedWorkout = WorkoutsEnum.UPPERBODY
-                goto(difficultySelectionState(selectedWorkout))
-            }
-            workouts[2] -> {
-                val selectedWorkout = WorkoutsEnum.FULLBODY
-                goto(difficultySelectionState(selectedWorkout))
-            }
-            else -> furhat.say("Something happen in workout selection")
-        }
+        workoutName = workoutName.replace(" ","").toUpperCase()
+        val selectedWorkout = WorkoutsEnum.valueOf(workoutName)
+        goto(difficultySelectionState(selectedWorkout))
+
+
+
 
     }
 
@@ -544,7 +546,7 @@ fun difficultySelectionState(selectedWorkout: WorkoutsEnum) : State = state (Int
     }
 
     onEvent(CLICK_BUTTON) {
-        val difficulty = it.get("data") as String;
+        var difficulty = it.get("data") as String;
         var selectedDifficulty : DifficultiesEnum? = null
         // Directly respond with the value we get from the event, with a fallback
         //furhat.say("Great, you want to do a ${workoutName ?: "something I'm not aware of" }")
@@ -552,21 +554,11 @@ fun difficultySelectionState(selectedWorkout: WorkoutsEnum) : State = state (Int
         // Let the GUI know we're done speaking, to unlock buttons
         send(SPEECH_DONE)
 
-        when (difficulty) {
-            difficulties[0] -> {
-                selectedDifficulty = DifficultiesEnum.BEGINNER
-            }
-            difficulties[1] -> {
-                selectedDifficulty = DifficultiesEnum.INTERMEDIATE
-            }
-            difficulties[2] -> {
-                selectedDifficulty = DifficultiesEnum.ADVANCED
-            }
-            else -> furhat.say("Something happen in workout selection")
-        }
+        difficulty = difficulty.toUpperCase()
+        selectedDifficulty = DifficultiesEnum.valueOf(difficulty)
 
-        val exercises = selectedDifficulty?.let { it1 -> createExercisesList(selectedWorkout, it1) }
-        goto(workoutRecapState(exercises!!, selectedWorkout))
+        val exercises = createExercisesList(selectedWorkout, selectedDifficulty)
+        goto(workoutRecapState(exercises, selectedWorkout))
         //goto workoutRecap state
     }
 
@@ -754,3 +746,4 @@ fun createExercisesList(selectedWorkout: WorkoutsEnum, selectedDifficulty: Diffi
     }
     return toReturn
 }
+

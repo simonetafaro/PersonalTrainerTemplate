@@ -25,6 +25,12 @@ class ExerciseType : EnumEntity(stemming = true, speechRecPhrases = true) {
     }
 }
 
+class WorkoutType : EnumEntity(stemming = true, speechRecPhrases = true) {
+    override fun getEnum(lang: Language): List<String> {
+        return listOf("full_body: full body, whole body", "lower_body: lower body, legs", "upper_body: upper body, arms, chest, shoulder, core, back")
+    }
+}
+
 class Exercise(var exerciseType: ExerciseType? = null) : Intent() {
     override fun getExamples(lang: Language): List<String> {
         return listOf("I would like to do a @exerciseType", "I want to do @exerciseType", "@exerciseType")
@@ -83,23 +89,28 @@ class FinishIntent(): Intent() {
     }
 }
 
-class UpperBodyIntent(): Intent() {
+class WorkoutIntent(var workoutType : WorkoutType? = null): Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("@workoutType", "I would like to train the @workoutType", "@workoutType workout")
+    }
+}
+/*class UpperBodyIntent(): Intent() {
     override fun getExamples(lang: Language): List<String> {
         return listOf("upper body", "I would like to train the upper body", "arms", "chest", "shoulder", "core", "back", "lower body workout")
     }
-}
+}*/
 
-class LowerBodyIntent(): Intent() {
+/*class LowerBodyIntent(): Intent() {
     override fun getExamples(lang: Language): List<String> {
         return listOf("lower body", "I would like to train the lower body", "legs", "lower body workout")
     }
-}
+}*/
 
-class FullBodyIntent(): Intent() {
+/*class FullBodyIntent(): Intent() {
     override fun getExamples(lang: Language): List<String> {
         return listOf("full body", "I would like to train the whole body", "full body workout")
     }
-}
+}*/
 
 class BeginnerIntent(): Intent() {
     override fun getExamples(lang: Language): List<String> {
