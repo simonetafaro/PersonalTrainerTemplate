@@ -13,7 +13,7 @@ class PredefinedTraining : EnumEntity(stemming = true, speechRecPhrases = true) 
 }
 
 // Customized Training entity
-class CustomizedTraining(val name: String? = null) : EnumEntity(stemming = true, speechRecPhrases = true) {
+class CustomizedTraining : EnumEntity(stemming = true, speechRecPhrases = true) {
     override fun getEnum(lang: Language): List<String> {
         return listOf("single exercise", "customized training", "customized workout", "personalized workout")
     }
@@ -21,7 +21,7 @@ class CustomizedTraining(val name: String? = null) : EnumEntity(stemming = true,
 
 class ExerciseType : EnumEntity(stemming = true, speechRecPhrases = true) {
     override fun getEnum(lang: Language): List<String> {
-        return listOf("regular push-ups", "sit-ups", "jumping jacks")
+        return listOf("regular push-ups: push-ups, regular push-ups", "sit-ups", "jumping jacks", "tricep push-ups", "squats", "bicycle sit-ups", "superman", "lungee", "burpee", "knee to elbow plank", "tricep dips", "high knees", "mountain climbers", "lower back raises", "bicep curls", "leg raises")
     }
 }
 
@@ -37,18 +37,15 @@ class Exercise(var exerciseType: ExerciseType? = null) : Intent() {
     }
 }
 
-
-
-
 class Predefined(var predefined : PredefinedTraining? = null) : Intent() {
     override fun getExamples(lang: Language): List<String> {
-        return listOf("I would like to do a @predefined", "I want a @predefined", "I would like a @predefined")
+        return listOf("I would like to do a @predefined", "I want a @predefined", "I would like a @predefined", "@predefined")
     }
 }
 
 class Customized(var customized : CustomizedTraining? = null) : Intent() {
     override fun getExamples(lang: Language): List<String> {
-        return listOf("I would like to do a @customized", "I want a @customized", "I would like a @customized")
+        return listOf("I would like to do a @customized", "I want a @customized", "I would like a @customized", "@customized")
     }
 }
 
@@ -77,13 +74,13 @@ class RestIntentMinutes(var number : Number ? = null): Intent() {
     }
 }
 
-class StartIntent(): Intent() {
+class StartIntent : Intent() {
     override fun getExamples(lang: Language): List<String> {
         return listOf("start", "I would like to start", "I'm ready", "Let's go", "Let's begin", "ready")
     }
 }
 
-class FinishIntent(): Intent() {
+class FinishIntent : Intent() {
     override fun getExamples(lang: Language): List<String> {
         return listOf("done", "finish", "completed", "I'm done", "I've finished")
     }
@@ -112,20 +109,20 @@ class WorkoutIntent(var workoutType : WorkoutType? = null): Intent() {
     }
 }*/
 
-class BeginnerIntent(): Intent() {
+class BeginnerIntent : Intent() {
     override fun getExamples(lang: Language): List<String> {
         return listOf("easy", "I'm a beginner", "easy level", "easy difficulty", "beginner", "beginner difficulty")
     }
 }
 
-class IntermediateIntent(): Intent() {
+class IntermediateIntent : Intent() {
     override fun getExamples(lang: Language): List<String> {
         return listOf("intermediate", "I'm not a beginner nor an expert ", "medium", "medium level", "intermediate level", "medium difficulty", "intermediate difficulty")
     }
 }
 
 
-class AdvancedIntent(): Intent() {
+class AdvancedIntent : Intent() {
     override fun getExamples(lang: Language): List<String> {
         return listOf("hard", "I'm an expert ", "hard level", "hard difficulty", "advanced", "advanced difficulty")
     }
