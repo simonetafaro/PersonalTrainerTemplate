@@ -16,13 +16,12 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 import kotlin.collections.ArrayList
+import kotlin.concurrent.timer
 
 // Our GUI declaration
 val GUI = HostedGUI("ExampleGUI", "assets/exampleGui", PORT)
 val VARIABLE_SET = "VariableSet"
 val CLICK_BUTTON = "ClickButton"
-var arrayOfExercises = ArrayList<SingleExercise>()
-
 
 
 // Starting state, before our GUI has connected.
@@ -116,7 +115,7 @@ val ExerciseVSWorkout: State = state(Interaction){
 
         if(it.get("data") == "Exercise"){
             furhat.say("Single exercise. ${furhat.voice.emphasis("Great!")}")
-            goto(customizedBranch(arrayOfExercises))
+            goto(customizedBranch(ArrayList()))
         } else {
             furhat.say("Predefined workout. ${furhat.voice.emphasis("Great!")}")
             goto(predefinedBranch())
@@ -130,7 +129,7 @@ val ExerciseVSWorkout: State = state(Interaction){
         val selectedType = it.intent.customized
         if (selectedType != null) {
             furhat.say("${selectedType}. ${furhat.voice.emphasis("Great!")}")
-            goto(customizedBranch(arrayOfExercises))
+            goto(customizedBranch(ArrayList()))
         }
         else {
             propagate()
@@ -186,6 +185,7 @@ fun customizedBranch(arrayOfExercises: ArrayList<SingleExercise>) : State = stat
 
 
     onEvent(CLICK_BUTTON) {
+        furhat.stopSpeaking()
         val exerciseName = it.get("data") as String
         // Directly respond with the value we get from the event, with a fallback
         furhat.stopListening()
@@ -235,6 +235,7 @@ fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     }
 
     onEvent(VARIABLE_SET) {
+        furhat.stopSpeaking()
         val data = it.get("data") as Record
         val variable = data.getString("variable")
         val value = data.getString("value")
@@ -287,6 +288,7 @@ fun setsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     }
 
     onEvent(VARIABLE_SET) {
+        furhat.stopSpeaking()
         val data = it.get("data") as Record
         val variable = data.getString("variable")
         val value = data.getString("value")
@@ -354,6 +356,7 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     }
 
     onEvent(VARIABLE_SET) {
+        furhat.stopSpeaking()
         val data = it.get("data") as Record
         val variable = data.getString("variable")
         val value = data.getString("value")
@@ -364,8 +367,6 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
             furhat.say((answer + "seconds of rest!"))
         else
             furhat.say((answer + "second of rest!"))
-
-
         // Let the GUI know we're done speaking, to unlock buttons
         send(SPEECH_DONE)
         arrayOfExercises[arrayOfExercises.size - 1].restTime = value.toInt()
@@ -406,7 +407,7 @@ fun somethingElseState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     }
 
     onEvent(CLICK_BUTTON) {
-
+        furhat.stopSpeaking()
         if(it.get("data") == "Yes"){
             furhat.say("Feel energetic?")
             goto(customizedBranch(arrayOfExercises))
@@ -461,6 +462,7 @@ fun predefinedBranch() : State = state (Interaction){
 
 
     onEvent(CLICK_BUTTON) {
+        furhat.stopSpeaking()
         var workoutName = it.get("data") as String
         // Directly respond with the value we get from the event, with a fallback
         furhat.say("${furhat.voice.emphasis("Great!")}, you want to do a $workoutName")
@@ -512,6 +514,7 @@ fun difficultySelectionState(selectedWorkout: WorkoutsEnum) : State = state (Int
     }
 
     onEvent(CLICK_BUTTON) {
+        furhat.stopSpeaking()
         var difficulty = it.get("data") as String
         val selectedDifficulty : DifficultiesEnum?
         // Directly respond with the value we get from the event, with a fallback
@@ -554,7 +557,6 @@ fun exerciseState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int )
 
         furhat.say("You have to do ${arrayOfExercises[exerciseCounter - 1].sets} sets of ${arrayOfExercises[exerciseCounter - 1].reps} repetitions, with  ${arrayOfExercises[exerciseCounter - 1].restTime} seconds of rest in between.")
 
-
         furhat.ask("When you are ready, say start or click the button", 60000)
         send(SPEECH_DONE)
     }
@@ -566,6 +568,7 @@ fun exerciseState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int )
 
 
     onEvent(CLICK_BUTTON){
+        furhat.stopSpeaking()
         if(it.get("data") == "Start"){
             furhat.stopListening()
             goto (setState(arrayOfExercises, exCounter + 1, 0))
@@ -592,45 +595,15 @@ fun setState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int, setCo
 
     onResponse<FinishIntent>{
 
-        send(SPEECH_INPROGRESS)
-        furhat.say("Well done. The rest time of ${arrayOfExercises[exCounter - 1].restTime} seconds starts from now.")
+        goto(restState(arrayOfExercises, exCounter, setCounter))
 
-        send(RESTTIME_START)
-
-        //With this solution furhat sleep, and it is not responsive. This is a temporary solution that might be improved in the future
-        arrayOfExercises[exCounter - 1].restTime?.times(1000)?.let { it1 -> Thread.sleep(it1.toLong()) }
-
-        send(RESTTIME_STOP)
-
-        if (setCounter + 1 < arrayOfExercises[exCounter -1 ].sets!!) {
-            goto(setState(arrayOfExercises, exCounter, setCounter + 1))
-        } else if (setCounter + 1 == arrayOfExercises[exCounter - 1 ].sets!!){
-
-
-            goto(exerciseState(arrayOfExercises, exCounter))
-        }
     }
 
     onEvent(CLICK_BUTTON){
         if(it.get("data") == "Done"){
             furhat.stopSpeaking()
+            goto(restState(arrayOfExercises, exCounter, setCounter))
 
-            send(SPEECH_INPROGRESS)
-            furhat.say("Well done. The rest time of ${arrayOfExercises[exCounter - 1].restTime} seconds starts from now.")
-
-            send(RESTTIME_START)
-
-            //With this solution furhat sleep, and it is not responsive. This is a temporary solution that might be improved in the future
-            arrayOfExercises[exCounter - 1].restTime?.times(1000)?.let { it1 -> Thread.sleep(it1.toLong()) }
-
-            send(RESTTIME_STOP)
-
-
-            if (setCounter + 1 < arrayOfExercises[exCounter -1 ].sets!!) {
-                goto(setState(arrayOfExercises, exCounter, setCounter + 1))
-            } else if (setCounter + 1 == arrayOfExercises[exCounter - 1 ].sets!!){
-                goto(exerciseState(arrayOfExercises, exCounter))
-            }
         } else {
             furhat.say("Wrong button, try again!")
         }
@@ -638,11 +611,37 @@ fun setState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int, setCo
 
 }
 
+fun restState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int, setCounter : Int): State = state(Interaction){
+    onEntry{
+        send(RESTTIME_START)
+        furhat.say("Well done! The rest time of ${arrayOfExercises[exCounter - 1].restTime} seconds has started.")
+    }
 
+    arrayOfExercises[exCounter - 1].restTime?.let {
+        onTime(delay= it.times(1000)){
+            send(RESTTIME_STOP)
+            if (setCounter + 1 < arrayOfExercises[exCounter - 1 ].sets!!) {
+                goto(setState(arrayOfExercises, exCounter, setCounter + 1))
+            } else if (setCounter + 1 == arrayOfExercises[exCounter - 1 ].sets!!){
+
+                goto(exerciseState(arrayOfExercises, exCounter))
+            }
+        }
+    }
+
+
+    arrayOfExercises[exCounter - 1].restTime?.times(1000)?.let {
+        onTime(delay= it.div(2)){
+            furhat.say("${arrayOfExercises[exCounter - 1].restTime?.div(2)} seconds have passed")
+        }
+    }
+
+}
 fun endState(): State = state(Interaction){
 
     onEntry{
-        print ("endState")
+        //print ("endState")
+        send(SPEECH_INPROGRESS)
         furhat.say("We have reached the end of our training. Good job!")
         goto(GUIConnected)
     }
@@ -713,4 +712,6 @@ fun createExercisesList(selectedWorkout: WorkoutsEnum, selectedDifficulty: Diffi
     }
     return toReturn
 }
+
+//class RestReachedException(message: String) : Exception(message)
 
