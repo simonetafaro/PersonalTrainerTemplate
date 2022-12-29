@@ -61,9 +61,8 @@ class SingleExerciseParser(val name: String,
     }
 }
 
-class WorkoutParser(val name: Map<String, ArrayList<String>>)
+class WorkoutParser(val name: String, val exercises: ArrayList<String>)
 {}
-
 /*fun test (exercise: SingleExercise){
     print(exercise.name)
     print(exercise.reps)

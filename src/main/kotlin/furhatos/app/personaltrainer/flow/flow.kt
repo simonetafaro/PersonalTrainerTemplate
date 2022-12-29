@@ -16,7 +16,6 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 import kotlin.collections.ArrayList
-import kotlin.concurrent.timer
 
 // Our GUI declaration
 val GUI = HostedGUI("ExampleGUI", "assets/exampleGui", PORT)
@@ -134,11 +133,9 @@ val ExerciseVSWorkout: State = state(Interaction){
         else {
             propagate()
         }
-
     }
 
    onResponse<Predefined>{
-
         val selectedType = it.intent.predefined
 
         if (selectedType != null) {
@@ -148,9 +145,7 @@ val ExerciseVSWorkout: State = state(Interaction){
         else {
             propagate()
         }
-
     }
-
 }
 
 fun customizedBranch(arrayOfExercises: ArrayList<SingleExercise>) : State = state (Interaction){
@@ -174,7 +169,7 @@ fun customizedBranch(arrayOfExercises: ArrayList<SingleExercise>) : State = stat
 
     onResponse<Exercise> {
 
-        val exerciseName = it.intent.exerciseType
+        val exerciseName = it.intent.exerciseType?.value
         furhat.say("${exerciseName}? Right?")
 
         val firstEx = SingleExercise(exerciseName.toString(), null, null, null, null)
@@ -373,8 +368,6 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
 
         goto(somethingElseState(arrayOfExercises))
     }
-
-
 }
 
 fun somethingElseState(arrayOfExercises: ArrayList<SingleExercise>): State = state(Interaction){
@@ -402,7 +395,6 @@ fun somethingElseState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
         setTips(arrayOfExercises)
         furhat.say("Let's start with the workout then!")
 
-        //goto(exerciseState(arrayOfExercises, 0))
         goto(workoutRecapState(arrayOfExercises, "Custom workout"))
     }
 
@@ -434,27 +426,10 @@ fun predefinedBranch() : State = state (Interaction){
 
     }
 
-    /*onResponse<UpperBodyIntent> {
-        val selectedWorkout = WorkoutsEnum.UPPERBODY
-        goto(difficultySelectionState(selectedWorkout))
-
-    }
-
-    onResponse<LowerBodyIntent> {
-        val selectedWorkout = WorkoutsEnum.LOWERBODY
-        goto(difficultySelectionState(selectedWorkout))
-    }
-
-    onResponse<FullBodyIntent> {
-        val selectedWorkout = WorkoutsEnum.FULLBODY
-        goto(difficultySelectionState(selectedWorkout))
-    }*/
-
     onResponse<WorkoutIntent> {
-        val selectedType = it.intent.workoutType
+        val selectedType = it.intent.workoutType?.value
 
-
-        val workoutName = selectedType.toString().replace(" ","").toUpperCase()
+        val workoutName = selectedType.toString().replace("_","").toUpperCase()
         val selectedWorkout = WorkoutsEnum.valueOf(workoutName)
         goto(difficultySelectionState(selectedWorkout))
 
@@ -488,36 +463,16 @@ fun difficultySelectionState(selectedWorkout: WorkoutsEnum) : State = state (Int
         send(SPEECH_DONE)
     }
 
-    onResponse<BeginnerIntent> {
-        val selectedDifficulty = DifficultiesEnum.BEGINNER
+    onResponse<DifficultyIntent> {
+        val selectedDifficulty = DifficultiesEnum.valueOf(it.intent.difficulty?.value.toString().toUpperCase())
         val exercises = createExercisesList(selectedWorkout, selectedDifficulty)
-
-
-       goto(exerciseState(exercises,0))
-        //goto workoutrecap state
-    }
-
-    onResponse<IntermediateIntent> {
-        val selectedDifficulty = DifficultiesEnum.INTERMEDIATE
-        val exercises = createExercisesList(selectedWorkout, selectedDifficulty)
-
-        goto(exerciseState(exercises,0))
-        //goto workoutrecap state
-    }
-
-    onResponse<AdvancedIntent> {
-        val selectedDifficulty = DifficultiesEnum.ADVANCED
-        val exercises = createExercisesList(selectedWorkout, selectedDifficulty)
-
-        goto(exerciseState(exercises,0))
-        //goto workoutrecap state
+        goto(workoutRecapState(exercises,selectedWorkout.toString()))
     }
 
     onEvent(CLICK_BUTTON) {
         furhat.stopSpeaking()
         var difficulty = it.get("data") as String
         val selectedDifficulty : DifficultiesEnum?
-        // Directly respond with the value we get from the event, with a fallback
 
         // Let the GUI know we're done speaking, to unlock buttons
         send(SPEECH_DONE)
@@ -635,8 +590,8 @@ fun restState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int, setC
             furhat.say("${arrayOfExercises[exCounter - 1].restTime?.div(2)} seconds have passed")
         }
     }
-
 }
+
 fun endState(): State = state(Interaction){
 
     onEntry{
@@ -646,8 +601,6 @@ fun endState(): State = state(Interaction){
         goto(GUIConnected)
     }
 }
-
-
 
 
 fun returnExerciseListFromJson(): ArrayList<SingleExerciseParser> {
@@ -660,13 +613,7 @@ fun returnExerciseListFromJson(): ArrayList<SingleExerciseParser> {
         val exercise = exercisesJSONArray.getJSONObject(i)
         val currExercise = Gson().fromJson(exercise.toString(), SingleExerciseParser::class.java)
         availableExercise.add(currExercise)
-        //println("${exercise.get("name")} by ${exercise.get("muscle group")}")
     }
-    /*for (el in availableExercise) {
-         print(el)
-         print("\n")
-     }*/
-
     return availableExercise
 }
 
@@ -677,7 +624,7 @@ fun workoutListFromJson(): ArrayList<WorkoutParser> {
     val availableWorkouts = arrayListOf<WorkoutParser>()
     for (i in 0 until workoutsJSONArray.length()) {
         val workout = workoutsJSONArray.getJSONObject(i)
-        var currWorkout = Gson().fromJson(workout.toString(), WorkoutParser::class.java)
+        val currWorkout = Gson().fromJson(workout.toString(), WorkoutParser::class.java)
         availableWorkouts.add(currWorkout)
     }
     return availableWorkouts
@@ -698,20 +645,19 @@ fun createExercisesList(selectedWorkout: WorkoutsEnum, selectedDifficulty: Diffi
     val toReturn = ArrayList<SingleExercise>()
     val workouts = workoutListFromJson()
     for (workout in workouts) {
-        if (workout.name.keys.toList()[0].toUpperCase().replace(" ","") == selectedWorkout.toString()){
+        if (workout.name.toUpperCase().replace(" ","") == selectedWorkout.toString()){
             val exercises = returnExerciseListFromJson()
-            for (exercise in exercises){
-                for (workoutExercise in workout.name.values.toList()[0])
+            for (workoutExercise in workout.exercises)
+                for (exercise in exercises){
                     if (exercise.name == workoutExercise){
                         val temp = SingleExercise(exercise.name, exercise.reps.getValue(selectedDifficulty.toString().toLowerCase()), exercise.sets.getValue(selectedDifficulty.toString().toLowerCase()), exercise.rest_time.getValue(selectedDifficulty.toString().toLowerCase()), exercise.tips)
                         toReturn.add(temp)
                     }
-            }
+                }
             break
         }
     }
     return toReturn
 }
 
-//class RestReachedException(message: String) : Exception(message)
 

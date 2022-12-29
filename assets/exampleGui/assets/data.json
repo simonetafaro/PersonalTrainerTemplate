@@ -213,37 +213,34 @@
     ],
     "workouts": [
         {
-           "name": {
-               "upper body": [
-                "regular push-ups",
-                "tricep push-ups",
-                "tricep dips",
-                "biceps curls",
-                "lower back raises"
-                ]
-            }
+            "name": "upper body",
+            "exercises": [
+                    "regular push-ups",
+                    "tricep push-ups",
+                    "tricep dips",
+                    "bicep curls",
+                    "lower back raises"
+            ]
         },
         {
-            "name": {
-            "lower body": [
-                "squats",
-                "lungee",
-                "high knees",
-                "leg raises",
-                "superman"
+            "name": "lower body",
+            "exercises": [
+                    "squats",
+                    "lungee",
+                    "high knees",
+                    "leg raises",
+                    "superman"
             ]
-        }
-    },
+        },
         {
-            "name": {
-                "full body": [
+            "name": "full body",
+            "exercises": [
                     "squats",
                     "burpee",
                     "jumping jacks",
                     "mountain climbers",
                     "knee to elbow plank"
-                ]
-            }
+            ]
         }
     ]
 }
