@@ -1,5 +1,7 @@
 package furhatos.app.personaltrainer
 
+import furhatos.event.Event
+
 val options = listOf("Yes", "No")
 
 val workouts = listOf("Upper body", "Lower body", "Full body")
@@ -36,7 +38,7 @@ class SingleExercise(val name: String,
                      var reps: Int?,
                      var sets: Int?,
                      var restTime: Int?,
-                     var tips: Array<String>?) {
+                     var tips: Array<String>?) : Event() {
     override fun toString(): String {
         var temp = "No tips"
         if( tips != null ) {

@@ -5,6 +5,7 @@ import Countdown from 'react-countdown';
 
 function ShowExercise(props) {
     const [data, setData] = useState([]);
+    const currentSet = props.currentSet;
     const exerciseName = props.exerciseName;
     const exerciseReps = props.reps;
     const exerciseSets = props.sets;
@@ -39,21 +40,18 @@ function ShowExercise(props) {
         getData()
     }, [])
 
-
     return (<Grid>
-
-
-        <Row>
+        {doing ? <Row>
             <Col sm={6}>
                 <h2 style={{ display: "flex" }}>{exerciseName}</h2>
                 <p style={{ fontSize: 18, color: "#000", fontWeight: "200" }}>{exerciseSets} sets of {exerciseReps} repetitions each</p>
-
+                <p style={{ fontSize: 16, color: "#000", fontWeight: "400" }}>Set number {currentSet}</p>
                 <Row style={{
                     marginTop: "35px", fontSize: "60px",
                     justifyContent: "center",
                     display: "flex"
                 }}>
-                    {doing ? <Button className="button-17" key={"Done"} label={"Done"} onClick={clickButton} speaking={speaking} /> : <Countdown date={Date.now() + (parseInt(exerciseRest, 10) * 1000)} />}
+                    <Button className="button-17" key={"Done"} label={"Done"} onClick={clickButton} speaking={speaking} />
                 </Row>
             </Col>
             <Col sm={6}>
@@ -63,7 +61,21 @@ function ShowExercise(props) {
                     src={data.gif}
                 />
             </Col>
-        </Row>
+        </Row> :
+            <Row>
+                <Col sm={6}>
+                    <h2 style={{ display: "flex" }}>{exerciseName}</h2>
+                    <p style={{ fontSize: 16, color: "#000", fontWeight: "400" }}>Set {currentSet} done. Rest now...</p>
+                    <Row style={{
+                        marginTop: "35px", fontSize: "60px",
+                        justifyContent: "center",
+                        display: "flex"
+                    }}>
+                        <Countdown date={Date.now() + (parseInt(exerciseRest, 10) * 1000)} />
+                    </Row>
+                </Col>
+            </Row>
+        }
 
     </Grid>
     );

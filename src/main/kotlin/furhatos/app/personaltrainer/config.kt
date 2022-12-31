@@ -31,13 +31,14 @@ class ExerciseDelivery(
         val exerciseName : String,
         val reps: String,
         val sets: String,
-        val rest: String
+        val rest: String,
+        val currentSet: Int
 ) : Event()
 
 class WorkoutDelivery(
         val workoutName : String,
-        val exercises: ArrayList<SingleExercise>
-
+        val exercises: List<SingleExercise>,
+        val current: Int
 ) : Event()
 
 

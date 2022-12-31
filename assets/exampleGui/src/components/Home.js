@@ -24,7 +24,8 @@ class Home extends Component {
                 "name": "",
                 "reps": "",
                 "sets": "",
-                "rest": ""
+                "rest": "",
+                "currentSet": ""
             }
         }
         this.furhat = furhat
@@ -90,6 +91,7 @@ class Home extends Component {
                 rest={data.rest}
                 sets={data.sets}
                 doing={true}
+                currentSet={data.currentSet}
                 clickButton={this.sendInputButton} />
 
             this.setState({
@@ -101,7 +103,8 @@ class Home extends Component {
                     name: data.exerciseName,
                     reps: data.reps,
                     rest: data.rest,
-                    sets: data.sets
+                    sets: data.sets,
+                    currentSet: data.currentSet
                 }
             })
         })
@@ -109,7 +112,8 @@ class Home extends Component {
         this.furhat.subscribe('furhatos.app.personaltrainer.WorkoutDelivery', (data) => {
 
             CompToRender = <ShowWorkout workoutName={
-                data.workoutName}
+                data.workoutName} exercises={data.exercises} counter={data.current}
+                clickButton={this.clickButton}
             />
 
             this.setState({
@@ -167,6 +171,7 @@ class Home extends Component {
                 rest={this.state.exercise.rest}
                 sets={this.state.exercise.sets}
                 clickButton={this.sendInputButton}
+                currentSet={this.state.exercise.currentSet}
                 doing={false} />
             this.setState({
                 ...this.state
@@ -179,10 +184,11 @@ class Home extends Component {
                 reps={this.state.exercise.reps}
                 rest={this.state.exercise.rest}
                 sets={this.state.exercise.sets}
+                currentSet={this.state.exercise.currentSet + 1}
                 clickButton={this.sendInputButton}
                 doing={true} />
             this.setState({
-                ...this.state
+                ...this.state, exercise: { currentSet: this.state.exercise.currentSet + 1 }
             })
         })
     }
@@ -237,76 +243,6 @@ class Home extends Component {
         return <Grid>
             {CompToRender}
         </Grid>
-        /*
-                if (this.state.speaking) {
-                    return <Grid>
-                        <Row>
-                            <SpeakingLoader />
-                        </Row>
-                    </Grid>;
-                } else {
-                    if (this.type == "Training") {
-                        <Grid>
-                            <CompToRender />
-                        </Grid>
-                    } else {
-                        if (this.state.buttons.length > 0) {
-                            return <Grid>
-                                <Row>
-                                    <Col sm={12}>
-                                        <h2>{this.state.title}</h2>
-                                        {this.state.buttons.map((label) =>
-                                            <Button className="button-17" key={label} label={label} onClick={this.clickButton} speaking={this.state.speaking} />
-                                        )}
-                                    </Col>
-        
-                                </Row>
-                            </Grid>;
-                        } else {
-                            if (this.state.inputFields.length > 0) {
-                                return <Grid>
-                                    <Row>
-                                        <Col sm={12}>
-                                            <h2>{this.state.title}</h2>
-                                            {this.state.inputFields.map((label) =>
-                                                <Input key={label} label={label} onSave={this.variableSet} speaking={this.state.speaking} />
-                                            )}
-                                        </Col>
-                                    </Row>
-                                </Grid>;
-                            } else {
-                                if (this.state.exerciseName != "") {
-                                    return <Grid>
-        
-                                        <Row>
-        
-                                            <Col sm={12}>
-                                                <h2>{this.state.exerciseName}</h2>
-                                                <img
-                                                    style={{ width: "100%", height: "80%" }}
-                                                    src="./assets/gifs/gif.gif"
-                                                />
-                                            </Col>
-                                        </Row>
-                                    </Grid>;
-                                } else {
-                                    return <Grid>
-        
-                                        <Row>
-        
-                                            <Col sm={12}>
-                                                <h2>Waiting for Furhat</h2>
-                                            </Col>
-                                        </Row>
-                                    </Grid>;
-                                }
-        
-                            }
-                        }
-                    }
-        
-                }*/
-
     }
 }
 
