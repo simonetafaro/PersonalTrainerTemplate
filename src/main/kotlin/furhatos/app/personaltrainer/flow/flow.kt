@@ -218,11 +218,21 @@ fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
         send(SPEECH_INPROGRESS)
         val reps = it.intent.number?.value
         if (reps != null) {
-            val answer = repFieldData["Reps"]?.invoke(reps.toString())
+            //val answer = repFieldData["Reps"]?.invoke(reps.toString())
             if(reps > 1)
-                furhat.say(("$answer repetitions!"))
+                random(
+                        {furhat.say("Ok, $reps repetitions!")},
+                        {furhat.say("Great, $reps repetitions!")},
+                        {furhat.say("Perfect, $reps repetitions!")}
+
+                )
             else
-                furhat.say(("$answer repetition!"))
+                random(
+                        {furhat.say("Ok, $reps repetition!")},
+                        {furhat.say("Great, $reps repetition!")},
+                        {furhat.say("Perfect, $reps repetition!")}
+
+                )
         }
         arrayOfExercises[arrayOfExercises.size - 1].reps = reps
 
@@ -232,16 +242,24 @@ fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     onEvent(VARIABLE_SET) {
         furhat.stopSpeaking()
         val data = it.get("data") as Record
-        val variable = data.getString("variable")
+        //val variable = data.getString("variable")
         val value = data.getString("value")
 
         // Get answer depending on what variable we changed and what the new value is, and speak it out
-        val answer = repFieldData[variable]?.invoke(value)
+        //val answer = repFieldData[variable]?.invoke(value)
 
         if (value.toInt() > 1)
-            furhat.say((answer + "repetitions!"))
+            random(
+                    {furhat.say("Ok, $value repetitions!")},
+                    {furhat.say("Great, $value repetitions!")},
+                    {furhat.say("Perfect, $value repetitions!")}
+            )
         else
-            furhat.say((answer + "repetition!"))
+            random(
+                    {furhat.say("Ok, $value repetition!")},
+                    {furhat.say("Great, $value repetition!")},
+                    {furhat.say("Perfect, $value repetition!")}
+            )
 
         // Let the GUI know we're done speaking, to unlock buttons
         send(SPEECH_DONE)
@@ -270,11 +288,19 @@ fun setsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
         send(SPEECH_INPROGRESS)
         val sets = it.intent.number?.value
         if (sets != null) {
-            val answer = setFieldData["Sets"]?.invoke(sets.toString())
+            //val answer = setFieldData["Sets"]?.invoke(sets.toString())
             if (sets > 1)
-                furhat.say((answer + "sets!"))
+                random(
+                        {furhat.say("Ok, $sets sets!")},
+                        {furhat.say("Great, $sets sets!")},
+                        {furhat.say("Perfect, $sets sets!")}
+                )
             else
-                furhat.say((answer + "set!"))
+                random(
+                        {furhat.say("Ok, $sets set!")},
+                        {furhat.say("Great, $sets set!")},
+                        {furhat.say("Perfect, $sets set!")}
+                )
         }
 
         arrayOfExercises[arrayOfExercises.size - 1].sets = sets
@@ -285,15 +311,23 @@ fun setsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     onEvent(VARIABLE_SET) {
         furhat.stopSpeaking()
         val data = it.get("data") as Record
-        val variable = data.getString("variable")
+        //val variable = data.getString("variable")
         val value = data.getString("value")
 
         // Get answer depending on what variable we changed and what the new value is, and speak it out
-        val answer = setFieldData[variable]?.invoke(value)
+        //val answer = setFieldData[variable]?.invoke(value)
         if (value.toInt() > 1)
-            furhat.say((answer + "sets!"))
+            random(
+                    {furhat.say("Ok, $value sets!")},
+                    {furhat.say("Great, $value sets!")},
+                    {furhat.say("Perfect, $value sets!")}
+            )
         else
-            furhat.say((answer + "set!"))
+            random(
+                    {furhat.say("Ok, $value set!")},
+                    {furhat.say("Great, $value set!")},
+                    {furhat.say("Perfect, $value set!")}
+            )
 
         // Let the GUI know we're done speaking, to unlock buttons
         send(SPEECH_DONE)
@@ -320,11 +354,19 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
         send(SPEECH_INPROGRESS)
         val rest = it.intent.number?.value
         if (rest != null) {
-            val answer = restFieldData["Rest"]?.invoke(rest.toString())
+            //val answer = restFieldData["Rest"]?.invoke(rest.toString())
             if (rest > 1)
-                furhat.say((answer + "seconds of rest!"))
+                random(
+                        {furhat.say("Ok, $rest seconds of rest!")},
+                        {furhat.say("Great, $rest seconds of rest!")},
+                        {furhat.say("Perfect, $rest seconds of rest!")}
+                )
             else
-                furhat.say((answer + "second of rest!"))
+                random(
+                        {furhat.say("Ok, $rest second of rest!")},
+                        {furhat.say("Great, $rest second of rest!")},
+                        {furhat.say("Perfect, $rest second of rest!")}
+                )
 
         }
         arrayOfExercises[arrayOfExercises.size - 1].restTime = rest
@@ -336,12 +378,19 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
         send(SPEECH_INPROGRESS)
         val rest = it.intent.number?.value
         if (rest != null) {
-            val answer = restFieldData["Rest"]?.invoke(rest.toString())
+            //val answer = restFieldData["Rest"]?.invoke(rest.toString())
             if (rest > 1)
-                furhat.say((answer + "minutes of rest!"))
+                random(
+                        {furhat.say("Ok, $rest minutes of rest!")},
+                        {furhat.say("Great, $rest minutes of rest!")},
+                        {furhat.say("Perfect, $rest minutes of rest!")}
+                )
             else
-                furhat.say((answer + "minute of rest!"))
-
+                random(
+                        {furhat.say("Ok, $rest minute of rest!")},
+                        {furhat.say("Great, $rest minute of rest!")},
+                        {furhat.say("Perfect, $rest minute of rest!")}
+                )
         }
         if (rest != null) {
             arrayOfExercises[arrayOfExercises.size - 1].restTime = rest * 60
@@ -359,10 +408,16 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
         // Get answer depending on what variable we changed and what the new value is, and speak it out
         val answer = restFieldData[variable]?.invoke(value)
         if (value.toInt() > 1)
-            furhat.say((answer + "seconds of rest!"))
-        else
-            furhat.say((answer + "second of rest!"))
-        // Let the GUI know we're done speaking, to unlock buttons
+            random(
+                    {furhat.say("Ok, $value seconds of rest!")},
+                    {furhat.say("Great, $value seconds of rest!")},
+                    {furhat.say("Perfect, $value seconds of rest!")}
+            )        else
+            random(
+                    {furhat.say("Ok, $value minute of rest!")},
+                    {furhat.say("Great, $value minute of rest!")},
+                    {furhat.say("Perfect, $value minute of rest!")}
+            )        // Let the GUI know we're done speaking, to unlock buttons
         send(SPEECH_DONE)
         arrayOfExercises[arrayOfExercises.size - 1].restTime = value.toInt()
 
