@@ -12,6 +12,8 @@ import furhatos.records.Location
 
 import com.google.gson.Gson
 import furhatos.flow.kotlin.voice.PollyNeuralVoice
+import furhatos.flow.kotlin.voice.Voice
+import furhatos.gestures.Gestures
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
@@ -111,7 +113,7 @@ val ExerciseVSWorkout: State = state(Interaction){
     onEvent(CLICK_BUTTON) {
 
         furhat.stopSpeaking()
-
+        furhat.gesture(Gestures.Smile(duration = 3.0))
         if(it.get("data") == "Exercise"){
             furhat.say("Single exercise. ${furhat.voice.emphasis("Great!")}")
             goto(customizedBranch(ArrayList()))
@@ -127,6 +129,7 @@ val ExerciseVSWorkout: State = state(Interaction){
 
         val selectedType = it.intent.customized
         if (selectedType != null) {
+            furhat.gesture(Gestures.Smile(duration = 3.0))
             furhat.say("${selectedType}. ${furhat.voice.emphasis("Great!")}")
             goto(customizedBranch(ArrayList()))
         }
@@ -139,6 +142,7 @@ val ExerciseVSWorkout: State = state(Interaction){
         val selectedType = it.intent.predefined
 
         if (selectedType != null) {
+            furhat.gesture(Gestures.Smile(duration = 3.0))
             furhat.say("${selectedType}. ${furhat.voice.emphasis("Great!")}")
             goto(predefinedBranch())
         }
@@ -219,12 +223,12 @@ fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
         val reps = it.intent.number?.value
         if (reps != null) {
             //val answer = repFieldData["Reps"]?.invoke(reps.toString())
+            furhat.gesture(Gestures.Smile(duration = 3.0))
             if(reps > 1)
                 random(
                         {furhat.say("Ok, $reps repetitions!")},
                         {furhat.say("Great, $reps repetitions!")},
                         {furhat.say("Perfect, $reps repetitions!")}
-
                 )
             else
                 random(
@@ -233,6 +237,7 @@ fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
                         {furhat.say("Perfect, $reps repetition!")}
 
                 )
+            furhat.gesture(Gestures.Smile)
         }
         arrayOfExercises[arrayOfExercises.size - 1].reps = reps
 
@@ -247,7 +252,7 @@ fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
 
         // Get answer depending on what variable we changed and what the new value is, and speak it out
         //val answer = repFieldData[variable]?.invoke(value)
-
+        furhat.gesture(Gestures.Smile(duration = 3.0))
         if (value.toInt() > 1)
             random(
                     {furhat.say("Ok, $value repetitions!")},
@@ -260,6 +265,7 @@ fun repsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
                     {furhat.say("Great, $value repetition!")},
                     {furhat.say("Perfect, $value repetition!")}
             )
+
 
         // Let the GUI know we're done speaking, to unlock buttons
         send(SPEECH_DONE)
@@ -289,6 +295,7 @@ fun setsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
         val sets = it.intent.number?.value
         if (sets != null) {
             //val answer = setFieldData["Sets"]?.invoke(sets.toString())
+            furhat.gesture(Gestures.Smile(duration = 3.0))
             if (sets > 1)
                 random(
                         {furhat.say("Ok, $sets sets!")},
@@ -316,6 +323,7 @@ fun setsSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
 
         // Get answer depending on what variable we changed and what the new value is, and speak it out
         //val answer = setFieldData[variable]?.invoke(value)
+        furhat.gesture(Gestures.Smile(duration = 3.0))
         if (value.toInt() > 1)
             random(
                     {furhat.say("Ok, $value sets!")},
@@ -355,6 +363,7 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
         val rest = it.intent.number?.value
         if (rest != null) {
             //val answer = restFieldData["Rest"]?.invoke(rest.toString())
+            furhat.gesture(Gestures.Smile(duration = 3.0))
             if (rest > 1)
                 random(
                         {furhat.say("Ok, $rest seconds of rest!")},
@@ -379,6 +388,7 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
         val rest = it.intent.number?.value
         if (rest != null) {
             //val answer = restFieldData["Rest"]?.invoke(rest.toString())
+            furhat.gesture(Gestures.Smile(duration = 3.0))
             if (rest > 1)
                 random(
                         {furhat.say("Ok, $rest minutes of rest!")},
@@ -407,6 +417,7 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
 
         // Get answer depending on what variable we changed and what the new value is, and speak it out
         val answer = restFieldData[variable]?.invoke(value)
+        furhat.gesture(Gestures.Smile(duration = 3.0))
         if (value.toInt() > 1)
             random(
                     {furhat.say("Ok, $value seconds of rest!")},
@@ -414,9 +425,9 @@ fun restSelectionState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
                     {furhat.say("Perfect, $value seconds of rest!")}
             )        else
             random(
-                    {furhat.say("Ok, $value minute of rest!")},
-                    {furhat.say("Great, $value minute of rest!")},
-                    {furhat.say("Perfect, $value minute of rest!")}
+                    {furhat.say("Ok, $value second of rest!")},
+                    {furhat.say("Great, $value second of rest!")},
+                    {furhat.say("Perfect, $value second of rest!")}
             )        // Let the GUI know we're done speaking, to unlock buttons
         send(SPEECH_DONE)
         arrayOfExercises[arrayOfExercises.size - 1].restTime = value.toInt()
@@ -441,6 +452,8 @@ fun somethingElseState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
     onResponse<Yes> {
         send(SPEECH_INPROGRESS)
         furhat.say("Feel energetic?")
+        furhat.gesture(Gestures.Wink(duration = 0.7))
+        delay(500)
         goto(customizedBranch(arrayOfExercises))
     }
 
@@ -448,23 +461,26 @@ fun somethingElseState(arrayOfExercises: ArrayList<SingleExercise>): State = sta
         //get the tips for the chosen exercises
         send(SPEECH_INPROGRESS)
         setTips(arrayOfExercises)
+        furhat.gesture(Gestures.Smile(duration = 3.0))
         furhat.say("Let's start with the workout then!")
 
-        goto(workoutRecapState(arrayOfExercises, "Custom workout"))
+        goto(workoutRecapState(arrayOfExercises, "Custom"))
     }
 
     onEvent(CLICK_BUTTON) {
         furhat.stopSpeaking()
         if(it.get("data") == "Yes"){
             furhat.say("Feel energetic?")
+            furhat.gesture(Gestures.Wink(duration = 0.7))
+            delay(500)
             goto(customizedBranch(arrayOfExercises))
 
         } else {
             setTips(arrayOfExercises)
-
+            furhat.gesture(Gestures.Smile(duration = 3.0))
             furhat.say("Let's start with the workout then!")
 
-            goto(workoutRecapState(arrayOfExercises, "Custom workout"))
+            goto(workoutRecapState(arrayOfExercises, "Custom"))
         }
 
 
@@ -486,6 +502,11 @@ fun predefinedBranch() : State = state (Interaction){
 
         val workoutName = selectedType.toString().replace("_","").toUpperCase()
         val selectedWorkout = WorkoutsEnum.valueOf(workoutName)
+        furhat.gesture(Gestures.Smile(duration = 3.0))
+        furhat.say(furhat.voice.emphasis("Perfect!"))
+
+        // Let the GUI know we're done speaking, to unlock buttons
+        send(SPEECH_DONE)
         goto(difficultySelectionState(selectedWorkout))
 
     }
@@ -495,7 +516,9 @@ fun predefinedBranch() : State = state (Interaction){
         furhat.stopSpeaking()
         var workoutName = it.get("data") as String
         // Directly respond with the value we get from the event, with a fallback
-        furhat.say("${furhat.voice.emphasis("Great!")}, you want to do a $workoutName")
+        furhat.gesture(Gestures.Smile(duration = 3.0))
+        //furhat.say("${furhat.voice.emphasis("Great!")}, you want to do a $workoutName")
+        furhat.say(furhat.voice.emphasis("Perfect!"))
 
         // Let the GUI know we're done speaking, to unlock buttons
         send(SPEECH_DONE)
@@ -521,6 +544,7 @@ fun difficultySelectionState(selectedWorkout: WorkoutsEnum) : State = state (Int
     onResponse<DifficultyIntent> {
         val selectedDifficulty = DifficultiesEnum.valueOf(it.intent.difficulty?.value.toString().toUpperCase())
         val exercises = createExercisesList(selectedWorkout, selectedDifficulty)
+        delay(1000)
         goto(workoutRecapState(exercises,selectedWorkout.toString()))
     }
 
@@ -536,6 +560,7 @@ fun difficultySelectionState(selectedWorkout: WorkoutsEnum) : State = state (Int
         selectedDifficulty = DifficultiesEnum.valueOf(difficulty)
 
         val exercises = createExercisesList(selectedWorkout, selectedDifficulty)
+        delay(1000)
         goto(workoutRecapState(exercises, selectedWorkout.toString()))
     }
 
@@ -544,7 +569,8 @@ fun difficultySelectionState(selectedWorkout: WorkoutsEnum) : State = state (Int
 
 fun workoutRecapState(arrayOfExercises: ArrayList<SingleExercise>, selectedWorkout: String) : State = state (Interaction){
     onEntry{
-        furhat.say("The $selectedWorkout is composed by ${arrayOfExercises.size} exercises") //check sentence
+
+        furhat.say("The $selectedWorkout workout is composed by ${arrayOfExercises.size} exercises") //check sentence
         send(SPEECH_DONE)
         goto(exerciseState(arrayOfExercises,0, selectedWorkout))
     }
@@ -596,12 +622,16 @@ fun setState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int, setCo
     onEntry{
         send(ExerciseDelivery(arrayOfExercises[exCounter - 1].name, arrayOfExercises[exCounter - 1].reps.toString(), arrayOfExercises[exCounter - 1].sets.toString(), arrayOfExercises[exCounter - 1].restTime.toString(), setCounter +1))
         furhat.say("You can begin the ${ if(setCounter + 1 == 1 ) "first" else "next"} set, tell me when you did ${arrayOfExercises[exCounter - 1].reps} repetitions.")
+
+        delay(1000)
+
+
         random(
-                //change tone of furhat?
-                    {arrayOfExercises[exCounter - 1].tips?.get(0)?.let { furhat.say(it /*, interruptable = true*/) }},
-                    {arrayOfExercises[exCounter - 1].tips?.get(1)?.let { furhat.say(it/*, interruptable = true*/) }},
-                    {arrayOfExercises[exCounter - 1].tips?.get(2)?.let { furhat.say(it/*, interruptable = true*/) }}
+                    {arrayOfExercises[exCounter - 1].tips?.get(0)?.let { furhat.say(furhat.voice.prosody("Remind: $it", volume = "loud", rate= 0.9)/*, interruptable = true*/ ) }},
+                    {arrayOfExercises[exCounter - 1].tips?.get(1)?.let { furhat.say(furhat.voice.prosody("Remind: $it", volume = "loud", rate= 0.9)/*, interruptable = true*/) }},
+                    {arrayOfExercises[exCounter - 1].tips?.get(2)?.let { furhat.say(furhat.voice.prosody("Remind: $it", volume = "loud", rate= 0.9)/*, interruptable = true*/) }}
                     )
+
             furhat.listen(1000000)
        }
 
@@ -626,6 +656,7 @@ fun setState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int, setCo
 fun restState(arrayOfExercises: ArrayList<SingleExercise>, exCounter : Int, setCounter : Int, selectedWorkout: String): State = state(Interaction){
     onEntry{
         send(RESTTIME_START)
+        furhat.gesture(Gestures.Smile(duration = 3.0))
         furhat.say("Well done! The rest time of ${arrayOfExercises[exCounter - 1].restTime} seconds has started.")
     }
 
@@ -655,6 +686,7 @@ fun endState(): State = state(Interaction){
         //print ("endState")
         send(SPEECH_INPROGRESS)
         furhat.say("We have reached the end of our training. Good job!")
+        furhat.gesture(Gestures.BigSmile(duration = 2.0))
         goto(GUIConnected)
     }
 }

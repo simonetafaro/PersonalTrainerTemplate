@@ -1,7 +1,7 @@
 {
     "exercise": [
         {
-            "name": "regular push-ups",
+            "name": "Regular push-ups",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 10, "beginner": 5, "advanced": 20 },
             "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
@@ -15,7 +15,7 @@
             ]
         },
         {
-            "name": "jumping jacks",
+            "name": "Jumping jacks",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 10, "beginner": 5, "advanced": 20 },
             "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
@@ -29,7 +29,7 @@
             ]
         },
         {
-            "name": "tricep push-ups",
+            "name": "Tricep push-ups",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 10, "beginner": 5, "advanced": 20 },
             "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
@@ -43,7 +43,7 @@
             ]
         },
         {
-            "name": "squats",
+            "name": "Squats",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 20, "beginner": 10, "advanced": 30 },
             "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
@@ -57,7 +57,7 @@
             ]
         },
         {
-            "name": "bicycle sit-ups",
+            "name": "Bicycle sit-ups",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 10, "beginner": 5, "advanced": 15 },
             "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
@@ -71,7 +71,7 @@
             ]
         },
         {
-            "name": "superman",
+            "name": "Superman",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 10, "beginner": 5, "advanced": 15 },
             "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
@@ -85,7 +85,7 @@
             ]
         },
         {
-            "name": "lungee",
+            "name": "Lungee",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 15, "beginner": 10, "advanced": 20 },
             "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
@@ -99,7 +99,7 @@
             ]
         },
         {
-            "name": "burpee",
+            "name": "Burpee",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 15, "beginner": 10, "advanced": 20 },
             "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
@@ -113,7 +113,7 @@
             ]
         },
         {
-            "name": "knee to elbow plank",
+            "name": "Knee to elbow plank",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 60, "beginner": 30, "advanced": 90 },
             "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
@@ -127,7 +127,7 @@
             ]
         },
         {
-            "name": "tricep dips",
+            "name": "Tricep dips",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 20, "beginner": 10, "advanced": 30 },
             "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
@@ -141,7 +141,7 @@
             ]
         },
         {
-            "name": "high knees",
+            "name": "High knees",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 20, "beginner": 10, "advanced": 40 },
             "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
@@ -155,7 +155,7 @@
             ]
         },
         {
-            "name": "mountain climbers",
+            "name": "Mountain climbers",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 10, "beginner": 5, "advanced": 15 },
             "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
@@ -169,7 +169,7 @@
             ]
         },
         {
-            "name": "lower back raises",
+            "name": "Lower back raises",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 10, "beginner": 5, "advanced": 15 },
             "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
@@ -183,7 +183,7 @@
             ]
         },
         {
-            "name": "bicep curls",
+            "name": "Bicep curls",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 10, "beginner": 5, "advanced": 15 },
             "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
@@ -197,7 +197,7 @@
             ]
         },
         {
-            "name": "leg raises",
+            "name": "Leg raises",
             "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
             "reps": { "intermediate": 10, "beginner": 5, "advanced": 15 },
             "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
@@ -215,31 +215,31 @@
         {
             "name": "upper body",
             "exercises": [
-                    "regular push-ups",
-                    "tricep push-ups",
-                    "tricep dips",
-                    "bicep curls",
-                    "lower back raises"
+                    "Regular push-ups",
+                    "Tricep push-ups",
+                    "Tricep dips",
+                    "Bicep curls",
+                    "Lower back raises"
             ]
         },
         {
             "name": "lower body",
             "exercises": [
-                    "squats",
-                    "lungee",
-                    "high knees",
-                    "leg raises",
-                    "superman"
+                    "Squats",
+                    "Lungee",
+                    "High knees",
+                    "Leg raises",
+                    "Superman"
             ]
         },
         {
             "name": "full body",
             "exercises": [
-                    "squats",
-                    "burpee",
-                    "jumping jacks",
-                    "mountain climbers",
-                    "knee to elbow plank"
+                    "Squats",
+                    "Burpee",
+                    "Jumping jacks",
+                    "Mountain climbers",
+                    "Knee to elbow plank"
             ]
         }
     ]
