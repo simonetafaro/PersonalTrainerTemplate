@@ -4,7 +4,7 @@ import ExerciseItem from "./ExerciseItem";
 import { Grid, Row, Col } from 'react-bootstrap'
 function ExercisesList(props) {
     const [data, setData] = useState([]);
-    const handler = props.handler;
+    const { handler, list } = props;
 
     const getData = () => {
         fetch('./assets/data.json'
@@ -35,7 +35,8 @@ function ExercisesList(props) {
 
                 let props = {
                     name: item.name,
-                    onClick: handler
+                    onClick: handler,
+                    list: list
                 }
                 return <ExerciseItem {...props} />
             })

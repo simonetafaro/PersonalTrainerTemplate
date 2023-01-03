@@ -136,7 +136,7 @@ class Home extends Component {
         })
 
         this.furhat.subscribe('furhatos.app.personaltrainer.PickOne', (data) => {
-            CompToRender = data.type == "Training" ? <TrainingTypes handler={this.clickButton} /> : <ExercisesList handler={this.clickButton} />
+            CompToRender = data.type == "Training" ? <TrainingTypes handler={this.clickButton} /> : <ExercisesList list={data.exerciseList} handler={this.clickButton} />
 
             this.setState({
                 ...this.state,

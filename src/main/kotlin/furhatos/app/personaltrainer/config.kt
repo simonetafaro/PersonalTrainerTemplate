@@ -24,7 +24,8 @@ class DataDelivery(
 
 class PickOne(
         val title: String,
-        val type : String
+        val type : String,
+        val exerciseList: List<String>
 ) : Event()
 
 class ExerciseDelivery(

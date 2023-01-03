@@ -18,6 +18,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 import kotlin.collections.ArrayList
+import kotlin.streams.toList
 
 // Our GUI declaration
 val GUI = HostedGUI("ExampleGUI", "assets/exampleGui", PORT)
@@ -98,7 +99,7 @@ val Greeting : State = state(Interaction){
 val ExerciseVSWorkout: State = state(Interaction){
     onEntry {
         //send(DataDelivery(title ="Select one:", buttons = options, inputFields = listOf()));
-        send(PickOne(title = "Select one option:", type= "Training"))
+        send(PickOne(title = "Select one option:", type= "Training", exerciseList= listOf()))
         val howto = "Say it to me or click the button."
         furhat.stopListening()
         random(
@@ -161,8 +162,7 @@ fun customizedBranch(arrayOfExercises: ArrayList<SingleExercise>) : State = stat
             //for (el in arrayOfExercises) println(el.toString())
         }
 
-        //send(DataDelivery(title = "Pick one exercise:", buttons = exercises, inputFields = listOf()))
-        send(PickOne(title = "Select one exercise:", type= "Exercises"))
+        send(PickOne(title = "Select one exercise:", type= "Exercises", exerciseList= arrayOfExercises.stream().map { ("${it.name}") }.toList()))
 
         random(
                 { furhat.ask("Now, pick an exercise.",  60000) },

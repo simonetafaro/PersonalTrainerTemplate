@@ -176,7 +176,7 @@ h5 {
   text-align: center;
 }
 
-.button-81:hover {
+.button-81:not(:disabled):hover {
   background-color: #1e293b;
   color: #fff;
 }
