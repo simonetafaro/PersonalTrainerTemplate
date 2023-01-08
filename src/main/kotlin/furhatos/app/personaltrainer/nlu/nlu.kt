@@ -103,3 +103,9 @@ class DifficultyIntent(var difficulty : Difficulty? = null): Intent() {
     }
 }
 
+class UndoIntent : Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("Sorry, I made a mistake", "can I go back?", "go back", "undo", "undo action")
+    }
+}
+

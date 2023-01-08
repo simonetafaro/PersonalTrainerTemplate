@@ -175,6 +175,15 @@ fun customizedBranch(arrayOfExercises: ArrayList<SingleExercise>) : State = stat
         furhat.ask("Please, select the exercise you want to do.",  60000)
     }
 
+    onResponse<UndoIntent> {
+        furhat.gesture(Gestures.Smile(duration = 3.0))
+        furhat.say("Ok, don't worry.")
+        if (arrayOfExercises.size > 0) {
+            goto(somethingElseState(arrayOfExercises))
+        }
+        goto(ExerciseVSWorkout)
+    }
+
     onResponse<Exercise> {
 
         val exerciseName = it.intent.exerciseType?.value
@@ -531,6 +540,12 @@ fun predefinedBranch() : State = state (Interaction){
 
         furhat.ask("Please select the workout that you want to perform in this session",  60000)
 
+    }
+
+    onResponse<UndoIntent> {
+        furhat.gesture(Gestures.Smile(duration = 3.0))
+        furhat.say("Ok, don't worry.")
+        goto(ExerciseVSWorkout)
     }
 
     onResponse<WorkoutIntent> {
