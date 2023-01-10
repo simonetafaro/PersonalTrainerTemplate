@@ -131,7 +131,7 @@ val ExerciseVSWorkout: State = state(Interaction){
         val selectedType = it.intent.customized
         if (selectedType != null) {
             furhat.gesture(Gestures.Smile(duration = 3.0))
-            furhat.say("${selectedType}. ${furhat.voice.emphasis("Great!")}")
+            furhat.say(furhat.voice.emphasis("Great!"))
             goto(customizedBranch(ArrayList()))
         }
         else {
@@ -158,9 +158,12 @@ fun customizedBranch(arrayOfExercises: ArrayList<SingleExercise>) : State = stat
         furhat.stopListening()
 
         if (arrayOfExercises.size > 0) {
-            furhat.say( "You have ${arrayOfExercises.size} exercises in your training. Let's add one more!")
+            if(arrayOfExercises.size == 1)
+                furhat.say( "You have ${arrayOfExercises.size} exercise in your training. Let's add one more!")
+            else furhat.say( "You have ${arrayOfExercises.size} exercises in your training. Let's add one more!")
             //for (el in arrayOfExercises) println(el.toString())
         }
+
 
         send(PickOne(title = "Select one exercise:", type= "Exercises", exerciseList= arrayOfExercises.stream().map { (it.name) }.toList()))
 
@@ -619,7 +622,9 @@ fun difficultySelectionState(selectedWorkout: WorkoutsEnum) : State = state (Int
 fun workoutRecapState(arrayOfExercises: ArrayList<SingleExercise>, selectedWorkout: String) : State = state (Interaction){
     onEntry{
 
-        furhat.say("The $selectedWorkout workout is composed by ${arrayOfExercises.size} exercises") //check sentence
+        if(arrayOfExercises.size>1)
+            furhat.say("The $selectedWorkout workout is composed by ${arrayOfExercises.size} exercises")
+        else  furhat.say("The $selectedWorkout workout is composed by ${arrayOfExercises.size} exercise")
         send(SPEECH_DONE)
         goto(exerciseState(arrayOfExercises,0, selectedWorkout))
     }

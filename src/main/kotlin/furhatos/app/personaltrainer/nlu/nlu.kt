@@ -15,7 +15,7 @@ class PredefinedTraining : EnumEntity(stemming = true, speechRecPhrases = true) 
 // Customized Training entity
 class CustomizedTraining : EnumEntity(stemming = true, speechRecPhrases = true) {
     override fun getEnum(lang: Language): List<String> {
-        return listOf("single exercise", "customized training", "customized workout", "personalized workout")
+        return listOf("single exercise", "customized training", "customized workout", "personalized workout", "exercise")
     }
 }
 
