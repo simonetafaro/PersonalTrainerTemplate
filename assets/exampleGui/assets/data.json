@@ -1,0 +1,246 @@
+{
+    "exercise": [
+        {
+            "name": "Regular push-ups",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 10, "beginner": 5, "advanced": 20 },
+            "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "arms, chest",
+            "equipment": "none",
+            "gif": "https://media3.giphy.com/media/4HgsfDIXY4F6cOnAK2/giphy.gif?cid=ecf05e47b08e01685776c6867ff97459ba9ab23368d1f5a6&rid=giphy.gif",
+            "tips": [
+                "arms to the side of body, hands on floor 45 degree out from the body, lower your upper torso to the ground and push up.",
+                "Your upper torso should be lowered to the floor, your hands should be 45 degrees away from your body, then push yourself up.",
+                "Push up after lowering your upper torso to the floor with your hands on the floor 45 degrees away from your body."
+            ]
+        },
+        {
+            "name": "Jumping jacks",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 10, "beginner": 5, "advanced": 20 },
+            "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "core, shoulders, legs",
+            "equipment": "none",
+            "gif": "https://media3.giphy.com/media/4Hx33hvGMdeyK016mT/giphy.gif?cid=ecf05e47d02fd41dbdcac036454091ef659e5ad42fd205eb&rid=giphy.gif",
+            "tips": [
+                "hands by side, feet together, quickly jump and bring hands up while landing in a wide stance, then hands back down and feet together, repeat",
+                "Jump swiftly and bring your hands up while landing in a wide stance. Then, bring your hands back down and your feet together.",
+                "Jump swiftly and bring your hands up while landing in a wide stance, then jump back to starging postion."
+            ]
+        },
+        {
+            "name": "Tricep push-ups",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 10, "beginner": 5, "advanced": 20 },
+            "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "arms, chest",
+            "equipment": "none",
+            "gif": "https://media0.giphy.com/media/SN2nBpvmGJTftOYS7u/giphy.gif?cid=ecf05e47z4p8fgg3duyzywoz70e61tr6pjnl8m6tmnireq5k&rid=giphy.gif&ct=g",
+            "tips": [
+                "keep elbows close to the body. distance between elbows and torso should be minimal, lower your body to floor and then push up from the floor.",
+                "Keep your elbows close to your body; the space between your elbows and torso should be as small as possible. Lower your body to the floor, then push yourself up from there.",
+                "Keep your elbows close to your body; there should be little space between them and your torso. Lower your body to the floor, and then push yourself up from there."
+            ]
+        },
+        {
+            "name": "Squats",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 20, "beginner": 10, "advanced": 30 },
+            "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "legs",
+            "equipment": "none",
+            "gif": "https://media3.giphy.com/media/FqMREXElyOZDG/giphy.gif?cid=ecf05e4781a25cb4e83760372c62cafc9e53510e2b4df41b&rid=giphy.gif",
+            "tips": [
+                "Feet shoulder width apart, back straight, descend to 90 degree position and then come up.",
+                "With your back straight and your feet at shoulder width apart, you should decline to a 90-degree posture before rising.",
+                "Keeping your back straight and your feet at shoulder width apart, bend your knees to a 90-degree angle before rising."
+            ]
+        },
+        {
+            "name": "Bicycle sit-ups",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 10, "beginner": 5, "advanced": 15 },
+            "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "core",
+            "equipment": "none",
+            "gif": "https://media0.giphy.com/media/l41YqRErqxgRhXbUI/giphy.gif?cid=ecf05e478f42c4a95ce3ae26108921265ec1a9a44286025e&rid=giphy.gif",
+            "tips": [
+                "Lie down with knees bent, place hands behind your head, lift your upper body to your knees.",
+                "Kneel down and lift your upper body to your knees while keeping your hands behind your head.",
+                "Kneel down and raise your upper body to your knees while keeping your hands behind your head."
+            ]
+        },
+        {
+            "name": "Superman",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 10, "beginner": 5, "advanced": 15 },
+            "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "back",
+            "equipment": "none",
+            "gif": "https://media2.giphy.com/media/cjhdh7TqTdZmRp9bKe/giphy.gif",
+            "tips": [
+                "Lie face down, arms extended in front, raise your arms, legs and chest a few inches off the floor and pause at the top.",
+                "Lay face down with your arms out in front of you. Lift your arms, legs, and chest a few inches off the ground, then pause when you reach the top.",
+                "Lay face down with your arms out in front of you, elevate your chest, arms, and legs a few inches off the ground."
+            ]
+        },
+        {
+            "name": "Lungee",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 15, "beginner": 10, "advanced": 20 },
+            "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "legs",
+            "equipment": "none",
+            "gif": "https://media1.giphy.com/media/VFkfj21xsUBkAeqoda/giphy.gif?cid=ecf05e47edd62d63b2a497460c4dc1926e49b716bd3e7006&rid=giphy.gif",
+            "tips": [
+                "place one foot in front and descend your body, push up with the same front foot, alternate front foot and repeat.",
+                "placing one foot in front, lowering your body, pushing up with the same front foot, switching feet, and repeating.",
+                "Place one foot in front and lower your body. Push up with the same front foot. Alternate front feet. Repeat."
+            ]
+        },
+        {
+            "name": "Burpee",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 15, "beginner": 10, "advanced": 20 },
+            "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "core, legs, arms, chest",
+            "equipment": "none",
+            "gif": "https://media3.giphy.com/media/l41YgS3UPP5Qjwr8Q/giphy.gif?cid=ecf05e47yj5tpl3e7w1xbte97gdyr31g8c2noedyyv8gi4bg&rid=giphy.gif",
+            "tips": [
+                "As you complete a push-up, completely lower your body to the ground, and then spring up straight.",
+                "Jump up straight after fully lowering your body to the ground and performing a push-up.",
+                "Lower body all the way to the floor, as you perform a push-up, jump up straight up."
+            ]
+        },
+        {
+            "name": "Knee to elbow plank",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 60, "beginner": 30, "advanced": 90 },
+            "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "core",
+            "equipment": "none",
+            "gif": "https://media1.giphy.com/media/5tmpTAIMt4H89W7H0G/giphy.gif?cid=ecf05e47z2qfe9q6ww9t73h87iz429a55fqj0n7y6tmqwtks&rid=giphy.gif",
+            "tips": [
+                "Do a plank with your body, keeping forearms on the floor, alternate in bringing your knee towards same-side elbow.",
+                "Keep forearms on the floor while performing a plank, and alternately bring your knee to the elbow on the same side.",
+                "Plank your torso on the floor. Alternately bring your knee to the elbow on the same side."
+            ]
+        },
+        {
+            "name": "Tricep dips",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 20, "beginner": 10, "advanced": 30 },
+            "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "arms",
+            "equipment": "bench, chair",
+            "gif": "https://media2.giphy.com/media/jTs6TRPQAlHvtV044Y/giphy.gif?cid=ecf05e47c72f733266340b23e340ad1078e1944c0872dea3&rid=giphy.gi",
+            "tips": [
+                "face away from the chair or sofa, put your hands on the edge with your fingers facing forward, starting with straight arms. legs straight out and lower your torso.",
+                "Start with straight arms, legs out straight in front of you, then lower your torso while keeping your back away from the chair or sofa.",
+                "Start with your arms straight, legs straight out in front of you, then lower your torso while keeping your back to the chair or sofa and your fingers facing forward."
+            ]
+        },
+        {
+            "name": "High knees",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 20, "beginner": 10, "advanced": 40 },
+            "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "core, legs",
+            "equipment": "none",
+            "gif": "https://media0.giphy.com/media/62aGqZoUJYtPsl0Hb0/giphy.gif?cid=ecf05e47lmijhi66jfkg893mj53eysza82559v4it7sqk2of&rid=giphy.gif",
+            "tips": [
+                "Run in place, bringing knees up to your waist line. Remember that repetitions are listed for each leg, and not both legs.",
+                "Bring your knees up to your waist as you run in place.",
+                "Raise knees to waist, while running in place. Remember to keep your back straight while performing the exercise."
+            ]
+        },
+        {
+            "name": "Mountain climbers",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 10, "beginner": 5, "advanced": 15 },
+            "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "core",
+            "equipment": "none",
+            "gif": "https://media3.giphy.com/media/iD7UrloaBlLB3ygIha/giphy.gif?cid=ecf05e47z2qfe9q6ww9t73h87iz429a55fqj0n7y6tmqwtks&rid=giphy.gif",
+            "tips": [
+                "Forming a plank, quickly bring your knee to chest, then alternate the leg your bring to your chest",
+                "Quickly raise your knee to your chest while holding a plank, then switch which leg you brought to your chest.",
+                "Quickly alternate the leg you raise to your chest while holding a plank position."
+            ]
+        },
+        {
+            "name": "Lower back raises",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 10, "beginner": 5, "advanced": 15 },
+            "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "shoulders, back",
+            "equipment": "none",
+            "gif": "https://media0.giphy.com/media/VPByqa8IPNAZm26neB/giphy.gif?cid=ecf05e470ipaa2t7g1ob7pgl408yibkwo50ftdxnkuivwyyj&rid=giphy.gif&ct=g",
+            "tips": [
+                "Lie face down. hands behind your head, then go on and raise your upper torso, keeping your lower torso on the ground.",
+                "face down on the ground. Keeping your lower torso on the ground, raise your upper torso.",
+                "Lay face down on the ground with your hands behind your head. Then, elevate your upper torso while keeping your lower torso still."
+            ]
+        },
+        {
+            "name": "Bicep curls",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 10, "beginner": 5, "advanced": 15 },
+            "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "arms",
+            "equipment": "dumbbell, resistant band, other weight object",
+            "gif": "https://media3.giphy.com/media/1jaMgsSZJqAhB14hn0/giphy.gif",
+            "tips": [
+                "keep elbows to the side of your torso. Take the weight, lift the weight up with your arm, flexing your bicep and keeping your elbow inline with your body.",
+                "keep your elbows by your sides. Take the weight and raise it with your arm, flexing your biceps while maintaining a parallel angle between your elbow and body.",
+                "maintain your elbows by your side. By flexing your biceps and keeping your elbow parallel to your body, elevate the weight by using your arm to support it."
+            ]
+        },
+        {
+            "name": "Leg raises",
+            "sets": { "intermediate": 4, "beginner": 3, "advanced": 5 },
+            "reps": { "intermediate": 10, "beginner": 5, "advanced": 15 },
+            "rest_time": { "intermediate": 30, "beginner": 60, "advanced": 15 },
+            "muscle group": "core",
+            "equipment": "dumbbell, resistant band, other weight object",
+            "gif": "https://media3.giphy.com/media/mVpOJcNBGPwzlfkTxJ/giphy.gif?cid=790b76119c91fdc40ac72982af1675d4fb996e0e7bb213e3&rid=giphy.gif&ct=g",
+            "tips": [
+                "Lie down, back placed on floor. Keep legs straight and upper body still touching the ground, lift your legs up.",
+                "Lay flat with your back on the floor. Lift your legs up while keeping your legs straight and your upper body in contact with the ground.",
+                "Lie down with your back on the ground. Lift your legs up while maintaining straight legs and a grounded upper body."
+            ]
+        }
+    ],
+    "workouts": [
+        {
+            "name": "upper body",
+            "exercises": [
+                    "Regular push-ups",
+                    "Tricep push-ups",
+                    "Tricep dips",
+                    "Bicep curls",
+                    "Lower back raises"
+            ]
+        },
+        {
+            "name": "lower body",
+            "exercises": [
+                    "Squats",
+                    "Lungee",
+                    "High knees",
+                    "Leg raises",
+                    "Superman"
+            ]
+        },
+        {
+            "name": "full body",
+            "exercises": [
+                    "Squats",
+                    "Burpee",
+                    "Jumping jacks",
+                    "Mountain climbers",
+                    "Knee to elbow plank"
+            ]
+        }
+    ]
+}

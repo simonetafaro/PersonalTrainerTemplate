@@ -1,5 +1,5 @@
 import React from "react";
-import { BallTriangle } from 'react-loader-spinner'
+import { ThreeDots } from 'react-loader-spinner'
 const styles = {
 
     wrapper: {
@@ -9,18 +9,17 @@ const styles = {
         marginTop: "50px"
     }
 }
-class Loading extends React.Component {
-
+class SpeakingLoader extends React.Component {
 
     render() {
         return (
             <div className="loader">
-                <BallTriangle
-                    height={100}
-                    width={100}
-                    radius={5}
+                <ThreeDots
+                    height="80"
+                    width="80"
+                    radius="9"
                     color="#cbd5e4"
-                    ariaLabel="ball-triangle-loading"
+                    ariaLabel="three-dots-loading"
                     wrapperClass={{}}
                     wrapperStyle={styles.wrapper}
                     visible={true}
@@ -31,4 +30,4 @@ class Loading extends React.Component {
     }
 }
 
-export default Loading;
+export default SpeakingLoader;

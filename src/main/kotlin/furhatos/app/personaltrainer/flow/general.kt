@@ -12,7 +12,7 @@ val Idle: State = state(null) {
     }
 }
 
-/*val Interaction: State = state {
+val Interaction: State = state {
 
     onUserLeave(instant = true) {
         if (users.count > 0) {
@@ -32,4 +32,4 @@ val Idle: State = state(null) {
         furhat.glance(it)
     }
 
-}*/
+}

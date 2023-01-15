@@ -16,7 +16,7 @@ class Input extends Component {
   }
 
   isAllowedSubmit = () => {
-    return !this.state.disabled && !this.props.speaking
+    return !this.state.disabled && !this.props.speaking && (this.props.inputType == "number" ? this.state.value > 0 : true)
   }
 
   handleChange = (e) => {
@@ -36,7 +36,19 @@ class Input extends Component {
       if (this.isAllowedSubmit()) {
         this.save()
       }
-    }
+    } else
+      if (this.props.inputType == "number") {
+        if (this.state.value == "") {
+          //input is null
+          if (!(e.charCode != 8 && e.charCode == 0 || (e.charCode >= 49 && e.charCode <= 57))) {
+            e.preventDefault()
+          }
+        } else {
+          if (!(e.charCode != 8 && e.charCode == 0 || (e.charCode >= 48 && e.charCode <= 57))) {
+            e.preventDefault()
+          }
+        }
+      }
   }
 
   save = () => {
@@ -44,28 +56,33 @@ class Input extends Component {
   }
 
   render() {
-    let { label } = this.props
+    let { label, inputType, inputLabel } = this.props
     return (
       <div>
         <form>
           <FormGroup controlId={label}>
             <ControlLabel>{label}</ControlLabel>
             <FormControl
-              type="text"
+              type={inputType}
+              className="input-box"
+              min={1}
               value={this.state.value}
-              placeholder="Enter text"
+              placeholder={inputLabel}
               onChange={this.handleChange}
               onKeyPress={this.handleEnter}
             />
           </FormGroup>
         </form>
-        <BootstrapButton
-          onClick={this.handleClick}
-          disabled={!this.isAllowedSubmit()}
-          block
-        >
-          Send
-        </BootstrapButton>
+        <div className="button-container">
+          <BootstrapButton
+            className={`input-button`}
+            onClick={this.handleClick}
+            disabled={!this.isAllowedSubmit()}
+            block
+          >
+            Send
+          </BootstrapButton>
+        </div>
       </div>
     )
   }
